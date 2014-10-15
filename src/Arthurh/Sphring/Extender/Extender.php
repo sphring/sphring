@@ -15,17 +15,28 @@ namespace Arthurh\Sphring\Extender;
 
 
 use Arhframe\Yamlarh\Yamlarh;
+use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\ExtenderException;
 use Arthurh\Sphring\Extender\ExtendNode\AbstractExtendNode;
-use Arthurh\Sphring\Sphring;
 
 class Extender
 {
-    public static $DEFAULT_FILENAME = 'sphring-extend.yml';
+    /**
+     * @var string
+     */
+    private $defaultFilename = 'sphring-extend.yml';
     const DEFAULT_EXTENDNODE_NAME = 'Arthurh\\Sphring\\Extender\\ExtendNode\\ExtendNode';
+    /**
+     * @var SphringEventDispatcher
+     */
+    private $sphringEventDispatcher;
 
+    function __construct(SphringEventDispatcher $sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
 
-    public static function extend($file)
+    public function extend($file)
     {
         if (!is_file($file)) {
             return;
@@ -46,6 +57,7 @@ class Extender
             if (!($extendNode instanceof AbstractExtendNode)) {
                 throw new ExtenderException("Can't extend '%s' extend node class '%s' not extends '%s'.", $extendNodeName, $className, "AbstractExtendNode");
             }
+            $extendNode->setSphringEventDispatcher($this->sphringEventDispatcher);
             foreach ($extendNodeNameInfo as $info) {
                 if (empty($info['eventName']) || empty($info['class'])) {
                     throw new ExtenderException("Can't extend '%s', malformed node.", $extendNodeName);
@@ -55,4 +67,29 @@ class Extender
             $extendNode->extend();
         }
     }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDefaultFilename()
+    {
+        return $this->defaultFilename;
+    }
+
+    /**
+     * @param string $defaultFilename
+     */
+    public function setDefaultFilename($defaultFilename)
+    {
+        $this->defaultFilename = $defaultFilename;
+    }
+
 } 

@@ -15,6 +15,7 @@ namespace Arthurh\Sphring;
 
 
 use Arhframe\Yamlarh\Yamlarh;
+use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Extender\Extender;
 use Arthurh\Sphring\Logger\LoggerSphring;
@@ -27,6 +28,7 @@ use Psr\Log\LoggerInterface;
  */
 class Sphring
 {
+    private $filename;
     /**
      *
      */
@@ -38,11 +40,7 @@ class Sphring
     /**
      * @var null
      */
-    public static $CONTEXTROOT = null;
-    /**
-     * @var Sphring
-     */
-    private static $_instance = null;
+    private $contextRoot = null;
     /**
      * @var array
      */
@@ -53,31 +51,39 @@ class Sphring
     private $beans = array();
 
     /**
-     *
+     * @var SphringBoot
      */
-    private function __construct()
-    {
-        SphringBoot::boot();
-    }
+    private $sphringBoot;
 
     /**
-     * @return Sphring
+     * @var SphringEventDispatcher
+     *
      */
-    public static function getInstance()
-    {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new Sphring();
-        }
+    private $sphringEventDispatcher;
 
-        return self::$_instance;
+    /**
+     * @var Extender
+     */
+    private $extender;
+
+    /**
+     *
+     */
+    public function __construct($filename)
+    {
+        $this->filename = $filename;
+        $this->sphringEventDispatcher = new SphringEventDispatcher($this);
+        $this->extender = new Extender($this->sphringEventDispatcher);
+
     }
+
 
     /**
      * @param $filename
      */
-    public function loadContext($filename = null)
+    public function loadContext()
     {
-
+        $filename = $this->filename;
         $this->getLogger()->info("Starting loading context...");
         if (empty($filename)) {
             $filename = $this->getRootProject() . '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
@@ -93,10 +99,10 @@ class Sphring
         if (empty($yamlarh)) {
             throw new SphringException("Cannot load context, file '%s' doesn't exist", $filename);
         }
-        self::$CONTEXTROOT = dirname(realpath($filename));
+        $this->contextRoot = dirname(realpath($filename));
         $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($filename)));
         $this->context = $yamlarh->parse();
-        $this->extend(self::$CONTEXTROOT . '/' . Extender::$DEFAULT_FILENAME);
+        $this->extender->extend($this->contextRoot . '/' . $this->extender->getDefaultFilename());
         $this->loadBeans();
     }
 
@@ -114,11 +120,6 @@ class Sphring
     public function getRootProject()
     {
         return dirname($_SERVER['SCRIPT_FILENAME']);
-    }
-
-    public function extend($file)
-    {
-        Extender::extend($file);
     }
 
     /**
@@ -144,6 +145,7 @@ class Sphring
     private function makeBean($beanId, $info)
     {
         $bean = new Bean($beanId);
+        $bean->setSphringEventDispatcher($this->sphringEventDispatcher);
         $bean->setClass($info['class']);
         $bean->setType($info['type']);
         if (!empty($info['properties'])) {
@@ -226,4 +228,73 @@ class Sphring
         LoggerSphring::getInstance()->setLogger($logger);
 
     }
-} 
+
+    /**
+     * @return mixed
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @param mixed $filename
+     */
+    public function setFilename($filename)
+    {
+        $this->filename = $filename;
+    }
+
+    /**
+     * @return null
+     */
+    public function getContextRoot()
+    {
+        return $this->contextRoot;
+    }
+
+    /**
+     * @param null $contextroot
+     */
+    public function setContextRoot($contextroot)
+    {
+        $this->contextRoot = $contextroot;
+    }
+
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+        $this->sphringEventDispatcher->setSphring($this);
+    }
+
+    /**
+     * @return Extender
+     */
+    public function getExtender()
+    {
+        return $this->extender;
+    }
+
+    /**
+     * @param Extender $extender
+     */
+    public function setExtender(Extender $extender)
+    {
+        $this->extender = $extender;
+        $this->extender->setSphringEventDispatcher($this->sphringEventDispatcher);
+    }
+
+
+}

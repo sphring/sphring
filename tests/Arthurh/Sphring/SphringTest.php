@@ -6,7 +6,6 @@ use Arthurh\Sphring\FakeBean\Foo;
 use Arthurh\Sphring\FakeBean\IFoo;
 use Arthurh\Sphring\FakeBean\IUsing;
 use Arthurh\Sphring\Model\Bean;
-use SebastianBergmann\Exporter\Exception;
 
 /**
  * Copyright (C) 2014 Orange
@@ -30,14 +29,8 @@ class SphringTest extends AbstractTestSphring
 
     public function testSimple()
     {
-        $sphring = Sphring::getInstance();
-        $sphring->clear();
-        try {
-            $sphring->getBean('usebean');
-        } catch (SphringException $e) {
-            $this->assertTrue(true);
-        }
-        $sphring->loadContext(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test simple ' . print_r($useBean, true));
         $this->assertTrue($useBean instanceof IUsing);
@@ -46,14 +39,8 @@ class SphringTest extends AbstractTestSphring
 
     public function testAbstract()
     {
-        $sphring = Sphring::getInstance();
-        $sphring->clear();
-        try {
-            $sphring->getBean('usebean');
-        } catch (SphringException $e) {
-            $this->assertTrue(true);
-        }
-        $sphring->loadContext(self::$CONTEXT_FOLDER . '/' . self::ABSTRACT_TEST_FILE);
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::ABSTRACT_TEST_FILE);
+        $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test abstract ' . print_r($useBean, true));
         $this->assertTrue($useBean instanceof IUsing);
@@ -62,14 +49,8 @@ class SphringTest extends AbstractTestSphring
 
     public function testImport()
     {
-        $sphring = Sphring::getInstance();
-        $sphring->clear();
-        try {
-            $sphring->getBean('usebean');
-        } catch (SphringException $e) {
-            $this->assertTrue(true);
-        }
-        $sphring->loadContext(self::$CONTEXT_FOLDER . '/' . self::IMPORT_TEST_FILE);
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::IMPORT_TEST_FILE);
+        $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test import ' . print_r($useBean, true));
         $this->assertTrue($useBean instanceof IUsing);
@@ -78,14 +59,8 @@ class SphringTest extends AbstractTestSphring
 
     public function testYml()
     {
-        $sphring = Sphring::getInstance();
-        $sphring->clear();
-        try {
-            $sphring->getBean('usebean');
-        } catch (SphringException $e) {
-            $this->assertTrue(true);
-        }
-        $sphring->loadContext(self::$CONTEXT_FOLDER . '/' . self::YML_TEST_FILE);
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::YML_TEST_FILE);
+        $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test yml ' . print_r($useBean, true));
         $this->assertArrayHasKey('invoice', $useBean->getJojo());
@@ -94,14 +69,9 @@ class SphringTest extends AbstractTestSphring
 
     public function testIni()
     {
-        $sphring = Sphring::getInstance();
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::INI_TEST_FILE);
         $sphring->clear();
-        try {
-            $sphring->getBean('usebean');
-        } catch (SphringException $e) {
-            $this->assertTrue(true);
-        }
-        $sphring->loadContext(self::$CONTEXT_FOLDER . '/' . self::INI_TEST_FILE);
+        $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test ini ' . print_r($useBean, true));
         $this->assertEquals('db.example.com', $useBean->getJojo()->production->database->params->host);
@@ -110,14 +80,8 @@ class SphringTest extends AbstractTestSphring
 
     public function testStream()
     {
-        $sphring = Sphring::getInstance();
-        $sphring->clear();
-        try {
-            $sphring->getBean('usebean');
-        } catch (SphringException $e) {
-            $this->assertTrue(true);
-        }
-        $sphring->loadContext(self::$CONTEXT_FOLDER . '/' . self::STREAM_TEST_FILE);
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::STREAM_TEST_FILE);
+        $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test stream ' . print_r($useBean, true));
         $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $useBean->getJojo());
@@ -126,8 +90,14 @@ class SphringTest extends AbstractTestSphring
 
     public function testRemoveBean()
     {
-        $this->testAddBean();
-        $sphring = Sphring::getInstance();
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring->loadContext();
+        $beanId = self::TEST_BEAN_ID;
+        $bean = new Bean($beanId);
+        $bean->setClass('Arthurh\\Sphring\\FakeBean\\Foo');
+        $sphring->addBean($bean);
+        $this->assertTrue($sphring->getBean($beanId) instanceof Foo);
+
         $sphring->removeBean(self::TEST_BEAN_ID);
         try {
             $sphring->getBean(self::TEST_BEAN_ID);
@@ -140,14 +110,8 @@ class SphringTest extends AbstractTestSphring
 
     public function testAddBean()
     {
-        $sphring = Sphring::getInstance();
-        $sphring->clear();
-        try {
-            $sphring->getBean('usebean');
-        } catch (SphringException $e) {
-            $this->assertTrue(true);
-        }
-        $sphring->loadContext(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring->loadContext();
         $beanId = self::TEST_BEAN_ID;
         $bean = new Bean($beanId);
         $bean->setClass('Arthurh\\Sphring\\FakeBean\\Foo');

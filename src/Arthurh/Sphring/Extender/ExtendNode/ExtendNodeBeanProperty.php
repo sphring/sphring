@@ -14,15 +14,14 @@
 namespace Arthurh\Sphring\Extender\ExtendNode;
 
 
-use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
-
 class ExtendNodeBeanProperty extends AbstractExtendNode
 {
 
     public function extend()
     {
         foreach ($this->nodes as $node) {
-            BeanPropertyListener::register($node->getEventName(), $node->getClassName(), $node->getPriority());
+            $this->getSphringEventDispatcher()->getSphringBoot()->getBeanProperty()
+                ->register($node->getEventName(), $node->getClassName(), $node->getPriority());
         }
     }
 }

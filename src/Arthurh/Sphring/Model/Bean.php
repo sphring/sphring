@@ -55,6 +55,10 @@ class Bean
      * @var object
      */
     private $object;
+    /**
+     * @var SphringEventDispatcher
+     */
+    private $sphringEventDispatcher;
 
     /**
      * @param $id
@@ -160,7 +164,7 @@ class Bean
         $eventName = SphringEventEnum::PROPERTY_INJECTION . $propertyKey;
         $event->setName($eventName);
 
-        $event = SphringEventDispatcher::getInstance()->dispatch($eventName, $event);
+        $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
         $propertyClass = $event->getBeanProperty();
         if (empty($propertyClass)) {
             throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
@@ -296,4 +300,21 @@ class Bean
     {
         $this->object = $object;
     }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher($sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
+
 } 

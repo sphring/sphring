@@ -15,8 +15,6 @@ namespace Arthurh\Sphring\Extend;
 
 
 use Arthurh\Sphring\AbstractTestSphring;
-use Arthurh\Sphring\Exception\SphringException;
-use Arthurh\Sphring\Extender\Extender;
 use Arthurh\Sphring\Sphring;
 
 class ExtendTest extends AbstractTestSphring
@@ -26,10 +24,9 @@ class ExtendTest extends AbstractTestSphring
 
     public function testExtendSimpleValid()
     {
-        $sphring = Sphring::getInstance();
-        $sphring->clear();
-        Extender::$DEFAULT_FILENAME = 'sphring-extend-simple.yml';
-        $sphring->loadContext(self::$CONTEXT_EXTEND_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring = new Sphring(self::$CONTEXT_EXTEND_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring->getExtender()->setDefaultFilename('sphring-extend-simple.yml');
+        $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
@@ -37,10 +34,9 @@ class ExtendTest extends AbstractTestSphring
 
     public function testExtendOnExistValid()
     {
-        $sphring = Sphring::getInstance();
-        $sphring->clear();
-        Extender::$DEFAULT_FILENAME = 'sphring-extend-onexist.yml';
-        $sphring->loadContext(self::$CONTEXT_EXTEND_FOLDER . '/' . self::ONEXIST_TEST_FILE);
+        $sphring = new Sphring(self::$CONTEXT_EXTEND_FOLDER . '/' . self::ONEXIST_TEST_FILE);
+        $sphring->getExtender()->setDefaultFilename('sphring-extend-onexist.yml');
+        $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());

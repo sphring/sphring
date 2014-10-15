@@ -14,7 +14,7 @@
 namespace Arthurh\Sphring\Extender\ExtendNode;
 
 
-use Arthurh\Sphring\Exception\ExtenderException;
+use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Extender\Node;
 
 /**
@@ -27,6 +27,11 @@ abstract class AbstractExtendNode
      * @var Node[]
      */
     protected $nodes;
+
+    /**
+     * @var SphringEventDispatcher
+     */
+    private $sphringEventDispatcher;
 
     /**
      *
@@ -78,6 +83,23 @@ abstract class AbstractExtendNode
             unset($this->nodes[$keyToDelete]);
         }
     }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
+
 
     abstract public function extend();
 } 

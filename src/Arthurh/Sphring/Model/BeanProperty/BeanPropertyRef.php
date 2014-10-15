@@ -16,7 +16,6 @@ namespace Arthurh\Sphring\Model\BeanProperty;
 
 use Arthurh\Sphring\Exception\BeanPropertyException;
 use Arthurh\Sphring\Exception\SphringException;
-use Arthurh\Sphring\Sphring;
 
 class BeanPropertyRef extends AbstractBeanProperty
 {
@@ -49,7 +48,7 @@ class BeanPropertyRef extends AbstractBeanProperty
     private function getBean($beanId)
     {
         try {
-            $bean = Sphring::getInstance()->getBeanObject($beanId)->getObject();
+            $bean = $this->sphring->getBeanObject($beanId)->getObject();
         } catch (SphringException $e) {
             throw new BeanPropertyException("Error when injecting a bean inside a bean: %s", $e->getMessage(), $e);
         }

@@ -14,20 +14,83 @@ namespace Arthurh\Sphring;
 
 
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
+use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 
+/**
+ * Class SphringBoot
+ * @package Arthurh\Sphring
+ */
 class SphringBoot
 {
-    public static function boot()
+    /**
+     * @var SphringEventDispatcher
+     */
+    private $sphringEventDispatcher;
+
+    /**
+     * @var BeanPropertyListener
+     */
+    private $beanProperty;
+
+    function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
-        self::bootBeanProperty();
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+        $this->setBeanProperty(new BeanPropertyListener($this->sphringEventDispatcher));
     }
 
-    public static function bootBeanProperty()
+    /**
+     *
+     */
+    public function boot()
     {
-        BeanPropertyListener::register('iniFile', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyIniFile");
-        BeanPropertyListener::register('ref', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyRef");
-        BeanPropertyListener::register('stream', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyStream");
-        BeanPropertyListener::register('value', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyValue");
-        BeanPropertyListener::register('yml', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyYml");
+        $this->bootBeanProperty();
     }
+
+    /**
+     *
+     */
+    public function bootBeanProperty()
+    {
+        $beanProperty = $this->beanProperty;
+        $beanProperty->register('iniFile', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyIniFile");
+        $beanProperty->register('ref', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyRef");
+        $beanProperty->register('stream', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyStream");
+        $beanProperty->register('value', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyValue");
+        $beanProperty->register('yml', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyYml");
+    }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
+
+    /**
+     * @return BeanPropertyListener
+     */
+    public function getBeanProperty()
+    {
+        return $this->beanProperty;
+    }
+
+    /**
+     * @param BeanPropertyListener $beanProperty
+     */
+    public function setBeanProperty(BeanPropertyListener $beanProperty)
+    {
+        $this->beanProperty = $beanProperty;
+        $this->beanProperty->setSphringEventDispatcher($this->getSphringEventDispatcher());
+    }
+
+
 } 

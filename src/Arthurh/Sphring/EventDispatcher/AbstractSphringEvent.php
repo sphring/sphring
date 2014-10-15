@@ -59,4 +59,5 @@ abstract class AbstractSphringEvent extends Event
         $this->object = $object;
     }
 
+
 } 

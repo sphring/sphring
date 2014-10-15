@@ -52,10 +52,6 @@ class Sphring
      */
     private $beans = array();
 
-    /**
-     * @var SphringBoot
-     */
-    private $sphringBoot;
 
     /**
      * @var SphringEventDispatcher

@@ -14,7 +14,6 @@ namespace Arthurh\Sphring\EventDispatcher;
 
 
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
-use Symfony\Component\EventDispatcher\Event;
 
 class EventBeanProperty extends AbstractSphringEvent
 {

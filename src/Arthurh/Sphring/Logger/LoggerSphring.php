@@ -98,7 +98,6 @@ class LoggerSphring implements LoggerInterface
 
     private function getCallerInfo()
     {
-        $c = '';
         $file = '';
         $func = '';
         $class = '';

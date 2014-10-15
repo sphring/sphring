@@ -70,7 +70,7 @@ abstract class SphringRunner
 
             $eventName = $eventNameBase . $annotationName;
             $event->setName($eventName);
-            $event = $this->sphring->getSphringEventDispatcher()->dispatch($eventName, $event);
+            $this->sphring->getSphringEventDispatcher()->dispatch($eventName, $event);
         }
     }
 

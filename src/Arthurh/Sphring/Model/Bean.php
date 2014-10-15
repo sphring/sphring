@@ -293,7 +293,7 @@ class Bean
             $event->setReflector($reflector);
             $eventName = $eventNameBase . $annotationName;
             $event->setName($eventName);
-            $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
+            $this->sphringEventDispatcher->dispatch($eventName, $event);
         }
     }
 

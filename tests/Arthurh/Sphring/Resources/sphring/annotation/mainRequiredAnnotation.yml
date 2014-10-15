@@ -5,5 +5,3 @@ usebean:
     properties:
         foo:
             ref: foobean
-        juju:
-            value: testValue

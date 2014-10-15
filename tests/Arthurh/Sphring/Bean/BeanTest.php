@@ -21,6 +21,7 @@ class BeanTest extends AbstractTestSphring
      */
     private $testBean;
 
+
     /**
      * @before
      */

@@ -15,6 +15,8 @@ namespace Arthurh\Sphring;
 
 
 use Arhframe\Yamlarh\Yamlarh;
+use Arthurh\Sphring\Enum\SphringEventEnum;
+use Arthurh\Sphring\EventDispatcher\EventSphring;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Extender\Extender;
@@ -83,6 +85,7 @@ class Sphring
      */
     public function loadContext()
     {
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_BEFORE_LOAD, new EventSphring($this));
         $filename = $this->filename;
         $this->getLogger()->info("Starting loading context...");
         if (empty($filename)) {
@@ -103,7 +106,9 @@ class Sphring
         $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($filename)));
         $this->context = $yamlarh->parse();
         $this->extender->extend($this->contextRoot . '/' . $this->extender->getDefaultFilename());
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD, new EventSphring($this));
         $this->loadBeans();
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
     }
 
     /**
@@ -187,6 +192,7 @@ class Sphring
 
     public function clear()
     {
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_CLEAR, new EventSphring($this));
         $this->context = array();
         $this->beans = array();
     }

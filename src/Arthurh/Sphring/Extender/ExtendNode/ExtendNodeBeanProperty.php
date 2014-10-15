@@ -20,7 +20,7 @@ class ExtendNodeBeanProperty extends AbstractExtendNode
     public function extend()
     {
         foreach ($this->nodes as $node) {
-            $this->getSphringEventDispatcher()->getSphringBoot()->getBeanProperty()
+            $this->getSphringEventDispatcher()->getSphringBoot()->getBeanPropertyListener()
                 ->register($node->getEventName(), $node->getClassName(), $node->getPriority());
         }
     }

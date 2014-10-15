@@ -22,6 +22,7 @@ class SphringTest extends AbstractTestSphring
     const SIMPLE_TEST_FILE = 'mainSimpleTest.yml';
     const ABSTRACT_TEST_FILE = 'mainTestAbstractBean.yml';
     const IMPORT_TEST_FILE = 'testimport/main.yml';
+
     const YML_TEST_FILE = 'mainTestYml.yml';
     const INI_TEST_FILE = 'mainTestIni.yml';
     const STREAM_TEST_FILE = 'mainTestStream.yml';
@@ -94,6 +95,7 @@ class SphringTest extends AbstractTestSphring
         $sphring->loadContext();
         $beanId = self::TEST_BEAN_ID;
         $bean = new Bean($beanId);
+        $bean->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
         $bean->setClass('Arthurh\\Sphring\\FakeBean\\Foo');
         $sphring->addBean($bean);
         $this->assertTrue($sphring->getBean($beanId) instanceof Foo);
@@ -114,6 +116,7 @@ class SphringTest extends AbstractTestSphring
         $sphring->loadContext();
         $beanId = self::TEST_BEAN_ID;
         $bean = new Bean($beanId);
+        $bean->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
         $bean->setClass('Arthurh\\Sphring\\FakeBean\\Foo');
         $sphring->addBean($bean);
         $this->assertTrue($sphring->getBean($beanId) instanceof Foo);

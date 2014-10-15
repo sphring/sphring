@@ -32,6 +32,15 @@ class ExtendTest extends AbstractTestSphring
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
     }
 
+    public function testExtendAnnotationRequired()
+    {
+        $sphring = new Sphring(self::$CONTEXT_EXTEND_FOLDER . '/' . self::ONEXIST_TEST_FILE);
+        $sphring->getExtender()->setDefaultFilename('sphring-extend-onexist.yml');
+        $sphring->loadContext();
+        $useBean = $sphring->getBean('usebean');
+        $this->assertEquals('testAnnotationExtend', $useBean->testExtend);
+    }
+
     public function testExtendOnExistValid()
     {
         $sphring = new Sphring(self::$CONTEXT_EXTEND_FOLDER . '/' . self::ONEXIST_TEST_FILE);

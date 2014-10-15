@@ -13,6 +13,8 @@
 namespace Arthurh\Sphring;
 
 
+use Arthurh\Sphring\EventDispatcher\Listener\AnnotationClassListener;
+use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 
@@ -30,12 +32,24 @@ class SphringBoot
     /**
      * @var BeanPropertyListener
      */
-    private $beanProperty;
+
+    private $beanPropertyListener;
+    /**
+     * @var AnnotationClassListener
+     */
+    private $annotationClassListener;
+    /**
+     * @var AnnotationMethodListener
+     */
+    private $annotationMethodListener;
 
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
         $this->sphringEventDispatcher = $sphringEventDispatcher;
-        $this->setBeanProperty(new BeanPropertyListener($this->sphringEventDispatcher));
+        $this->beanPropertyListener = new BeanPropertyListener($this->sphringEventDispatcher);
+        $this->annotationMethodListener = new AnnotationMethodListener($this->sphringEventDispatcher);
+        $this->annotationClassListener = new AnnotationClassListener($this->sphringEventDispatcher);
+
     }
 
     /**
@@ -44,6 +58,7 @@ class SphringBoot
     public function boot()
     {
         $this->bootBeanProperty();
+        $this->bootAnnotations();
     }
 
     /**
@@ -51,12 +66,28 @@ class SphringBoot
      */
     public function bootBeanProperty()
     {
-        $beanProperty = $this->beanProperty;
+        $beanProperty = $this->beanPropertyListener;
         $beanProperty->register('iniFile', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyIniFile");
         $beanProperty->register('ref', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyRef");
         $beanProperty->register('stream', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyStream");
         $beanProperty->register('value', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyValue");
         $beanProperty->register('yml', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyYml");
+    }
+
+    public function bootAnnotations()
+    {
+        $this->bootAnnotationClass();
+        $this->bootAnnotationMethod();
+    }
+
+    public function bootAnnotationClass()
+    {
+
+    }
+
+    public function bootAnnotationMethod()
+    {
+        $this->annotationMethodListener->register('required', "Arthurh\\Sphring\\Model\\Annotation\\RequiredAnnotation");
     }
 
     /**
@@ -78,18 +109,50 @@ class SphringBoot
     /**
      * @return BeanPropertyListener
      */
-    public function getBeanProperty()
+    public function getBeanPropertyListener()
     {
-        return $this->beanProperty;
+        return $this->beanPropertyListener;
     }
 
     /**
      * @param BeanPropertyListener $beanProperty
      */
-    public function setBeanProperty(BeanPropertyListener $beanProperty)
+    public function setBeanPropertyListener(BeanPropertyListener $beanProperty)
     {
-        $this->beanProperty = $beanProperty;
-        $this->beanProperty->setSphringEventDispatcher($this->getSphringEventDispatcher());
+        $this->beanPropertyListener = $beanProperty;
+        $this->beanPropertyListener->setSphringEventDispatcher($this->getSphringEventDispatcher());
+    }
+
+    /**
+     * @return AnnotationClassListener
+     */
+    public function getAnnotationClassListener()
+    {
+        return $this->annotationClassListener;
+    }
+
+    /**
+     * @param AnnotationClassListener $annotationClassListener
+     */
+    public function setAnnotationClassListener($annotationClassListener)
+    {
+        $this->annotationClassListener = $annotationClassListener;
+    }
+
+    /**
+     * @return AnnotationMethodListener
+     */
+    public function getAnnotationMethodListener()
+    {
+        return $this->annotationMethodListener;
+    }
+
+    /**
+     * @param AnnotationMethodListener $annotationMethodListener
+     */
+    public function setAnnotationMethodListener($annotationMethodListener)
+    {
+        $this->annotationMethodListener = $annotationMethodListener;
     }
 
 

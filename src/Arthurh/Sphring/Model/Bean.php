@@ -15,11 +15,13 @@ namespace Arthurh\Sphring\Model;
 
 use Arthurh\Sphring\Enum\BeanTypeEnum;
 use Arthurh\Sphring\Enum\SphringEventEnum;
+use Arthurh\Sphring\EventDispatcher\EventAnnotation;
 use Arthurh\Sphring\EventDispatcher\EventBeanProperty;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\BeanException;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
+use zpt\anno\Annotations;
 
 
 /**
@@ -251,6 +253,7 @@ class Bean
             $setter = "set" . ucfirst($propertyName);
             $this->object->$setter($propertyInjector->getInjection());
         }
+        $this->dispatchAnnotations();
     }
 
     /**
@@ -261,10 +264,37 @@ class Bean
         return LoggerSphring::getInstance();
     }
 
+    private function dispatchAnnotations()
+    {
+        $classReflector = new \ReflectionClass($this->class);
+        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS);
+        foreach ($classReflector->getMethods() as $methodReflector) {
+            $this->dispatchEventForAnnotation($methodReflector, SphringEventEnum::ANNOTATION_METHOD);
+        }
+    }
+
     private function instanciate()
     {
-        $object = new \ReflectionClass($this->class);
-        $this->object = $object->newInstance();
+        $classReflector = new \ReflectionClass($this->class);
+        $this->object = $classReflector->newInstance();
+    }
+
+    private function dispatchEventForAnnotation(\Reflector $reflector, $eventNameBase)
+    {
+        $annotations = new Annotations($reflector);
+        $annotationsArray = $annotations->asArray();
+        if (empty($annotationsArray)) {
+            return;
+        }
+        foreach ($annotationsArray as $annotationName => $annotationValue) {
+            $event = new EventAnnotation();
+            $event->setData($annotationValue);
+            $event->setBean($this);
+            $event->setReflector($reflector);
+            $eventName = $eventNameBase . $annotationName;
+            $event->setName($eventName);
+            $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
+        }
     }
 
     /**

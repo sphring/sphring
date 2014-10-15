@@ -17,6 +17,7 @@ namespace Arthurh\Sphring\EventDispatcher\Listener;
 use Arthurh\Sphring\EventDispatcher\AbstractSphringEvent;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringEventListenerException;
+use Arthurh\Sphring\Logger\LoggerSphring;
 
 abstract class AbstractSphringEventListener
 {
@@ -45,6 +46,7 @@ abstract class AbstractSphringEventListener
     public function register($eventName, $className, $priority = 0)
     {
         $eventName = $this->getDefaultEventName() . $eventName;
+        LoggerSphring::getInstance()->debug(sprintf("Registering event '%s' for class '%s'", $eventName, $className));
         $this->registers[$eventName] = $className;
         $this->sphringEventDispatcher->addListener($eventName, array($this, 'onEvent'), $priority);
     }

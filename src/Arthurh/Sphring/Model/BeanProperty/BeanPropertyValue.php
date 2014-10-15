@@ -21,15 +21,10 @@ namespace Arthurh\Sphring\Model\BeanProperty;
 class BeanPropertyValue extends AbstractBeanProperty
 {
 
-    public function __toString()
-    {
-        return print_r($this->getInjection(), true);
-    }
-
     /**
      * @return mixed
      */
-    public function getInjection()
+    public function inject()
     {
         return $this->getData();
     }

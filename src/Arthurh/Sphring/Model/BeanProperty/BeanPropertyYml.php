@@ -29,7 +29,7 @@ class BeanPropertyYml extends AbstractBeanProperty
      * @return array
      * @throws \arthurh\sphring\exception\BeanPropertyException
      */
-    public function getInjection()
+    public function inject()
     {
         $file = $this->getData();
         if (is_file($file)) {

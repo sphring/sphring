@@ -13,7 +13,10 @@
 
 namespace Arthurh\Sphring\Model;
 
+use Arthurh\Sphring\Enum\BeanTypeEnum;
 use Arthurh\Sphring\Exception\BeanException;
+use Arthurh\Sphring\Logger\LoggerSphring;
+use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
 
 /**
@@ -22,34 +25,53 @@ use Arthurh\Sphring\Exception\BeanException;
  */
 class Bean
 {
+    /**
+     *
+     */
     const PROPERTY_NAME = "Arthurh\\Sphring\\Model\\BeanProperty\\BeanProperty";
     /**
      * @var string
      */
     private $id;
     /**
-     * @var object
+     * @var string
      */
     private $class;
+
     /**
-     * @var bool
+     * @var BeanTypeEnum
      */
-    private $isAbstract = false;
+    private $type;
+
     /**
-     * @var array
+     * @var AbstractBeanProperty[]
      */
-    private $properties;
+    private $properties = array();
+
+    /**
+     * @var Bean
+     */
+    private $extend;
+    /**
+     * @var object
+     */
+    private $object;
 
     /**
      * @param $id
+     * @param \Arthurh\Sphring\Enum\BeanTypeEnum $type
      */
-    function __construct($id)
+    function __construct($id, BeanTypeEnum $type = null)
     {
+        if ($type == null) {
+            $type = BeanTypeEnum::NORMAL_TYPE;
+        }
         $this->id = $id;
+        $this->type = $type;
     }
 
     /**
-     * @return array
+     * @return AbstractBeanProperty[]
      */
     public function getProperties()
     {
@@ -57,13 +79,18 @@ class Bean
     }
 
     /**
-     * @param array $properties
+     * @param AbstractBeanProperty[] $properties
      */
     public function setProperties(array $properties)
     {
-        $this->properties = $properties;
+        foreach ($properties as $propertyKey => $propertyValue) {
+            $this->addProperty($propertyKey, $propertyValue);
+        }
     }
 
+    /**
+     * @param $key
+     */
     public function removeProperty($key)
     {
         if (empty($this->properties[$key])) {
@@ -73,7 +100,7 @@ class Bean
     }
 
     /**
-     * @return object
+     * @return string
      */
     public function getClass()
     {
@@ -81,7 +108,7 @@ class Bean
     }
 
     /**
-     * @param object $class
+     * @param string $class
      */
     public function setClass($class)
     {
@@ -105,22 +132,6 @@ class Bean
     }
 
     /**
-     * @return boolean
-     */
-    public function getIsAbstract()
-    {
-        return $this->isAbstract;
-    }
-
-    /**
-     * @param boolean $isAbstract
-     */
-    public function setIsAbstract($isAbstract)
-    {
-        $this->isAbstract = $isAbstract;
-    }
-
-    /**
      * @param $name
      * @param $args
      */
@@ -138,6 +149,11 @@ class Bean
         throw new BeanException($this, "method '%s' doesn't exist", $name);
     }
 
+    /**
+     * @param $dataKey
+     * @param array $args
+     * @throws \Arthurh\Sphring\Exception\BeanException
+     */
     private function callSet($dataKey, array $args)
     {
         if (empty($dataKey) || empty($args[0])) {
@@ -146,6 +162,11 @@ class Bean
         $this->addProperty($dataKey, $args[0]);
     }
 
+    /**
+     * @param $key
+     * @param $value
+     * @throws \Arthurh\Sphring\Exception\BeanException
+     */
     public function addProperty($key, $value)
     {
         if (!is_array($value)) {
@@ -162,16 +183,114 @@ class Bean
 
     }
 
+    /**
+     * @param $dataKey
+     * @return null
+     */
     private function callGet($dataKey)
     {
         return $this->getProperty($dataKey);
     }
 
+    /**
+     * @param $key
+     * @return null
+     */
     public function getProperty($key)
     {
         if (empty($this->properties[$key])) {
             return null;
         }
         return $this->properties[$key];
+    }
+
+    /**
+     * @return BeanTypeEnum
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * @param string|BeanTypeEnum $type
+     * @throws \Arthurh\Sphring\Exception\BeanException
+     */
+    public function setType($type)
+    {
+        if (empty($type)) {
+            return;
+        }
+        if ($type instanceof BeanTypeEnum) {
+            $this->type = $type;
+            return;
+        }
+        $this->type = BeanTypeEnum::fromValue($type);
+        if (empty($this->type)) {
+            throw new BeanException($this, "Bean type '%s' doesn't exist", $type);
+        }
+    }
+
+    /**
+     * @return Bean
+     */
+    public function getExtend()
+    {
+        return $this->extend;
+    }
+
+    /**
+     * @param Bean $extend
+     */
+    public function setExtend(Bean $extend)
+    {
+        $this->extend = $extend;
+    }
+
+    public function inject()
+    {
+        if ($this->type == BeanTypeEnum::ABSTRACT_TYPE) {
+            return;
+        }
+        $this->getLogger()->info(sprintf("Injecting in bean '%s'", $this->id));
+        $this->instanciate();
+        $properties = $this->properties;
+        if (!empty($this->extend)) {
+            $properties = array_merge($this->extend->getProperties(), $properties);
+        }
+        foreach ($properties as $propertyName => $propertyInjector) {
+            $setter = "set" . ucfirst($propertyName);
+            $this->object->$setter($propertyInjector->getInjection());
+        }
+    }
+
+    private function instanciate()
+    {
+        $object = new \ReflectionClass($this->class);
+        $this->object = $object->newInstance();
+    }
+
+    /**
+     * @return object
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+
+    /**
+     * @param object $object
+     */
+    public function setObject($object)
+    {
+        $this->object = $object;
+    }
+
+    /**
+     * @return LoggerSphring
+     */
+    protected function getLogger()
+    {
+        return LoggerSphring::getInstance();
     }
 } 

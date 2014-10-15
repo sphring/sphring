@@ -1,0 +1,4 @@
+foobean:
+    class: Arthurh\Sphring\FakeBean\Foo
+@import:
+- import.yml

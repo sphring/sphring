@@ -1,0 +1,15 @@
+foobean:
+  class: Arthurh\Sphring\FakeBean\Foo
+abstractusebean:
+  type: abstract
+  properties:
+    foo:
+      ref: foobean
+    juju:
+      value: testValue
+usebean:
+  class: Arthurh\Sphring\FakeBean\Using
+  extend: abstractusebean
+  properties:
+    jojo:
+      yml: ../testyml.yml

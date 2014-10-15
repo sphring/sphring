@@ -24,7 +24,7 @@ class BeanPropertyStream extends AbstractBeanProperty
     /**
      * @return string
      */
-    public function getInjection()
+    public function inject()
     {
         $datas = $this->getData();
         $resource = $datas['resource'];
@@ -43,7 +43,7 @@ class BeanPropertyStream extends AbstractBeanProperty
     {
         $proxy = self::getProxy();
         if (empty($proxy)) {
-            return $context;
+            return empty($context) ? null : stream_context_create($context);
         }
         $proxyContext = array(
             'proxy' => $proxy,
@@ -62,22 +62,19 @@ class BeanPropertyStream extends AbstractBeanProperty
      */
     public static function getProxy()
     {
-        $proxy = getenv("HTTP_PROXY");
+        $proxyKeys = array("HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy");
         $proxyUri = null;
-        if (!empty($proxy)) {
-            $proxyUri = $proxy;
-        }
-        $proxy = getenv("HTTPS_PROXY");
-        if (!empty($proxy)) {
-            $proxyUri = $proxy;
-        }
-        $proxy = getenv("http_proxy");
-        if (!empty($proxy)) {
-            $proxyUri = $proxy;
-        }
-        $proxy = getenv("https_proxy");
-        if (!empty($proxy)) {
-            $proxyUri = $proxy;
+        foreach ($proxyKeys as $proxyKey) {
+            $proxy = getenv($proxyKey);
+            if (!empty($proxy)) {
+                $proxyUri = $proxy;
+                break;
+            }
+            $proxy = $_SERVER[$proxyKey];
+            if (!empty($proxy)) {
+                $proxyUri = $proxy;
+                break;
+            }
         }
         $proxyUri = str_replace('http', 'tcp', $proxyUri);
         return $proxyUri;

@@ -14,12 +14,45 @@
 namespace Arthurh\Sphring\Model\BeanProperty;
 
 
+use Arthurh\Sphring\Exception\BeanPropertyException;
+use Arthurh\Sphring\Exception\SphringException;
+use Arthurh\Sphring\Sphring;
+
 class BeanPropertyRef extends AbstractBeanProperty
 {
 
-    public function getInjection()
+    public function inject()
     {
         $beans = $this->getData();
+        if (!is_array($beans)) {
+            return $this->getBean($beans);
+        }
+        if ($this->isAssoc($beans)) {
+            $beansArray = array();
+            foreach ($beans as $beanId) {
+                $beansArray[] = $this->getBean($beanId);
+            }
+            return $beansArray;
+        }
+        $beansArray = array();
+        foreach ($beans as $key => $beanId) {
+            $beansArray[$key] = $this->getBean($beanId);
+        }
+        return $beansArray;
+    }
 
+    public function isAssoc($beans)
+    {
+        return array_keys($beans) !== range(0, count($beans) - 1);
+    }
+
+    private function getBean($beanId)
+    {
+        try {
+            $bean = Sphring::getInstance()->getBeanObject($beanId)->getObject();
+        } catch (SphringException $e) {
+            throw new BeanPropertyException("Error when injecting a bean inside a bean: %s", $e->getMessage(), $e);
+        }
+        return $bean;
     }
 }

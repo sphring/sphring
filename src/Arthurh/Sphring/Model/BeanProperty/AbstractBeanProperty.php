@@ -13,6 +13,8 @@
 
 namespace Arthurh\Sphring\Model\BeanProperty;
 
+use Arthurh\Sphring\Logger\LoggerSphring;
+
 
 /**
  * Class AbstractBeanProperty
@@ -25,6 +27,9 @@ abstract class AbstractBeanProperty
      */
     protected $data;
 
+    /**
+     * @param $data
+     */
     function __construct($data)
     {
         $this->data = $data;
@@ -46,6 +51,24 @@ abstract class AbstractBeanProperty
         $this->data = $data;
     }
 
+    public function getInjection()
+    {
+        $this->getLogger()->debug(sprintf("Get injected property..."));
+        $inject = $this->inject();
+        $this->getLogger()->debug(sprintf("Get injected property finished."));
+        return $inject;
+    }
 
-    abstract public function getInjection();
+    /**
+     * @return mixed
+     */
+    abstract public function inject();
+
+    /**
+     * @return LoggerSphring
+     */
+    protected function getLogger()
+    {
+        return LoggerSphring::getInstance();
+    }
 } 

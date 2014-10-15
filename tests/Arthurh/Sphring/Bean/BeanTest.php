@@ -1,4 +1,7 @@
 <?php
+namespace Arthurh\Sphring\Bean;
+
+use Arthurh\Sphring\AbstractTestSphring;
 
 /**
  * Copyright (C) 2014 Orange
@@ -10,7 +13,7 @@
  * Author: Arthur Halet
  * Date: 14/10/2014
  */
-class BeanTest extends PHPUnit_Framework_TestCase
+class BeanTest extends AbstractTestSphring
 {
     /**
      * @var \Arthurh\Sphring\Model\Bean
@@ -25,7 +28,6 @@ class BeanTest extends PHPUnit_Framework_TestCase
         $this->testBean = new \Arthurh\Sphring\Model\Bean('testBean');
 
         $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../zorro.php';
-        putenv("HTTP_PROXY=http://localhost:53128");
     }
 
     public function testInjectionValue()
@@ -42,7 +44,7 @@ class BeanTest extends PHPUnit_Framework_TestCase
     {
         $this->testBean->setTest(
             array('yml' =>
-                __DIR__ . '/../Resources/testyml.yml'
+                self::$RESOURCE_FOLDER . '/testyml.yml'
             ));
         $this->assertArrayHasKey('invoice', $this->testBean->getTest()->getInjection());
     }
@@ -60,7 +62,7 @@ class BeanTest extends PHPUnit_Framework_TestCase
     {
         $this->testBean->setTest(
             array('iniFile' =>
-                __DIR__ . '/../Resources/testini.ini'
+                self::$RESOURCE_FOLDER . '/testini.ini'
             ));
         $this->assertEquals('db.example.com', $this->testBean->getTest()->getInjection()->production->database->params->host);
     }
@@ -69,7 +71,7 @@ class BeanTest extends PHPUnit_Framework_TestCase
     {
         $this->testBean->setTest(
             array('iniFile' =>
-                array('production' => __DIR__ . '/../Resources/testini.ini')
+                array('production' => self::$RESOURCE_FOLDER . '/testini.ini')
             ));
         $this->assertEquals('db.example.com', $this->testBean->getTest()->getInjection()->database->params->host);
     }

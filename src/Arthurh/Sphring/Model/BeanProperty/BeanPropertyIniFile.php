@@ -29,7 +29,7 @@ class BeanPropertyIniFile extends AbstractBeanProperty
     /**
      *
      */
-    public function getInjection()
+    public function inject()
     {
         $data = $this->getData();
         $env = null;

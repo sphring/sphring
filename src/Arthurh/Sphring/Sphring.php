@@ -56,7 +56,7 @@ class Sphring
      */
     private function __construct()
     {
-
+        SphringBoot::boot();
     }
 
     /**

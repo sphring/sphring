@@ -14,6 +14,9 @@
 namespace Arthurh\Sphring\Model;
 
 use Arthurh\Sphring\Enum\BeanTypeEnum;
+use Arthurh\Sphring\Enum\SphringEventEnum;
+use Arthurh\Sphring\EventDispatcher\EventBeanProperty;
+use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\BeanException;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
@@ -25,10 +28,6 @@ use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
  */
 class Bean
 {
-    /**
-     *
-     */
-    const PROPERTY_NAME = "Arthurh\\Sphring\\Model\\BeanProperty\\BeanProperty";
     /**
      * @var string
      */
@@ -169,18 +168,23 @@ class Bean
      */
     public function addProperty($key, $value)
     {
+
         if (!is_array($value)) {
             throw new BeanException($this, "Error when declaring property name '%s', property not valid", $key);
         }
-        $propertyName = self::PROPERTY_NAME . ucfirst(key($value));
-        try {
-            $property = new \ReflectionClass($propertyName);
-            $propertyClass = $property->newInstance(current($value));
-            $this->properties[$key] = $propertyClass;
-        } catch (\Exception $e) {
-            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyName, $e);
-        }
+        $propertyKey = key($value);
+        $event = new EventBeanProperty();
+        $event->setPropertyKey($propertyKey);
+        $event->setData(current($value));
+        $eventName = SphringEventEnum::PROPERTY . $propertyKey;
+        $event->setName($eventName);
 
+        $event = SphringEventDispatcher::getInstance()->dispatch($eventName, $event);
+        $propertyClass = $event->getBeanProperty();
+        if (empty($propertyClass)) {
+            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyName);
+        }
+        $this->properties[$key] = $propertyClass;
     }
 
     /**

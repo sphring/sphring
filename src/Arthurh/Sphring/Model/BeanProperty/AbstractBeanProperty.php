@@ -33,6 +33,7 @@ abstract class AbstractBeanProperty
     function __construct($data)
     {
         $this->data = $data;
+
     }
 
     /**
@@ -71,4 +72,6 @@ abstract class AbstractBeanProperty
     {
         return LoggerSphring::getInstance();
     }
-} 
+
+
+}

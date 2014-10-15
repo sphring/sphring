@@ -2,6 +2,7 @@
 namespace Arthurh\Sphring\Bean;
 
 use Arthurh\Sphring\AbstractTestSphring;
+use Arthurh\Sphring\SphringBoot;
 
 /**
  * Copyright (C) 2014 Orange
@@ -25,6 +26,7 @@ class BeanTest extends AbstractTestSphring
      */
     public function instanciation()
     {
+        SphringBoot::boot();
         $this->testBean = new \Arthurh\Sphring\Model\Bean('testBean');
 
         $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../zorro.php';

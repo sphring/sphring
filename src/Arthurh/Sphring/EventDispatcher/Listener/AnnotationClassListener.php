@@ -31,6 +31,7 @@ class AnnotationClassListener extends AbstractSphringEventListener
         }
         $this->object->setBean($event->getBean());
         $this->object->setData($event->getData());
+        $this->object->setSphringEventDispatcher($event->getSphringEventDispatcher());
         $this->object->setReflector($event->getReflector());
         $this->object->run();
 

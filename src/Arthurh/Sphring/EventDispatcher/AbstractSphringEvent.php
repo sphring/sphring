@@ -19,6 +19,10 @@ use Symfony\Component\EventDispatcher\Event;
 abstract class AbstractSphringEvent extends Event
 {
     /**
+     * @var SphringEventDispatcher
+     */
+    protected $sphringEventDispatcher;
+    /**
      * @var string
      */
     protected $name;
@@ -57,6 +61,22 @@ abstract class AbstractSphringEvent extends Event
     public function setObject($object)
     {
         $this->object = $object;
+    }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher($sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
 

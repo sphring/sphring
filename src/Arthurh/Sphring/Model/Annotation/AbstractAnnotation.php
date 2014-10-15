@@ -13,12 +13,15 @@
 namespace Arthurh\Sphring\Model\Annotation;
 
 
+use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\Bean;
 
 abstract class AbstractAnnotation
 {
-    abstract public function run();
-
+    /**
+     * @var SphringEventDispatcher
+     */
+    protected $sphringEventDispatcher;
     /**
      * @var \Reflector
      */
@@ -101,4 +104,22 @@ abstract class AbstractAnnotation
         $parse = substr($name, 0, 3);
         return $parse == 'get';
     }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher($sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
+    
+    abstract public function run();
 } 

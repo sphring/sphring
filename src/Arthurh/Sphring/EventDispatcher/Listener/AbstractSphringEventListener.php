@@ -81,7 +81,7 @@ abstract class AbstractSphringEventListener
             $class = new \ReflectionClass($className);
             $this->object = $class->newInstance();
             $event->setObject($this->object);
-
+            $event->setSphringEventDispatcher($this->getSphringEventDispatcher());
         } catch (\Exception $e) {
             throw new SphringEventListenerException("Error when trigger event '%s' during class '%s' creation", $event->getName(), $className, $e);
         }

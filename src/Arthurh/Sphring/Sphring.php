@@ -71,8 +71,11 @@ class Sphring
     /**
      *
      */
-    public function __construct($filename)
+    public function __construct($filename = null)
     {
+        if (empty($filename)) {
+            $filename = '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
+        }
         $this->filename = $filename;
         $this->sphringEventDispatcher = new SphringEventDispatcher($this);
         $this->extender = new Extender($this->sphringEventDispatcher);

@@ -82,7 +82,7 @@ class SphringBoot
 
     public function bootAnnotationClass()
     {
-
+        $this->annotationClassListener->register('loadcontext', "Arthurh\\Sphring\\Model\\Annotation\\LoadContextAnnotation");
     }
 
     public function bootAnnotationMethod()

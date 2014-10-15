@@ -30,9 +30,8 @@ abstract class AbstractBeanProperty
     /**
      * @param $data
      */
-    function __construct($data)
+    function __construct()
     {
-        $this->data = $data;
 
     }
 
@@ -61,17 +60,17 @@ abstract class AbstractBeanProperty
     }
 
     /**
-     * @return mixed
-     */
-    abstract public function inject();
-
-    /**
      * @return LoggerSphring
      */
     protected function getLogger()
     {
         return LoggerSphring::getInstance();
     }
+
+    /**
+     * @return mixed
+     */
+    abstract public function inject();
 
 
 }

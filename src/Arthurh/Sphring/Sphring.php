@@ -16,6 +16,7 @@ namespace Arthurh\Sphring;
 
 use Arhframe\Yamlarh\Yamlarh;
 use Arthurh\Sphring\Exception\SphringException;
+use Arthurh\Sphring\Extender\Extender;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\Bean;
 use Psr\Log\LoggerInterface;
@@ -29,7 +30,7 @@ class Sphring
     /**
      *
      */
-    const DEFAULT_CONTEXT_FOLDER = 'context';
+    const DEFAULT_CONTEXT_FOLDER = 'sphring';
     /**
      *
      */
@@ -76,8 +77,7 @@ class Sphring
      */
     public function loadContext($filename = null)
     {
-        $this->context = array();
-        $this->beans = array();
+
         $this->getLogger()->info("Starting loading context...");
         if (empty($filename)) {
             $filename = $this->getRootProject() . '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
@@ -96,7 +96,29 @@ class Sphring
         self::$CONTEXTROOT = dirname(realpath($filename));
         $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($filename)));
         $this->context = $yamlarh->parse();
+        $this->extend(self::$CONTEXTROOT . '/' . Extender::$DEFAULT_FILENAME);
         $this->loadBeans();
+    }
+
+    /**
+     * @return LoggerSphring
+     */
+    protected function getLogger()
+    {
+        return LoggerSphring::getInstance();
+    }
+
+    /**
+     * @return string
+     */
+    public function getRootProject()
+    {
+        return dirname($_SERVER['SCRIPT_FILENAME']);
+    }
+
+    public function extend($file)
+    {
+        Extender::extend($file);
     }
 
     /**
@@ -112,62 +134,6 @@ class Sphring
             $this->addBean($bean);
 
         }
-    }
-
-    /**
-     * @param $beanId
-     * @return Bean
-     * @throws Exception\SphringException
-     */
-    public function getBeanObject($beanId)
-    {
-        if (!empty($this->beans[$beanId])) {
-            return $this->beans[$beanId];
-        }
-        if (empty($this->context[$beanId])) {
-            throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
-        }
-        $bean = $this->makeBean($beanId, $this->context[$beanId]);
-        $this->addBean($bean);
-        return $bean;
-    }
-
-    /**
-     * @param $beanId
-     * @return object
-     * @throws Exception\SphringException
-     */
-    public function getBean($beanId)
-    {
-        if (empty($this->beans[$beanId])) {
-            throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
-        }
-        return $this->beans[$beanId]->getObject();
-    }
-
-    /**
-     * @param Bean $bean
-     */
-    public function addBean(Bean $bean)
-    {
-        $this->beans[$bean->getId()] = $bean;
-        $bean->inject();
-    }
-
-    /**
-     * @param $bean
-     */
-    public function removeBean($bean)
-    {
-        if ($bean instanceof Bean) {
-            $beanId = $bean->getId();
-        } else {
-            $beanId = $bean;
-        }
-        if (empty($this->beans[$beanId])) {
-            return;
-        }
-        unset($this->beans[$beanId]);
     }
 
     /**
@@ -191,20 +157,65 @@ class Sphring
     }
 
     /**
-     * @return string
+     * @param $beanId
+     * @return Bean
+     * @throws Exception\SphringException
      */
-    public function getRootProject()
+    public function getBeanObject($beanId)
     {
-        return dirname($_SERVER['SCRIPT_FILENAME']);
+        if (!empty($this->beans[$beanId])) {
+            return $this->beans[$beanId];
+        }
+        if (empty($this->context[$beanId])) {
+            throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
+        }
+        $bean = $this->makeBean($beanId, $this->context[$beanId]);
+        $this->addBean($bean);
+        return $bean;
     }
 
+    /**
+     * @param Bean $bean
+     */
+    public function addBean(Bean $bean)
+    {
+        $this->beans[$bean->getId()] = $bean;
+        $bean->inject();
+    }
+
+    public function clear()
+    {
+        $this->context = array();
+        $this->beans = array();
+    }
 
     /**
-     * @return LoggerSphring
+     * @param $beanId
+     * @return object
+     * @throws Exception\SphringException
      */
-    protected function getLogger()
+    public function getBean($beanId)
     {
-        return LoggerSphring::getInstance();
+        if (empty($this->beans[$beanId])) {
+            throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
+        }
+        return $this->beans[$beanId]->getObject();
+    }
+
+    /**
+     * @param $bean
+     */
+    public function removeBean($bean)
+    {
+        if ($bean instanceof Bean) {
+            $beanId = $bean->getId();
+        } else {
+            $beanId = $bean;
+        }
+        if (empty($this->beans[$beanId])) {
+            return;
+        }
+        unset($this->beans[$beanId]);
     }
 
     /**

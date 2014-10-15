@@ -24,10 +24,10 @@ class SphringBoot
 
     public static function bootBeanProperty()
     {
-        BeanPropertyListener::getInstance()->register('iniFile', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyIniFile");
-        BeanPropertyListener::getInstance()->register('ref', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyRef");
-        BeanPropertyListener::getInstance()->register('stream', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyStream");
-        BeanPropertyListener::getInstance()->register('value', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyValue");
-        BeanPropertyListener::getInstance()->register('yml', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyYml");
+        BeanPropertyListener::register('iniFile', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyIniFile");
+        BeanPropertyListener::register('ref', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyRef");
+        BeanPropertyListener::register('stream', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyStream");
+        BeanPropertyListener::register('value', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyValue");
+        BeanPropertyListener::register('yml', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyYml");
     }
 } 

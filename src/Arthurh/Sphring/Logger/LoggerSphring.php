@@ -21,7 +21,7 @@ use Psr\Log\LoggerInterface;
  */
 class LoggerSphring implements LoggerInterface
 {
-    const DEFAULT_MESSAGE = "Sphring: '%s': ";
+    const DEFAULT_MESSAGE = "Sphring: '%s' : ";
     /**
      * @var LoggerSphring
      */
@@ -30,6 +30,15 @@ class LoggerSphring implements LoggerInterface
      * @var LoggerInterface
      */
     private $logger = null;
+
+    /**
+     * @var bool
+     */
+    private $withFile = false;
+    /**
+     * @var bool
+     */
+    private $withClass = true;
 
     /**
      *
@@ -51,6 +60,42 @@ class LoggerSphring implements LoggerInterface
         return self::$_instance;
     }
 
+    /**
+     * @return LoggerInterface
+     */
+    public function getLogger()
+    {
+        return $this->logger;
+    }
+
+    /**
+     * @param LoggerInterface $logger
+     */
+    public function setLogger($logger)
+    {
+        $this->logger = $logger;
+    }
+
+    /**
+     * System is unusable.
+     *
+     * @param string $message
+     * @param array $context
+     * @return null
+     */
+    public function emergency($message, array $context = array())
+    {
+        if (empty($this->logger)) {
+            return;
+        }
+        $this->logger->emergency($this->getDefaultMessage() . $message, $context);
+    }
+
+    private function getDefaultMessage()
+    {
+        return sprintf(self::DEFAULT_MESSAGE, $this->getCallerInfo());
+    }
+
     private function getCallerInfo()
     {
         $c = '';
@@ -69,50 +114,20 @@ class LoggerSphring implements LoggerInterface
             $func = '';
         }
         if (isset($trace[3]['class'])) {
-            $class = $trace[3]['class'];
-            $func = $trace[3]['function'];
-            $line = $trace[2]['line'];
+            if ($this->withClass) {
+                $class = $trace[3]['class'];
+                $func = $trace[3]['function'];
+                $line = $trace[2]['line'];
+            }
+            if ($this->withFile) {
+                $file = $trace[2]['file'];
+            }
+
         }
-        $c = ($class != '') ? $class . "->" : "";
-        $c .= ($func != '') ? $func . "(" . $line . ") " : "";
+        $c = ($file != '') ? $file . "(" . $line . "): " : "";
+        $c .= ($class != '') ? $class . "->" : "";
+        $c .= ($func != '') ? $func . "(" . $line . ")" : "";
         return ($c);
-    }
-
-    /**
-     * @return LoggerInterface
-     */
-    public function getLogger()
-    {
-        return $this->logger;
-    }
-
-    /**
-     * @param LoggerInterface $logger
-     */
-    public function setLogger($logger)
-    {
-        $this->logger = $logger;
-    }
-
-
-    private function getDefaultMessage()
-    {
-        return sprintf(self::DEFAULT_MESSAGE, $this->getCallerInfo());
-    }
-
-    /**
-     * System is unusable.
-     *
-     * @param string $message
-     * @param array $context
-     * @return null
-     */
-    public function emergency($message, array $context = array())
-    {
-        if (empty($this->logger)) {
-            return;
-        }
-        $this->logger->emergency($this->getDefaultMessage() . $message, $context);
     }
 
     /**
@@ -246,4 +261,38 @@ class LoggerSphring implements LoggerInterface
         }
         $this->logger->log($level, $this->getDefaultMessage() . $message, $context);
     }
+
+    /**
+     * @return boolean
+     */
+    public function getWithFile()
+    {
+        return $this->withFile;
+    }
+
+    /**
+     * @param boolean $withFile
+     */
+    public function setWithFile($withFile)
+    {
+        $this->withFile = $withFile;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function getWithClass()
+    {
+        return $this->withClass;
+    }
+
+    /**
+     * @param boolean $withClass
+     */
+    public function setWithClass($withClass)
+    {
+        $this->withClass = $withClass;
+    }
+
+
 }

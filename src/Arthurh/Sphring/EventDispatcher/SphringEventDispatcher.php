@@ -13,6 +13,8 @@
 namespace Arthurh\Sphring\EventDispatcher;
 
 
+use Arthurh\Sphring\Logger\LoggerSphring;
+use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
@@ -36,5 +38,32 @@ class SphringEventDispatcher extends EventDispatcher
         }
 
         return self::$_instance;
+    }
+
+    public function dispatch($eventName, Event $event = null)
+    {
+        LoggerSphring::getInstance()->debug(sprintf("Trigger event '%s'", $eventName));
+        return parent::dispatch($eventName, $event);
+    }
+
+    public function addListener($eventName, $listener, $priority = 0)
+    {
+        $listenerName = "";
+        if (!empty($listener[0]) && is_object($listener[0])) {
+            $listenerName = get_class($listener[0]);
+        }
+        LoggerSphring::getInstance()->debug(sprintf("Add listener '%s' on event '%s'", $listenerName, $eventName));
+        parent::addListener($eventName, $listener, $priority);
+
+    }
+
+    public function removeListener($eventName, $listener)
+    {
+        $listenerName = "";
+        if (!empty($listener[0]) && is_object($listener[0])) {
+            $listenerName = get_class($listener[0]);
+        }
+        LoggerSphring::getInstance()->debug(sprintf("Remove listener '%s on event '%s'", $listenerName, $eventName));
+        parent::removeListener($eventName, $listener);
     }
 } 

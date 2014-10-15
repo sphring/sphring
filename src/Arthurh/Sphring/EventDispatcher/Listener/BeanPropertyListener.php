@@ -16,56 +16,28 @@ namespace Arthurh\Sphring\EventDispatcher\Listener;
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\EventBeanProperty;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
+use Arthurh\Sphring\Exception\SphringEventListenerException;
 use Arthurh\Sphring\Exception\SphringException;
+use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
-class BeanPropertyListener
+class BeanPropertyListener extends AbstractSphringEventListener
 {
-    private $mapEventToBeanProperty;
-    private static $_instance = null;
-
-    public function register($eventName, $className)
-    {
-        $eventName = SphringEventEnum::PROPERTY . $eventName;
-        $this->mapEventToBeanProperty[$eventName] = $className;
-        SphringEventDispatcher::getInstance()->addListener($eventName, array($this, 'onEvent'));
-    }
 
     /**
-     * @return mixed
+     * @param EventBeanProperty $event
      */
-    public function getMapEventToBeanProperty()
+    public function  onEvent($event)
     {
-        return $this->mapEventToBeanProperty;
-    }
-
-    /**
-     * @param mixed $mapEventToBeanProperty
-     */
-    public function setMapEventToBeanProperty($mapEventToBeanProperty)
-    {
-        $this->mapEventToBeanProperty = $mapEventToBeanProperty;
-    }
-
-    public static function getInstance()
-    {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new BeanPropertyListener();
+        parent::onEvent($event);
+        if (!($this->object instanceof AbstractBeanProperty)) {
+            throw new SphringEventListenerException("Class '%s' must extends '%s'", get_class($this->object), "Arthurh\\Sphring\\Model\\BeanProperty\\AbstractBeanProperty");
         }
+        $this->object->setData($event->getData());
 
-        return self::$_instance;
     }
 
-    public function  onEvent(EventBeanProperty $event)
+    public function getDefaultEventName()
     {
-        $propertyName = $this->mapEventToBeanProperty[$event->getName()];
-        try {
-            $property = new \ReflectionClass($propertyName);
-            $propertyClass = $property->newInstance($event->getData());
-
-        } catch (\Exception $e) {
-            throw new SphringException("Error when declaring property name '%s', property '%s' doesn't exist", $event->getPropertyKey(), $propertyName, $e);
-        }
-        $event->setBeanProperty($propertyClass);
+        return SphringEventEnum::PROPERTY_INJECTION;
     }
-
-} 
+}

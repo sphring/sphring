@@ -17,5 +17,7 @@ use MyCLabs\Enum\Enum;
 
 class SphringEventEnum extends Enum
 {
-    const PROPERTY = 'property.';
+    const PROPERTY_INJECTION = 'property.injection.';
+    const ANNOTATION_CLASS = 'annotation.class.';
+    const ANNOTATION_METHOD = 'annotation.method.';
 } 

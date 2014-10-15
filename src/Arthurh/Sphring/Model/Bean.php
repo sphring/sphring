@@ -70,24 +70,6 @@ class Bean
     }
 
     /**
-     * @return AbstractBeanProperty[]
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
-
-    /**
-     * @param AbstractBeanProperty[] $properties
-     */
-    public function setProperties(array $properties)
-    {
-        foreach ($properties as $propertyKey => $propertyValue) {
-            $this->addProperty($propertyKey, $propertyValue);
-        }
-    }
-
-    /**
      * @param $key
      */
     public function removeProperty($key)
@@ -174,15 +156,14 @@ class Bean
         }
         $propertyKey = key($value);
         $event = new EventBeanProperty();
-        $event->setPropertyKey($propertyKey);
         $event->setData(current($value));
-        $eventName = SphringEventEnum::PROPERTY . $propertyKey;
+        $eventName = SphringEventEnum::PROPERTY_INJECTION . $propertyKey;
         $event->setName($eventName);
 
         $event = SphringEventDispatcher::getInstance()->dispatch($eventName, $event);
         $propertyClass = $event->getBeanProperty();
         if (empty($propertyClass)) {
-            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyName);
+            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
         }
         $this->properties[$key] = $propertyClass;
     }
@@ -268,10 +249,36 @@ class Bean
         }
     }
 
+    /**
+     * @return LoggerSphring
+     */
+    protected function getLogger()
+    {
+        return LoggerSphring::getInstance();
+    }
+
     private function instanciate()
     {
         $object = new \ReflectionClass($this->class);
         $this->object = $object->newInstance();
+    }
+
+    /**
+     * @return AbstractBeanProperty[]
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * @param AbstractBeanProperty[] $properties
+     */
+    public function setProperties(array $properties)
+    {
+        foreach ($properties as $propertyKey => $propertyValue) {
+            $this->addProperty($propertyKey, $propertyValue);
+        }
     }
 
     /**
@@ -288,13 +295,5 @@ class Bean
     public function setObject($object)
     {
         $this->object = $object;
-    }
-
-    /**
-     * @return LoggerSphring
-     */
-    protected function getLogger()
-    {
-        return LoggerSphring::getInstance();
     }
 } 

@@ -16,22 +16,16 @@ namespace Arthurh\Sphring\EventDispatcher;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 use Symfony\Component\EventDispatcher\Event;
 
-class EventBeanProperty extends Event
+class EventBeanProperty extends AbstractSphringEvent
 {
     private $data;
-    private $name;
-    private $propertyKey;
-    /**
-     * @var AbstractBeanProperty
-     */
-    private $beanProperty;
 
     /**
      * @return AbstractBeanProperty
      */
     public function getBeanProperty()
     {
-        return $this->beanProperty;
+        return $this->getObject();
     }
 
     /**
@@ -39,7 +33,7 @@ class EventBeanProperty extends Event
      */
     public function setBeanProperty($beanProperty)
     {
-        $this->beanProperty = $beanProperty;
+        $this->object = $beanProperty;
     }
 
     /**
@@ -56,38 +50,6 @@ class EventBeanProperty extends Event
     public function setData($data)
     {
         $this->data = $data;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
-
-    /**
-     * @param mixed $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getPropertyKey()
-    {
-        return $this->propertyKey;
-    }
-
-    /**
-     * @param mixed $propertyKey
-     */
-    public function setPropertyKey($propertyKey)
-    {
-        $this->propertyKey = $propertyKey;
     }
 
 

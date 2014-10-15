@@ -1,0 +1,2 @@
+beanProperty:
+- {eventName: 'val', class: Arthurh\Sphring\FakeExtend\BeanPropertyExtendValue}

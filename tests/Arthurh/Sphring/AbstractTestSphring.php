@@ -14,12 +14,14 @@ class AbstractTestSphring extends \PHPUnit_Framework_TestCase
 {
     public static $RESOURCE_FOLDER;
     public static $CONTEXT_FOLDER;
+    public static $CONTEXT_EXTEND_FOLDER;
 
     public function __construct($name = null, array $data = array(), $dataName = '')
     {
         parent::__construct($name, $data, $dataName);
         self::$RESOURCE_FOLDER = __DIR__ . '/Resources';
-        self::$CONTEXT_FOLDER = self::$RESOURCE_FOLDER . '/context';
+        self::$CONTEXT_FOLDER = self::$RESOURCE_FOLDER . '/sphring';
+        self::$CONTEXT_EXTEND_FOLDER = self::$CONTEXT_FOLDER . '/extend';
     }
 
     /**

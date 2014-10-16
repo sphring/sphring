@@ -165,8 +165,9 @@ class Bean
         $event->setData(current($value));
         $eventName = SphringEventEnum::PROPERTY_INJECTION . $propertyKey;
         $event->setName($eventName);
-        var_dump($this->getSphringEventDispatcher()->getListeners());
+
         $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
+        var_dump($event);
         $propertyClass = $event->getBeanProperty();
         if (empty($propertyClass)) {
             throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);

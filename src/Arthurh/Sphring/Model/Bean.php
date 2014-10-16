@@ -165,7 +165,7 @@ class Bean
         $event->setData(current($value));
         $eventName = SphringEventEnum::PROPERTY_INJECTION . $propertyKey;
         $event->setName($eventName);
-
+        var_dump($this->getSphringEventDispatcher()->getListeners());
         $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
         $propertyClass = $event->getBeanProperty();
         if (empty($propertyClass)) {

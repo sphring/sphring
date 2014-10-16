@@ -10,6 +10,12 @@
  * Date: 14/10/2014
  */
 
+/**
+ * instropection composer:
+ * $factoryComposer = new \Composer\Factory();
+ * $composer = $factoryComposer->createComposer(new \Composer\IO\NullIO());
+ * var_dump($composer->getPackage()->getRequires());
+ */
 
 namespace Arthurh\Sphring;
 

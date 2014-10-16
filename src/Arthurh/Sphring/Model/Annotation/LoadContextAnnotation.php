@@ -13,16 +13,28 @@
 namespace Arthurh\Sphring\Model\Annotation;
 
 
+use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Runner\SphringRunner;
+
 class LoadContextAnnotation extends AbstractAnnotation
 {
 
     public function run()
     {
+        if (!$this->isInSphringRunner()) {
+            throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to be set on '%s' class.",
+                $this->getBean()->getId(), get_class($this), SphringRunner::class);
+        }
         $contextFile = $this->getData();
         $sphring = $this->getSphringEventDispatcher()->getSphring();
         if (!is_numeric($contextFile)) {
             $sphring->setFilename($contextFile);
         }
         $sphring->loadContext();
+    }
+
+    public function getAnnotationName()
+    {
+        return "LoadContext";
     }
 }

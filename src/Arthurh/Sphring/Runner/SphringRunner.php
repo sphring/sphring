@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\Runner;
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\EventAnnotation;
+use Arthurh\Sphring\Model\Bean;
 use Arthurh\Sphring\Sphring;
 use zpt\anno\Annotations;
 
@@ -63,11 +64,13 @@ abstract class SphringRunner
         if (empty($annotationsArray)) {
             return;
         }
+        $bean = new Bean(get_class($this));
+        $bean->setObject($this);
         foreach ($annotationsArray as $annotationName => $annotationValue) {
             $event = new EventAnnotation();
             $event->setData($annotationValue);
             $event->setReflector($reflector);
-
+            $event->setBean($bean);
             $eventName = $eventNameBase . $annotationName;
             $event->setName($eventName);
             $this->sphring->getSphringEventDispatcher()->dispatch($eventName, $event);

@@ -9,6 +9,7 @@
         }
     ],
     "require": {
+        "php": ">=5.5.0",
         "arhframe/yamlarh": "~1.1",
         "arhframe/util": "1.2.*",
         "myclabs/php-enum": "1.2.*",

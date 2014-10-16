@@ -17,6 +17,13 @@ use Arthurh\Sphring\EventDispatcher\Listener\AnnotationClassListener;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
+use Arthurh\Sphring\Model\Annotation\LoadContextAnnotation;
+use Arthurh\Sphring\Model\Annotation\RequiredAnnotation;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyIniFile;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyRef;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyValue;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyYml;
 
 /**
  * Class SphringBoot
@@ -67,11 +74,11 @@ class SphringBoot
     public function bootBeanProperty()
     {
         $beanProperty = $this->beanPropertyListener;
-        $beanProperty->register('iniFile', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyIniFile");
-        $beanProperty->register('ref', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyRef");
-        $beanProperty->register('stream', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyStream");
-        $beanProperty->register('value', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyValue");
-        $beanProperty->register('yml', "Arthurh\\Sphring\\Model\\BeanProperty\\BeanPropertyYml");
+        $beanProperty->register('iniFile', BeanPropertyIniFile::class);
+        $beanProperty->register('ref', BeanPropertyRef::class);
+        $beanProperty->register('stream', BeanPropertyStream::class);
+        $beanProperty->register('value', BeanPropertyValue::class);
+        $beanProperty->register('yml', BeanPropertyYml::class);
     }
 
     public function bootAnnotations()
@@ -82,12 +89,12 @@ class SphringBoot
 
     public function bootAnnotationClass()
     {
-        $this->annotationClassListener->register('loadcontext', "Arthurh\\Sphring\\Model\\Annotation\\LoadContextAnnotation");
+        $this->annotationClassListener->register('loadcontext', LoadContextAnnotation::class);
     }
 
     public function bootAnnotationMethod()
     {
-        $this->annotationMethodListener->register('required', "Arthurh\\Sphring\\Model\\Annotation\\RequiredAnnotation");
+        $this->annotationMethodListener->register('required', RequiredAnnotation::class);
     }
 
     /**

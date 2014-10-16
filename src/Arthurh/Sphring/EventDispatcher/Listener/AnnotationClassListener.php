@@ -27,7 +27,7 @@ class AnnotationClassListener extends AbstractSphringEventListener
         }
         parent::onEvent($event);
         if (!($this->object instanceof AbstractAnnotation)) {
-            throw new SphringEventListenerException("Class '%s' must extends '%s'", get_class($this->object), "Arthurh\\Sphring\\Model\\Annotation\\AbstractAnnotation");
+            throw new SphringEventListenerException("Class '%s' must extends '%s'", get_class($this->object), AbstractAnnotation::class);
         }
         $this->object->setBean($event->getBean());
         $this->object->setData($event->getData());

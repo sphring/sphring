@@ -28,7 +28,7 @@ class BeanPropertyListener extends AbstractSphringEventListener
     {
         parent::onEvent($event);
         if (!($this->object instanceof AbstractBeanProperty)) {
-            throw new SphringEventListenerException("Class '%s' must extends '%s'", get_class($this->object), "Arthurh\\Sphring\\Model\\BeanProperty\\AbstractBeanProperty");
+            throw new SphringEventListenerException("Class '%s' must extends '%s'", get_class($this->object), AbstractBeanProperty::class);
         }
 
         $this->object->setSphring($this->sphringEventDispatcher->getSphring());

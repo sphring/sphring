@@ -32,4 +32,8 @@ class RequiredAnnotation extends AbstractAnnotation
         }
     }
 
+    public function getAnnotationName()
+    {
+        return "Required";
+    }
 }

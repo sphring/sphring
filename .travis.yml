@@ -5,4 +5,4 @@ php:
   - hhvm-nightly
 install:
   - composer install
-script: phpunit --no-configuration tests
+script: phpunit --bootstrap tests/bootstrap.php --no-configuration tests

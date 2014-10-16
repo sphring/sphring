@@ -131,7 +131,13 @@ abstract class AbstractAnnotation
     /**
      * @return string
      */
-    abstract public function getAnnotationName();
+    public static function getAnnotationName()
+    {
+        $className = self::class;
+        $className = explode('\\', $className);
+        $className = $className[count($className) - 1];
+        return $className;
+    }
 
     abstract public function run();
 } 

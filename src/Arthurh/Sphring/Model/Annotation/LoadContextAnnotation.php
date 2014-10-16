@@ -33,7 +33,7 @@ class LoadContextAnnotation extends AbstractAnnotation
         $sphring->loadContext();
     }
 
-    public function getAnnotationName()
+    public static function getAnnotationName()
     {
         return "LoadContext";
     }

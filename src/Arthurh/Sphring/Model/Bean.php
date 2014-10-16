@@ -160,7 +160,7 @@ class Bean
         if (!is_array($value) || count($value) < 1) {
             throw new BeanException($this, "Error when declaring property name '%s', property not valid", $key);
         }
-        // key() and current() are break on hhvm
+        // key() and current() are break on hhvm do it in other way the same thing
         foreach ($value as $propertyKey => $propertyValue) {
             break;
         }

@@ -84,6 +84,7 @@ class Sphring
      */
     public function loadContext()
     {
+
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_BEFORE_LOAD, new EventSphring($this));
         $filename = $this->filename;
         $this->getLogger()->info("Starting loading context...");
@@ -104,7 +105,9 @@ class Sphring
         $this->contextRoot = dirname(realpath($filename));
         $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($filename)));
         $this->context = $yamlarh->parse();
-        $this->extender->extend($this->contextRoot . '/' . $this->extender->getDefaultFilename());
+        $this->extender->addExtendFromFile($this->contextRoot . '/' . $this->extender->getDefaultFilename());
+
+        $this->extender->extend();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD, new EventSphring($this));
         $this->loadBeans();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
@@ -301,5 +304,19 @@ class Sphring
         $this->extender->setSphringEventDispatcher($this->sphringEventDispatcher);
     }
 
+    public function addBeanProperty($propertyClassname, $eventName, $priority = 0)
+    {
+        $this->extender->addBeanProperty($propertyClassname, $eventName, $priority);
+    }
+
+    public function addAnnotationClass($annotationClassname, $eventName = "", $priority = 0)
+    {
+        $this->extender->addAnnotationClass($annotationClassname, $eventName, $priority);
+    }
+
+    public function addAnnotationMethod($annotationClassname, $eventName = "", $priority = 0)
+    {
+        $this->extender->addAnnotationMethod($annotationClassname, $eventName, $priority);
+    }
 
 }

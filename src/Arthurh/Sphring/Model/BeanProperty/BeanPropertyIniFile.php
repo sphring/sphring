@@ -33,8 +33,10 @@ class BeanPropertyIniFile extends AbstractBeanProperty
         $data = $this->getData();
         $env = null;
         if (is_array($data)) {
-            $env = key($data);
-            $file = current($data);
+            // key() and current() are break on hhvm
+            foreach ($data as $env => $file) {
+                break;
+            }
         } else {
             $file = $data;
         }

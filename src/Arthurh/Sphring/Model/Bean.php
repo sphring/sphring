@@ -157,20 +157,23 @@ class Bean
     public function addProperty($key, $value)
     {
 
-        if (!is_array($value)) {
+        if (!is_array($value) || count($value) < 1) {
             throw new BeanException($this, "Error when declaring property name '%s', property not valid", $key);
         }
-        $propertyKey = key($value);
+        // key() and current() are break on hhvm
+        foreach ($value as $propertyKey => $propertyValue) {
+            break;
+        }
         $event = new EventBeanProperty();
-        $event->setData(current($value));
+        $event->setData($propertyValue);
         $eventName = SphringEventEnum::PROPERTY_INJECTION . $propertyKey;
         $event->setName($eventName);
 
         $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
-        var_dump($event);
+
         $propertyClass = $event->getBeanProperty();
         if (empty($propertyClass)) {
-            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
+            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist" . print_r($value, true), $key, $propertyKey);
         }
         $this->properties[$key] = $propertyClass;
     }

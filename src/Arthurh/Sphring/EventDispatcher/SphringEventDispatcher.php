@@ -38,13 +38,18 @@ class SphringEventDispatcher extends EventDispatcher
     function __construct(Sphring $sphring)
     {
         $this->sphring = $sphring;
-        $this->setSphringBoot(new SphringBoot($this));
+        $this->sphringBoot = new SphringBoot($this);
     }
 
     public function dispatch($eventName, Event $event = null)
     {
         LoggerSphring::getInstance()->debug(sprintf("Trigger event '%s'", $eventName));
         return parent::dispatch($eventName, $event);
+    }
+
+    public function load()
+    {
+        $this->sphringBoot->boot();
     }
 
     public function addListener($eventName, $listener, $priority = 0)
@@ -98,6 +103,6 @@ class SphringEventDispatcher extends EventDispatcher
     public function setSphringBoot(SphringBoot $sphringBoot)
     {
         $this->sphringBoot = $sphringBoot;
-        $this->sphringBoot->boot();
+
     }
 } 

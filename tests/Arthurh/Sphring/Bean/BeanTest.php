@@ -27,10 +27,13 @@ class BeanTest extends AbstractTestSphring
      */
     public function instanciation()
     {
+        $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../zorro.php';
         $this->testBean = new \Arthurh\Sphring\Model\Bean('testBean');
         $sphring = new Sphring('');
+        $sphring->beforeLoad();
         $this->testBean->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
-        $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../zorro.php';
+
+
     }
 
     public function testInjectionValue()

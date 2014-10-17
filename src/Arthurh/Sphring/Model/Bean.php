@@ -173,7 +173,7 @@ class Bean
 
         $propertyClass = $event->getBeanProperty();
         if (empty($propertyClass)) {
-            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist" . print_r($value, true), $key, $propertyKey);
+            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
         }
         $this->properties[$key] = $propertyClass;
     }
@@ -268,37 +268,10 @@ class Bean
         return LoggerSphring::getInstance();
     }
 
-    private function dispatchAnnotations()
-    {
-        $classReflector = new \ReflectionClass($this->class);
-        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS);
-        foreach ($classReflector->getMethods() as $methodReflector) {
-            $this->dispatchEventForAnnotation($methodReflector, SphringEventEnum::ANNOTATION_METHOD);
-        }
-    }
-
     private function instanciate()
     {
         $classReflector = new \ReflectionClass($this->class);
         $this->object = $classReflector->newInstance();
-    }
-
-    private function dispatchEventForAnnotation(\Reflector $reflector, $eventNameBase)
-    {
-        $annotations = new Annotations($reflector);
-        $annotationsArray = $annotations->asArray();
-        if (empty($annotationsArray)) {
-            return;
-        }
-        foreach ($annotationsArray as $annotationName => $annotationValue) {
-            $event = new EventAnnotation();
-            $event->setData($annotationValue);
-            $event->setBean($this);
-            $event->setReflector($reflector);
-            $eventName = $eventNameBase . $annotationName;
-            $event->setName($eventName);
-            $this->sphringEventDispatcher->dispatch($eventName, $event);
-        }
     }
 
     /**
@@ -316,6 +289,33 @@ class Bean
     {
         foreach ($properties as $propertyKey => $propertyValue) {
             $this->addProperty($propertyKey, $propertyValue);
+        }
+    }
+
+    private function dispatchAnnotations()
+    {
+        $classReflector = new \ReflectionClass($this->class);
+        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS);
+        foreach ($classReflector->getMethods() as $methodReflector) {
+            $this->dispatchEventForAnnotation($methodReflector, SphringEventEnum::ANNOTATION_METHOD);
+        }
+    }
+
+    private function dispatchEventForAnnotation(\Reflector $reflector, $eventNameBase)
+    {
+        $annotations = new Annotations($reflector);
+        $annotationsArray = $annotations->asArray();
+        if (empty($annotationsArray)) {
+            return;
+        }
+        foreach ($annotationsArray as $annotationName => $annotationValue) {
+            $event = new EventAnnotation();
+            $event->setData($annotationValue);
+            $event->setBean($this);
+            $event->setReflector($reflector);
+            $eventName = $eventNameBase . $annotationName;
+            $event->setName($eventName);
+            $this->sphringEventDispatcher->dispatch($eventName, $event);
         }
     }
 

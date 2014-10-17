@@ -46,8 +46,8 @@ class BeanPropertyIniFile extends AbstractBeanProperty
         if (is_file($this->sphring->getRootProject() . $file)) {
             return $this->loadIni($this->sphring->getRootProject() . $file, $env);
         }
-        if (is_file($this->sphring->getContextRoot() . '/' . $file)) {
-            return $this->loadIni($this->sphring->getContextRoot() . '/' . $file, $env);
+        if (is_file($this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . $file)) {
+            return $this->loadIni($this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . $file, $env);
         }
         throw new BeanPropertyException("Error when injecting ini in bean, file '%s' doesn't exist.", $file);
     }

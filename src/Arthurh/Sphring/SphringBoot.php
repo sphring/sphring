@@ -13,6 +13,7 @@
 namespace Arthurh\Sphring;
 
 
+use Arthurh\Sphring\ComposerManager\ComposerManager;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationClassListener;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
@@ -50,13 +51,18 @@ class SphringBoot
      */
     private $annotationMethodListener;
 
+    /**
+     * @var ComposerManager
+     */
+    private $composerManager;
+
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
         $this->sphringEventDispatcher = $sphringEventDispatcher;
         $this->beanPropertyListener = new BeanPropertyListener($this->sphringEventDispatcher);
         $this->annotationMethodListener = new AnnotationMethodListener($this->sphringEventDispatcher);
         $this->annotationClassListener = new AnnotationClassListener($this->sphringEventDispatcher);
-
+        $this->composerManager = new ComposerManager();
     }
 
     /**
@@ -66,6 +72,7 @@ class SphringBoot
     {
         $this->bootBeanProperty();
         $this->bootAnnotations();
+        $this->bootFromComposer();
     }
 
     /**
@@ -79,6 +86,7 @@ class SphringBoot
         $beanProperty->register('stream', BeanPropertyStream::class);
         $beanProperty->register('value', BeanPropertyValue::class);
         $beanProperty->register('yml', BeanPropertyYml::class);
+
     }
 
     public function bootAnnotations()
@@ -97,20 +105,11 @@ class SphringBoot
         $this->annotationMethodListener->register('required', RequiredAnnotation::class);
     }
 
-    /**
-     * @return SphringEventDispatcher
-     */
-    public function getSphringEventDispatcher()
+    public function bootFromComposer()
     {
-        return $this->sphringEventDispatcher;
-    }
-
-    /**
-     * @param SphringEventDispatcher $sphringEventDispatcher
-     */
-    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
-    {
-        $this->sphringEventDispatcher = $sphringEventDispatcher;
+        $this->composerManager->setExtender($this->sphringEventDispatcher->getSphring()->getExtender());
+        $this->composerManager->setRootProject($this->sphringEventDispatcher->getSphring()->getRootProject());
+        $this->composerManager->loadComposer();
     }
 
     /**
@@ -128,6 +127,22 @@ class SphringBoot
     {
         $this->beanPropertyListener = $beanProperty;
         $this->beanPropertyListener->setSphringEventDispatcher($this->getSphringEventDispatcher());
+    }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
     /**
@@ -160,6 +175,23 @@ class SphringBoot
     public function setAnnotationMethodListener($annotationMethodListener)
     {
         $this->annotationMethodListener = $annotationMethodListener;
+    }
+
+    /**
+     * @return ComposerManager
+     */
+    public function getComposerManager()
+    {
+        return $this->composerManager;
+    }
+
+    /**
+     * @param ComposerManager $composerManager
+     */
+    public function setComposerManager(ComposerManager $composerManager)
+    {
+        $this->composerManager = $composerManager;
+
     }
 
 

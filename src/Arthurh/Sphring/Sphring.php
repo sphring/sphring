@@ -36,7 +36,6 @@ use Psr\Log\LoggerInterface;
  */
 class Sphring
 {
-    private $filename;
     /**
      *
      */
@@ -45,6 +44,7 @@ class Sphring
      *
      */
     const DEFAULT_CONTEXT_FILE = 'main.yml';
+    private $filename;
     /**
      * @var null
      */
@@ -69,6 +69,10 @@ class Sphring
      * @var Extender
      */
     private $extender;
+    /**
+     * @var string
+     */
+    private $rootProject;
 
     /**
      *
@@ -84,13 +88,12 @@ class Sphring
 
     }
 
-
     /**
      * @param $filename
      */
     public function loadContext()
     {
-
+        $this->beforeLoad();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_BEFORE_LOAD, new EventSphring($this));
         $filename = $this->filename;
         $this->getLogger()->info("Starting loading context...");
@@ -108,6 +111,7 @@ class Sphring
         if (empty($yamlarh)) {
             throw new SphringException("Cannot load context, file '%s' doesn't exist", $filename);
         }
+
         $this->contextRoot = dirname(realpath($filename));
         $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($filename)));
         $this->context = $yamlarh->parse();
@@ -117,6 +121,11 @@ class Sphring
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD, new EventSphring($this));
         $this->loadBeans();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
+    }
+
+    public function beforeLoad()
+    {
+        $this->sphringEventDispatcher->load();
     }
 
     /**
@@ -132,7 +141,18 @@ class Sphring
      */
     public function getRootProject()
     {
-        return dirname($_SERVER['SCRIPT_FILENAME']);
+        if (empty($this->rootProject)) {
+            $this->rootProject = dirname($_SERVER['SCRIPT_FILENAME']);
+        }
+        return $this->rootProject;
+    }
+
+    /**
+     * @param string $rootProject
+     */
+    public function setRootProject($rootProject)
+    {
+        $this->rootProject = $rootProject;
     }
 
     /**

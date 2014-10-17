@@ -34,11 +34,12 @@ class BeanPropertyYml extends AbstractBeanProperty
         if (is_file($file)) {
             return $this->loadYml($file);
         }
+        echo $this->sphring->getRootProject() . $file;
         if (is_file($this->sphring->getRootProject() . $file)) {
             return $this->loadYml($this->sphring->getRootProject() . $file);
         }
-        if (is_file($this->sphring->getContextRoot() . '/' . $file)) {
-            return $this->loadYml($this->sphring->getContextRoot() . '/' . $file);
+        if (is_file($this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . $file)) {
+            return $this->loadYml($this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . $file);
         }
         throw new BeanPropertyException("Error when injecting yml in bean, file '%s' doesn't exist.", $file);
     }

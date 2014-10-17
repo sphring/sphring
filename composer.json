@@ -2,6 +2,7 @@
     "name": "arthurh/sphring",
     "description": "Spring port in php",
     "license": "MIT",
+    "type": "sphring-plugin",
     "authors": [
         {
             "name": "Arthur Halet",

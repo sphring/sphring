@@ -1,0 +1,7 @@
+foobean:
+    class: Arthurh\Sphring\FakeBean\Foo
+usebean:
+    class: Arthurh\Sphring\FakeBean\Using
+    properties:
+        foo:
+            ref: foobean

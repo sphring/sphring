@@ -5,6 +5,7 @@ $logger = new \Monolog\Logger("SphringTest");
 $logger->pushHandler(new \Monolog\Handler\StreamHandler('php://stdout', \Monolog\Logger::DEBUG));
 $loggerSphring = \Arthurh\Sphring\Logger\LoggerSphring::getInstance();
 $loggerSphring->setLogger($logger);
-$loggerSphring->setWithFile(true);
+$loggerSphring->setWithFile(false);
+$loggerSphring->setWithClass(false);
 ini_set("variables_order", "EGPCS");
 return $loader;

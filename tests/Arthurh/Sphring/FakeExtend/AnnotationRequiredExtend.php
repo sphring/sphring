@@ -10,9 +10,16 @@
  * Date: 15/10/2014
  */
 
-namespace Arthurh\Sphring\FakeBean;
+namespace Arthurh\Sphring\FakeExtend;
 
 
-interface IFoo
+use Arthurh\Sphring\Model\Annotation\RequiredAnnotation;
+
+class AnnotationRequiredExtend extends RequiredAnnotation
 {
-}
+    public function run()
+    {
+        parent::run();
+        $this->getBean()->getObject()->testExtend = 'testAnnotationExtend';
+    }
+} 

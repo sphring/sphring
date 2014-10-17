@@ -15,11 +15,13 @@ namespace Arthurh\Sphring\Model;
 
 use Arthurh\Sphring\Enum\BeanTypeEnum;
 use Arthurh\Sphring\Enum\SphringEventEnum;
+use Arthurh\Sphring\EventDispatcher\EventAnnotation;
 use Arthurh\Sphring\EventDispatcher\EventBeanProperty;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\BeanException;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
+use zpt\anno\Annotations;
 
 
 /**
@@ -55,6 +57,10 @@ class Bean
      * @var object
      */
     private $object;
+    /**
+     * @var SphringEventDispatcher
+     */
+    private $sphringEventDispatcher;
 
     /**
      * @param $id
@@ -151,16 +157,20 @@ class Bean
     public function addProperty($key, $value)
     {
 
-        if (!is_array($value)) {
+        if (!is_array($value) || count($value) < 1) {
             throw new BeanException($this, "Error when declaring property name '%s', property not valid", $key);
         }
-        $propertyKey = key($value);
+        // key() and current() are break on hhvm do it in other way the same thing
+        foreach ($value as $propertyKey => $propertyValue) {
+            break;
+        }
         $event = new EventBeanProperty();
-        $event->setData(current($value));
+        $event->setData($propertyValue);
         $eventName = SphringEventEnum::PROPERTY_INJECTION . $propertyKey;
         $event->setName($eventName);
 
-        $event = SphringEventDispatcher::getInstance()->dispatch($eventName, $event);
+        $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
+
         $propertyClass = $event->getBeanProperty();
         if (empty($propertyClass)) {
             throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
@@ -247,6 +257,7 @@ class Bean
             $setter = "set" . ucfirst($propertyName);
             $this->object->$setter($propertyInjector->getInjection());
         }
+        $this->dispatchAnnotations();
     }
 
     /**
@@ -259,8 +270,8 @@ class Bean
 
     private function instanciate()
     {
-        $object = new \ReflectionClass($this->class);
-        $this->object = $object->newInstance();
+        $classReflector = new \ReflectionClass($this->class);
+        $this->object = $classReflector->newInstance();
     }
 
     /**
@@ -281,6 +292,33 @@ class Bean
         }
     }
 
+    private function dispatchAnnotations()
+    {
+        $classReflector = new \ReflectionClass($this->class);
+        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS);
+        foreach ($classReflector->getMethods() as $methodReflector) {
+            $this->dispatchEventForAnnotation($methodReflector, SphringEventEnum::ANNOTATION_METHOD);
+        }
+    }
+
+    private function dispatchEventForAnnotation(\Reflector $reflector, $eventNameBase)
+    {
+        $annotations = new Annotations($reflector);
+        $annotationsArray = $annotations->asArray();
+        if (empty($annotationsArray)) {
+            return;
+        }
+        foreach ($annotationsArray as $annotationName => $annotationValue) {
+            $event = new EventAnnotation();
+            $event->setData($annotationValue);
+            $event->setBean($this);
+            $event->setReflector($reflector);
+            $eventName = $eventNameBase . $annotationName;
+            $event->setName($eventName);
+            $this->sphringEventDispatcher->dispatch($eventName, $event);
+        }
+    }
+
     /**
      * @return object
      */
@@ -296,4 +334,21 @@ class Bean
     {
         $this->object = $object;
     }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher($sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
+
 } 

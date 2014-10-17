@@ -1,2 +1,4 @@
 beanProperty:
 - {eventName: 'value', class: Arthurh\Sphring\FakeExtend\BeanPropertyExtendValue}
+annotationMethod:
+- {eventName: 'required', class: Arthurh\Sphring\FakeExtend\AnnotationRequiredExtend}

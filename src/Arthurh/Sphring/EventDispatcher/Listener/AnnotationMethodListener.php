@@ -10,9 +10,15 @@
  * Date: 15/10/2014
  */
 
-namespace Arthurh\Sphring\FakeBean;
+namespace Arthurh\Sphring\EventDispatcher\Listener;
 
 
-interface IFoo
+use Arthurh\Sphring\Enum\SphringEventEnum;
+
+class AnnotationMethodListener extends AnnotationClassListener
 {
-}
+    public function getDefaultEventName()
+    {
+        return SphringEventEnum::ANNOTATION_METHOD;
+    }
+} 

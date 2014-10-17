@@ -10,9 +10,10 @@
  * Date: 15/10/2014
  */
 
-namespace Arthurh\Sphring\FakeBean;
+namespace Arthurh\Sphring\Exception;
 
 
-interface IFoo
+class SphringAnnotationException extends SphringException
 {
-}
+
+} 

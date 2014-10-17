@@ -2,7 +2,7 @@
 namespace Arthurh\Sphring\Bean;
 
 use Arthurh\Sphring\AbstractTestSphring;
-use Arthurh\Sphring\SphringBoot;
+use Arthurh\Sphring\Sphring;
 
 /**
  * Copyright (C) 2014 Orange
@@ -21,15 +21,19 @@ class BeanTest extends AbstractTestSphring
      */
     private $testBean;
 
+
     /**
      * @before
      */
     public function instanciation()
     {
-        SphringBoot::boot();
-        $this->testBean = new \Arthurh\Sphring\Model\Bean('testBean');
-
         $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../zorro.php';
+        $this->testBean = new \Arthurh\Sphring\Model\Bean('testBean');
+        $sphring = new Sphring('');
+        $sphring->beforeLoad();
+        $this->testBean->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
+
+
     }
 
     public function testInjectionValue()

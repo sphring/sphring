@@ -15,9 +15,7 @@ namespace Arthurh\Sphring\EventDispatcher\Listener;
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\EventBeanProperty;
-use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringEventListenerException;
-use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
 class BeanPropertyListener extends AbstractSphringEventListener
@@ -30,8 +28,10 @@ class BeanPropertyListener extends AbstractSphringEventListener
     {
         parent::onEvent($event);
         if (!($this->object instanceof AbstractBeanProperty)) {
-            throw new SphringEventListenerException("Class '%s' must extends '%s'", get_class($this->object), "Arthurh\\Sphring\\Model\\BeanProperty\\AbstractBeanProperty");
+            throw new SphringEventListenerException("Class '%s' must extends '%s'", get_class($this->object), AbstractBeanProperty::class);
         }
+
+        $this->object->setSphring($this->sphringEventDispatcher->getSphring());
         $this->object->setData($event->getData());
 
     }

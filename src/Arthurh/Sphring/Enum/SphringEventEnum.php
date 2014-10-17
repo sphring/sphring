@@ -20,4 +20,11 @@ class SphringEventEnum extends Enum
     const PROPERTY_INJECTION = 'property.injection.';
     const ANNOTATION_CLASS = 'annotation.class.';
     const ANNOTATION_METHOD = 'annotation.method.';
+
+    const SPHRING_BEFORE_LOAD = 'sphring.load.before';
+    const SPHRING_START_LOAD = 'sphring.load.start';
+
+    const SPHRING_FINISHED_LOAD = 'sphring.load.after';
+
+    const SPHRING_CLEAR = 'sphring.clear';
 } 

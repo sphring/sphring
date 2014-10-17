@@ -1,1 +1,1 @@
-[![Build Status](https://travis-ci.org/ArthurHlt/sphring.svg?branch=dev)](https://travis-ci.org/ArthurHlt/sphring)
+[![Build Status](https://travis-ci.org/ArthurHlt/sphring.svg?branch=dev)](https://travis-ci.org/ArthurHlt/sphring) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/ArthurHlt/sphring/badges/quality-score.png?b=dev)](https://scrutinizer-ci.com/g/ArthurHlt/sphring/?branch=dev)

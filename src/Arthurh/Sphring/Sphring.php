@@ -46,9 +46,9 @@ class Sphring
     const DEFAULT_CONTEXT_FILE = 'main.yml';
     private $filename;
     /**
-     * @var null
+     * @var string
      */
-    private $contextRoot = null;
+    private $contextRoot;
     /**
      * @var array
      */

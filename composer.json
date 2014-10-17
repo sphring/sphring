@@ -23,7 +23,8 @@
     "require-dev": {
         "phpunit/phpunit": "*",
         "filp/whoops": "*",
-        "monolog/monolog": "*"
+        "monolog/monolog": "*",
+        "satooshi/php-coveralls": "dev-master"
     },
     "autoload": {
         "psr-4": {

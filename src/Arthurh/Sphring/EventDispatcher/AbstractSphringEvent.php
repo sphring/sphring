@@ -40,7 +40,7 @@ abstract class AbstractSphringEvent extends Event
     }
 
     /**
-     * @param mixed $name
+     * @param string $name
      */
     public function setName($name)
     {
@@ -56,7 +56,7 @@ abstract class AbstractSphringEvent extends Event
     }
 
     /**
-     * @param mixed $object
+     * @param object $object
      */
     public function setObject($object)
     {

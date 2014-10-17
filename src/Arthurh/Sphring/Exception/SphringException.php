@@ -46,4 +46,4 @@ class SphringException extends \Exception
         $this->code = $code;
     }
 
-} 
+}

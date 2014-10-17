@@ -98,36 +98,27 @@ class LoggerSphring implements LoggerInterface
 
     private function getCallerInfo()
     {
-        $c = '';
-        $file = '';
-        $func = '';
-        $class = '';
-        $line = '';
+
+        $info = "";
         $trace = debug_backtrace();
 
-        if (isset($trace[3])) {
-            $func = $trace[3]['function'];
-            if ((substr($func, 0, 7) == 'include') || (substr($func, 0, 7) == 'require')) {
-                $func = '';
-            }
-        } else if (isset($trace[2])) {
+        if (!isset($trace[3]) || !isset($trace[3]['class'])) {
+            return "";
+        }
+        $func = $trace[3]['function'];
+        if ((substr($func, 0, 7) == 'include') || (substr($func, 0, 7) == 'require')) {
             $func = '';
         }
-        if (isset($trace[3]['class'])) {
-            if ($this->withClass) {
-                $class = $trace[3]['class'];
-                $func = $trace[3]['function'];
-                $line = $trace[2]['line'];
-            }
-            if ($this->withFile) {
-                $file = $trace[2]['file'];
-            }
-
+        $line = $trace[2]['line'];
+        if ($this->withFile) {
+            $info .= $trace[2]['file'] . "(" . $line . "): ";
         }
-        $c = ($file != '') ? $file . "(" . $line . "): " : "";
-        $c .= ($class != '') ? $class . "->" : "";
-        $c .= ($func != '') ? $func . "(" . $line . ")" : "";
-        return ($c);
+        if ($this->withClass) {
+            $func = $trace[3]['function'];
+            $info .= $trace[3]['class'] . "->";
+        }
+        $info .= $func . "(" . $line . ")";
+        return $info;
     }
 
     /**

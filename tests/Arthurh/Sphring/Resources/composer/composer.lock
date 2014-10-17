@@ -1,0 +1,73 @@
+{
+    "_readme": [
+        "This file locks the dependencies of your project to a known state",
+        "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
+        "This file is @generated automatically"
+    ],
+    "hash": "23f8f422bff03906d2ea2be829fa6cd5",
+    "packages": [
+        {
+            "name": "sphring/test-sphring-plugin",
+
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/arhframe/util.git",
+                "reference": "d11df6271354bf739c3e66d5956e64acf9b78a8d"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/arhframe/util/zipball/d11df6271354bf739c3e66d5956e64acf9b78a8d",
+                "reference": "d11df6271354bf739c3e66d5956e64acf9b78a8d",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Arhframe\\Util": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Arthur Halet",
+                    "email": "arthurh.halet@gmail.com",
+                    "homepage": "http://arthurh.fr"
+                }
+            ],
+            "description": "Util class for arhframe",
+            "homepage": "https://github.com/arhframe/util",
+            "keywords": [
+                "Arhframe",
+                "framework",
+                "util"
+            ],
+            "extra": {
+                "sphring": {
+                    "extend": {
+                        "beanProperty": [
+                            {"eventName": "val", "class": "Arthurh\\Sphring\\FakeExtend\\BeanPropertyExtendValue"}
+                        ]
+                    },
+                    "isPlugin": true
+                }
+            },
+            "time": "2014-09-06 18:12:41"
+        }
+    ],
+    "aliases": [],
+    "minimum-stability": "stable",
+    "stability-flags": {
+        "composer/composer": 15
+    },
+    "platform": {
+        "php": ">=5.5.0"
+    },
+    "platform-dev": []
+}

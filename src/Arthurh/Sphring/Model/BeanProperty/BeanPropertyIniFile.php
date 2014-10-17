@@ -14,7 +14,6 @@
 namespace Arthurh\Sphring\Model\BeanProperty;
 
 use Arthurh\Sphring\Exception\BeanPropertyException;
-use Arthurh\Sphring\Sphring;
 
 
 /**
@@ -34,19 +33,21 @@ class BeanPropertyIniFile extends AbstractBeanProperty
         $data = $this->getData();
         $env = null;
         if (is_array($data)) {
-            $env = key($data);
-            $file = current($data);
+            // key() and current() are break on hhvm
+            foreach ($data as $env => $file) {
+                break;
+            }
         } else {
             $file = $data;
         }
         if (is_file($file)) {
             return $this->loadIni($file, $env);
         }
-        if (is_file(Sphring::getInstance()->getRootProject() . $file)) {
-            return $this->loadIni(Sphring::getInstance()->getRootProject() . $file, $env);
+        if (is_file($this->sphring->getRootProject() . $file)) {
+            return $this->loadIni($this->sphring->getRootProject() . $file, $env);
         }
-        if (is_file(Sphring::$CONTEXTROOT . '/' . $file)) {
-            return $this->loadIni(Sphring::$CONTEXTROOT . '/' . $file, $env);
+        if (is_file($this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . $file)) {
+            return $this->loadIni($this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . $file, $env);
         }
         throw new BeanPropertyException("Error when injecting ini in bean, file '%s' doesn't exist.", $file);
     }

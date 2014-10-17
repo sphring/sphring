@@ -17,4 +17,4 @@ namespace Arthurh\Sphring\Exception;
 class ExtenderException extends SphringException
 {
 
-} 
+}

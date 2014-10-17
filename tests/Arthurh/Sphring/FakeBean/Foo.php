@@ -12,7 +12,10 @@
 
 namespace Arthurh\Sphring\FakeBean;
 
-
+/**
+ * Class Foo
+ * @package Arthurh\Sphring\FakeBean
+ */
 class Foo implements IFoo
 {
     private $kiki;

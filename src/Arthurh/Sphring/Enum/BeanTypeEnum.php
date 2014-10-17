@@ -20,6 +20,9 @@ class BeanTypeEnum extends Enum
     const ABSTRACT_TYPE = 'abstract';
     const NORMAL_TYPE = 'normal';
 
+    /**
+     * @param string $value
+     */
     public static function  fromValue($value)
     {
         $constants = self::toArray();
@@ -30,4 +33,4 @@ class BeanTypeEnum extends Enum
         }
         return null;
     }
-} 
+}

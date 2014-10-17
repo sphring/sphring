@@ -17,4 +17,4 @@ namespace Arthurh\Sphring\Exception;
 class BeanPropertyException extends SphringException
 {
 
-} 
+}

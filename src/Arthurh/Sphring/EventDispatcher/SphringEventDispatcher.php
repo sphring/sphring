@@ -14,6 +14,8 @@ namespace Arthurh\Sphring\EventDispatcher;
 
 
 use Arthurh\Sphring\Logger\LoggerSphring;
+use Arthurh\Sphring\Sphring;
+use Arthurh\Sphring\SphringBoot;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
@@ -23,27 +25,31 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
  */
 class SphringEventDispatcher extends EventDispatcher
 {
-    /**
-     * @var SphringEventDispatcher
-     */
-    private static $_instance = null;
 
     /**
-     * @return SphringEventDispatcher
+     * @var Sphring
      */
-    public static function getInstance()
+    private $sphring;
+    /**
+     * @var SphringBoot
+     */
+    private $sphringBoot;
+
+    function __construct(Sphring $sphring)
     {
-        if (is_null(self::$_instance)) {
-            self::$_instance = new SphringEventDispatcher();
-        }
-
-        return self::$_instance;
+        $this->sphring = $sphring;
+        $this->sphringBoot = new SphringBoot($this);
     }
 
     public function dispatch($eventName, Event $event = null)
     {
         LoggerSphring::getInstance()->debug(sprintf("Trigger event '%s'", $eventName));
         return parent::dispatch($eventName, $event);
+    }
+
+    public function load()
+    {
+        $this->sphringBoot->boot();
     }
 
     public function addListener($eventName, $listener, $priority = 0)
@@ -66,4 +72,37 @@ class SphringEventDispatcher extends EventDispatcher
         LoggerSphring::getInstance()->debug(sprintf("Remove listener '%s on event '%s'", $listenerName, $eventName));
         parent::removeListener($eventName, $listener);
     }
-} 
+
+    /**
+     * @return Sphring
+     */
+    public function getSphring()
+    {
+        return $this->sphring;
+    }
+
+    /**
+     * @param Sphring $sphring
+     */
+    public function setSphring(Sphring $sphring)
+    {
+        $this->sphring = $sphring;
+    }
+
+    /**
+     * @return SphringBoot
+     */
+    public function getSphringBoot()
+    {
+        return $this->sphringBoot;
+    }
+
+    /**
+     * @param SphringBoot $sphringBoot
+     */
+    public function setSphringBoot(SphringBoot $sphringBoot)
+    {
+        $this->sphringBoot = $sphringBoot;
+
+    }
+}

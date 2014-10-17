@@ -32,12 +32,12 @@ class BeanPropertyStream extends AbstractBeanProperty
         if (empty($context)) {
             return file_get_contents($resource);
         }
-        return file_get_contents($resource, 0, $context);
+        return file_get_contents($resource, false, $context);
     }
 
     /**
      * @param null $context
-     * @return null|resource
+     * @return resource
      */
     public static function getContext($context = null)
     {

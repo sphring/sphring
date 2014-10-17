@@ -1,0 +1,10 @@
+language: php
+php:
+  - 5.5
+  - 5.6
+  - hhvm
+install:
+  - composer install
+script: phpunit --verbose --coverage-text --coverage-clover /tmp/clover.xml --bootstrap tests/bootstraptravis.php tests
+after_script:
+  - php vendor/bin/coveralls -v

@@ -14,9 +14,7 @@
 namespace Arthurh\Sphring\Exception;
 
 
-use Arthurh\Sphring\EventDispatcher\Listener\AbstractSphringEventListener;
-
 class SphringEventListenerException extends SphringException
 {
 
-} 
+}

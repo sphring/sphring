@@ -1,5 +1,6 @@
 <?php
 namespace Arthurh\Sphring;
+
 /**
  * Copyright (C) 2014 Arthur Halet
  *

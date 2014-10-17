@@ -14,61 +14,48 @@
 namespace Arthurh\Sphring\EventDispatcher\Listener;
 
 
-use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\AbstractSphringEvent;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringEventListenerException;
-use Symfony\Component\EventDispatcher\Event;
+use Arthurh\Sphring\Logger\LoggerSphring;
 
 abstract class AbstractSphringEventListener
 {
-    /**
-     * @var AbstractSphringEventListener
-     */
-    protected static $_instance;
     /**
      * Mapping betwwen even name and class name
      * @var array(string => string)
      */
     protected $registers;
     protected $object;
+    /**
+     * @var SphringEventDispatcher
+     */
+    protected $sphringEventDispatcher;
 
     /**
      * Constructor
      *
      * @return void
      */
-    protected function __construct()
+    public function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
-    public static function register($eventName, $className, $priority = 0)
-    {
-        self::getInstance()->addRegister($eventName, $className, $priority);
-    }
 
-    private function addRegister($eventName, $className, $priority = 0)
+    /**
+     * @param string $eventName
+     */
+    public function register($eventName, $className, $priority = 0)
     {
         $eventName = $this->getDefaultEventName() . $eventName;
+        LoggerSphring::getInstance()->debug(sprintf("Registering event '%s' for class '%s'", $eventName, $className));
         $this->registers[$eventName] = $className;
-        SphringEventDispatcher::getInstance()->addListener($eventName, array($this, 'onEvent'), $priority);
+        $this->sphringEventDispatcher->addListener($eventName, array($this, 'onEvent'), $priority);
     }
 
     abstract public function getDefaultEventName();
 
-    /**
-     * Get instance
-     *
-     * @return AbstractSphringEventListener
-     */
-    public final static function getInstance()
-    {
-        if (null === static::$_instance) {
-            static::$_instance = new static();
-        }
-
-        return static::$_instance;
-    }
 
     /**
      * @return array
@@ -97,10 +84,27 @@ abstract class AbstractSphringEventListener
             $class = new \ReflectionClass($className);
             $this->object = $class->newInstance();
             $event->setObject($this->object);
+            $event->setSphringEventDispatcher($this->getSphringEventDispatcher());
         } catch (\Exception $e) {
             throw new SphringEventListenerException("Error when trigger event '%s' during class '%s' creation", $event->getName(), $className, $e);
         }
 
+    }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
     /**
@@ -119,4 +123,4 @@ abstract class AbstractSphringEventListener
         $this->object = $object;
     }
 
-} 
+}

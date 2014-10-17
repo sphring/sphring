@@ -14,6 +14,7 @@
 namespace Arthurh\Sphring\Model\BeanProperty;
 
 use Arthurh\Sphring\Logger\LoggerSphring;
+use Arthurh\Sphring\Sphring;
 
 
 /**
@@ -22,6 +23,10 @@ use Arthurh\Sphring\Logger\LoggerSphring;
  */
 abstract class AbstractBeanProperty
 {
+    /**
+     * @var Sphring
+     */
+    protected $sphring;
     /**
      * @var mixed
      */
@@ -71,6 +76,22 @@ abstract class AbstractBeanProperty
      * @return mixed
      */
     abstract public function inject();
+
+    /**
+     * @return Sphring
+     */
+    public function getSphring()
+    {
+        return $this->sphring;
+    }
+
+    /**
+     * @param Sphring $spring
+     */
+    public function setSphring(Sphring $spring)
+    {
+        $this->sphring = $spring;
+    }
 
 
 }

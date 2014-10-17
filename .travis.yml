@@ -7,4 +7,4 @@ install:
   - composer install
 script: phpunit --bootstrap tests/bootstraptravis.php --no-configuration tests --coverage-clover build/logs/clover.xml
 after_script:
-  - php vendor/bin/coveralls
+  - php vendor/bin/coveralls -v

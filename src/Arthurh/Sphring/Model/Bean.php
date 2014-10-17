@@ -188,7 +188,7 @@ class Bean
     }
 
     /**
-     * @param $key
+     * @param string $key
      * @return null|AbstractBeanProperty
      */
     public function getProperty($key)

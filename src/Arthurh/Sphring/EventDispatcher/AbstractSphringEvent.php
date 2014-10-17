@@ -32,7 +32,7 @@ abstract class AbstractSphringEvent extends Event
     protected $object;
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {

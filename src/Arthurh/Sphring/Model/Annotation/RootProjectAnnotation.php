@@ -43,6 +43,11 @@ class RootProjectAnnotation extends AbstractAnnotation
         $sphring->setRootProject($finalRootProject);
     }
 
+    /**
+     * @param string $rootProject
+     *
+     * @return string
+     */
     private function getRootProject($rootProject)
     {
         if (is_dir($rootProject)) {

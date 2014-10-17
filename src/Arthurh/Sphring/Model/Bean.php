@@ -137,7 +137,7 @@ class Bean
     }
 
     /**
-     * @param $dataKey
+     * @param string $dataKey
      * @param array $args
      * @throws \Arthurh\Sphring\Exception\BeanException
      */
@@ -179,8 +179,8 @@ class Bean
     }
 
     /**
-     * @param $dataKey
-     * @return null
+     * @param string $dataKey
+     * @return null|AbstractBeanProperty
      */
     private function callGet($dataKey)
     {
@@ -189,7 +189,7 @@ class Bean
 
     /**
      * @param $key
-     * @return null
+     * @return null|AbstractBeanProperty
      */
     public function getProperty($key)
     {
@@ -328,7 +328,7 @@ class Bean
     }
 
     /**
-     * @param object $object
+     * @param \Arthurh\Sphring\Runner\SphringRunner $object
      */
     public function setObject($object)
     {

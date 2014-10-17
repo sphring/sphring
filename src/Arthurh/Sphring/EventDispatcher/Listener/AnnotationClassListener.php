@@ -20,6 +20,9 @@ use Arthurh\Sphring\Model\Annotation\AbstractAnnotation;
 
 class AnnotationClassListener extends AbstractSphringEventListener
 {
+    /**
+     * @param string $eventName
+     */
     public function register($eventName, $className, $priority = 0)
     {
         $eventName = strtolower($eventName);

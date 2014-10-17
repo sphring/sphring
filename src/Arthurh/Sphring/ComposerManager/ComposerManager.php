@@ -98,7 +98,6 @@ class ComposerManager
     }
 
     /**
-     * @param array $package
      */
     private function loadSphringPlugin(array $packageSphring)
     {

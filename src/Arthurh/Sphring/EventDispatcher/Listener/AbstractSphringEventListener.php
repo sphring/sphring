@@ -43,6 +43,9 @@ abstract class AbstractSphringEventListener
     }
 
 
+    /**
+     * @param string $eventName
+     */
     public function register($eventName, $className, $priority = 0)
     {
         $eventName = $this->getDefaultEventName() . $eventName;

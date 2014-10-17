@@ -37,7 +37,7 @@ class BeanPropertyStream extends AbstractBeanProperty
 
     /**
      * @param null $context
-     * @return null|resource
+     * @return resource
      */
     public static function getContext($context = null)
     {

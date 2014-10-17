@@ -51,6 +51,9 @@ class Extender
         }
     }
 
+    /**
+     * @param string $file
+     */
     public function addExtendFromFile($file)
     {
         if (!is_file($file)) {

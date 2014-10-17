@@ -280,7 +280,7 @@ class Sphring
     }
 
     /**
-     * @return null
+     * @return string
      */
     public function getContextRoot()
     {

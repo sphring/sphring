@@ -27,4 +27,4 @@ class SphringEventEnum extends Enum
     const SPHRING_FINISHED_LOAD = 'sphring.load.after';
 
     const SPHRING_CLEAR = 'sphring.clear';
-} 
+}

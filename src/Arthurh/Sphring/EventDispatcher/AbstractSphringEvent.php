@@ -80,4 +80,4 @@ abstract class AbstractSphringEvent extends Event
     }
 
 
-} 
+}

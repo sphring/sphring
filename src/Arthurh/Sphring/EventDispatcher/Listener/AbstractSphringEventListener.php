@@ -89,22 +89,6 @@ abstract class AbstractSphringEventListener
     }
 
     /**
-     * @return mixed
-     */
-    public function getObject()
-    {
-        return $this->object;
-    }
-
-    /**
-     * @param mixed $object
-     */
-    public function setObject($object)
-    {
-        $this->object = $object;
-    }
-
-    /**
      * @return SphringEventDispatcher
      */
     public function getSphringEventDispatcher()
@@ -120,4 +104,20 @@ abstract class AbstractSphringEventListener
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
-} 
+    /**
+     * @return mixed
+     */
+    public function getObject()
+    {
+        return $this->object;
+    }
+
+    /**
+     * @param mixed $object
+     */
+    public function setObject($object)
+    {
+        $this->object = $object;
+    }
+
+}

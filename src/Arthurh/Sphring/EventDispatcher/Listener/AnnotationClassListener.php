@@ -20,6 +20,12 @@ use Arthurh\Sphring\Model\Annotation\AbstractAnnotation;
 
 class AnnotationClassListener extends AbstractSphringEventListener
 {
+    public function register($eventName, $className, $priority = 0)
+    {
+        $eventName = strtolower($eventName);
+        parent::register($eventName, $className, $priority);
+    }
+
     public function  onEvent($event)
     {
         if (!($event instanceof EventAnnotation)) {

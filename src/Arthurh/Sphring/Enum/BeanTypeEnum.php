@@ -30,4 +30,4 @@ class BeanTypeEnum extends Enum
         }
         return null;
     }
-} 
+}

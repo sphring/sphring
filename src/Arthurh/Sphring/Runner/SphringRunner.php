@@ -17,6 +17,7 @@ use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\EventAnnotation;
 use Arthurh\Sphring\Model\Bean;
 use Arthurh\Sphring\Sphring;
+use Symfony\Component\EventDispatcher\Event;
 use zpt\anno\Annotations;
 
 abstract class SphringRunner
@@ -34,18 +35,9 @@ abstract class SphringRunner
     {
         $this->sphring = new Sphring();
         $this->dispatchAnnotations();
-    }
-
-    /**
-     * @return SphringRunner
-     */
-    public final static function getInstance()
-    {
-        if (null === static::$_instance) {
-            static::$_instance = new static();
-        }
-
-        return static::$_instance;
+        $this->sphring->getSphringEventDispatcher()->addListener(SphringEventEnum::SPHRING_BEFORE_LOAD, array($this, 'onBeforeLoad'));
+        $this->sphring->getSphringEventDispatcher()->addListener(SphringEventEnum::SPHRING_START_LOAD, array($this, 'onBeforeStart'));
+        $this->sphring->getSphringEventDispatcher()->addListener(SphringEventEnum::SPHRING_FINISHED_LOAD, array($this, 'onAfterLoad'));
     }
 
     private function dispatchAnnotations()
@@ -78,6 +70,19 @@ abstract class SphringRunner
     }
 
     /**
+     * @return SphringRunner
+     */
+    public final static function getInstance()
+    {
+        if (null === static::$_instance) {
+            static::$_instance = new static();
+            static::$_instance->getSphring()->loadContext();
+        }
+
+        return static::$_instance;
+    }
+
+    /**
      * @return Sphring
      */
     public function getSphring()
@@ -97,4 +102,34 @@ abstract class SphringRunner
     {
         return $this->sphring->getBean($beanId);
     }
-} 
+
+    public function onBeforeStart(Event $event)
+    {
+        $this->beforeStart();
+    }
+
+    public function beforeStart()
+    {
+
+    }
+
+    public function onBeforeLoad(Event $event)
+    {
+        $this->beforeLoad();
+    }
+
+    public function beforeLoad()
+    {
+
+    }
+
+    public function onAfterLoad(Event $event)
+    {
+        $this->afterLoad();
+    }
+
+    public function afterLoad()
+    {
+
+    }
+}

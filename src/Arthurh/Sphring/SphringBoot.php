@@ -20,11 +20,13 @@ use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\Annotation\LoadContextAnnotation;
 use Arthurh\Sphring\Model\Annotation\RequiredAnnotation;
+use Arthurh\Sphring\Model\Annotation\RootProjectAnnotation;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyIniFile;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyRef;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyValue;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyYml;
+use Composer\EventDispatcher\Event;
 
 /**
  * Class SphringBoot
@@ -97,12 +99,13 @@ class SphringBoot
 
     public function bootAnnotationClass()
     {
-        $this->annotationClassListener->register('loadcontext', LoadContextAnnotation::class);
+        $this->annotationClassListener->register(LoadContextAnnotation::getAnnotationName(), LoadContextAnnotation::class);
+        $this->annotationClassListener->register(RootProjectAnnotation::getAnnotationName(), RootProjectAnnotation::class);
     }
 
     public function bootAnnotationMethod()
     {
-        $this->annotationMethodListener->register('required', RequiredAnnotation::class);
+        $this->annotationMethodListener->register(RequiredAnnotation::getAnnotationName(), RequiredAnnotation::class);
     }
 
     public function bootFromComposer()
@@ -195,4 +198,4 @@ class SphringBoot
     }
 
 
-} 
+}

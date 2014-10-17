@@ -40,11 +40,6 @@ class BeanPropertyRef extends AbstractBeanProperty
         return $beansArray;
     }
 
-    public function isAssoc($beans)
-    {
-        return array_keys($beans) !== range(0, count($beans) - 1);
-    }
-
     private function getBean($beanId)
     {
         try {
@@ -53,5 +48,10 @@ class BeanPropertyRef extends AbstractBeanProperty
             throw new BeanPropertyException("Error when injecting a bean inside a bean: %s", $e->getMessage(), $e);
         }
         return $bean;
+    }
+
+    public function isAssoc($beans)
+    {
+        return array_keys($beans) !== range(0, count($beans) - 1);
     }
 }

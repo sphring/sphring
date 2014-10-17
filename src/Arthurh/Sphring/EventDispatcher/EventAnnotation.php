@@ -75,4 +75,4 @@ class EventAnnotation extends AbstractSphringEvent
         $this->bean = $bean;
     }
 
-} 
+}

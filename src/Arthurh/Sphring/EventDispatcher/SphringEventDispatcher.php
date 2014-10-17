@@ -105,4 +105,4 @@ class SphringEventDispatcher extends EventDispatcher
         $this->sphringBoot = $sphringBoot;
 
     }
-} 
+}

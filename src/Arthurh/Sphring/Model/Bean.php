@@ -68,7 +68,7 @@ class Bean
      */
     function __construct($id, BeanTypeEnum $type = null)
     {
-        if ($type == null) {
+        if ($type === null) {
             $type = BeanTypeEnum::NORMAL_TYPE;
         }
         $this->id = $id;
@@ -351,4 +351,4 @@ class Bean
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
-} 
+}

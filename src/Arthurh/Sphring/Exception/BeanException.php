@@ -28,10 +28,9 @@ class BeanException extends SphringException
      */
     public function  __construct(Bean $bean, $message = "")
     {
-        $previous = null;
         $args = func_get_args();
         $args = array_splice($args, 1);
         $args[0] = sprintf("Error in bean '%s': ", $bean->getId()) . $args[0];
         call_user_func_array('parent::__construct', $args);
     }
-} 
+}

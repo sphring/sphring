@@ -39,6 +39,17 @@ abstract class AbstractAnnotation
     protected $bean;
 
     /**
+     * @return string
+     */
+    public static function getAnnotationName()
+    {
+        $className = self::class;
+        $className = explode('\\', $className);
+        $className = $className[count($className) - 1];
+        return $className;
+    }
+
+    /**
      * @return Bean
      */
     public function getBean()
@@ -86,6 +97,24 @@ abstract class AbstractAnnotation
         $this->reflector = $reflector;
     }
 
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher($sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
+
+    abstract public function run();
+
     protected function isSetter()
     {
         if (!($this->reflector instanceof \ReflectionMethod)) {
@@ -111,33 +140,4 @@ abstract class AbstractAnnotation
 
         return $this->bean->getObject() instanceof SphringRunner;
     }
-
-    /**
-     * @return SphringEventDispatcher
-     */
-    public function getSphringEventDispatcher()
-    {
-        return $this->sphringEventDispatcher;
-    }
-
-    /**
-     * @param SphringEventDispatcher $sphringEventDispatcher
-     */
-    public function setSphringEventDispatcher($sphringEventDispatcher)
-    {
-        $this->sphringEventDispatcher = $sphringEventDispatcher;
-    }
-
-    /**
-     * @return string
-     */
-    public static function getAnnotationName()
-    {
-        $className = self::class;
-        $className = explode('\\', $className);
-        $className = $className[count($className) - 1];
-        return $className;
-    }
-
-    abstract public function run();
-} 
+}

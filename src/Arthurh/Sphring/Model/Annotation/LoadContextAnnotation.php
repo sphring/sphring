@@ -19,6 +19,11 @@ use Arthurh\Sphring\Runner\SphringRunner;
 class LoadContextAnnotation extends AbstractAnnotation
 {
 
+    public static function getAnnotationName()
+    {
+        return "LoadContext";
+    }
+
     public function run()
     {
         if (!$this->isInSphringRunner()) {
@@ -30,11 +35,5 @@ class LoadContextAnnotation extends AbstractAnnotation
         if (!is_numeric($contextFile)) {
             $sphring->setFilename($contextFile);
         }
-        $sphring->loadContext();
-    }
-
-    public static function getAnnotationName()
-    {
-        return "LoadContext";
     }
 }

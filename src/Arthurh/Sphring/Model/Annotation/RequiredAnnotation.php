@@ -18,6 +18,11 @@ use Arthurh\Sphring\Exception\SphringAnnotationException;
 class RequiredAnnotation extends AbstractAnnotation
 {
 
+    public static function getAnnotationName()
+    {
+        return "Required";
+    }
+
     public function run()
     {
         if (!$this->isSetter()) {
@@ -30,10 +35,5 @@ class RequiredAnnotation extends AbstractAnnotation
         if (empty($field)) {
             throw new SphringAnnotationException("Error for bean '%s' field '%s' is required.", $this->bean->getId(), lcfirst($fieldName));
         }
-    }
-
-    public static function getAnnotationName()
-    {
-        return "Required";
     }
 }

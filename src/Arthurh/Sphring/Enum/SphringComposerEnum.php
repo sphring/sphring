@@ -23,4 +23,4 @@ class SphringComposerEnum extends Enum
     const EXTRA_COMPOSER_KEY = "extra";
     const EXTRA_SPHRING_COMPOSER_KEY = "sphring";
     const EXTRA_SPHRING_EXTEND_COMPOSER_KEY = "extend";
-} 
+}

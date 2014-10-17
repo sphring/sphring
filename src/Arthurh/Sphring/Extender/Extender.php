@@ -24,11 +24,11 @@ use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeBeanProperty;
 
 class Extender
 {
+    const DEFAULT_EXTENDNODE_NAME = 'Arthurh\\Sphring\\Extender\\ExtendNode\\ExtendNode';
     /**
      * @var string
      */
     private $defaultFilename = 'sphring-extend.yml';
-    const DEFAULT_EXTENDNODE_NAME = 'Arthurh\\Sphring\\Extender\\ExtendNode\\ExtendNode';
     /**
      * @var SphringEventDispatcher
      */
@@ -62,19 +62,11 @@ class Extender
         }
         $parsedYml = $yamlarh->parse();
         foreach ($parsedYml as $extendNodeName => $extendNodeNameInfo) {
-            $this->AddExtendFromArray($extendNodeName, $extendNodeNameInfo);
+            $this->addExtendFromArray($extendNodeName, $extendNodeNameInfo);
         }
     }
 
-    private function makeNode($info)
-    {
-        if (empty($info['eventName']) || empty($info['class'])) {
-            throw new ExtenderException("Can't extend, malformed node.");
-        }
-        return new Node($info['eventName'], $info['class'], $info['priority']);
-    }
-
-    public function AddExtendFromArray($extendNodeName, $extendNodeNameInfo)
+    public function addExtendFromArray($extendNodeName, $extendNodeNameInfo)
     {
         $className = self::DEFAULT_EXTENDNODE_NAME . ucfirst($extendNodeName);
 
@@ -84,27 +76,6 @@ class Extender
             $extendNode->addNode($this->makeNode($info));
         }
 
-    }
-
-    public function addNode($classNameExtendNode, Node $node)
-    {
-        $extendNode = $this->getExtendNodeFromClassName($classNameExtendNode);
-        $extendNode->addNode($node);
-    }
-
-    public function addBeanProperty($propertyClassname, $eventName, $priority = 0)
-    {
-        $this->addNode(ExtendNodeBeanProperty::class, new Node($eventName, $propertyClassname, $priority));
-    }
-
-    public function addAnnotationClass($annotationClassname, $eventName = "", $priority = 0)
-    {
-        $this->addNode(ExtendNodeAnnotationClass::class, new Node($eventName, $annotationClassname, $priority));
-    }
-
-    public function addAnnotationMethod($annotationClassname, $eventName = "", $priority = 0)
-    {
-        $this->addNode(ExtendNodeAnnotationMethod::class, new Node($eventName, $annotationClassname, $priority));
     }
 
     function getExtendNodeFromClassName($className)
@@ -125,6 +96,35 @@ class Extender
         $extendNode->setSphringEventDispatcher($this->sphringEventDispatcher);
         $this->extendNodes[$className] = $extendNode;
         return $extendNode;
+    }
+
+    private function makeNode($info)
+    {
+        if (empty($info['eventName']) || empty($info['class'])) {
+            throw new ExtenderException("Can't extend, malformed node.");
+        }
+        return new Node($info['eventName'], $info['class'], $info['priority']);
+    }
+
+    public function addBeanProperty($propertyClassname, $eventName, $priority = 0)
+    {
+        $this->addNode(ExtendNodeBeanProperty::class, new Node($eventName, $propertyClassname, $priority));
+    }
+
+    public function addNode($classNameExtendNode, Node $node)
+    {
+        $extendNode = $this->getExtendNodeFromClassName($classNameExtendNode);
+        $extendNode->addNode($node);
+    }
+
+    public function addAnnotationClass($annotationClassname, $eventName = "", $priority = 0)
+    {
+        $this->addNode(ExtendNodeAnnotationClass::class, new Node($eventName, $annotationClassname, $priority));
+    }
+
+    public function addAnnotationMethod($annotationClassname, $eventName = "", $priority = 0)
+    {
+        $this->addNode(ExtendNodeAnnotationMethod::class, new Node($eventName, $annotationClassname, $priority));
     }
 
     /**
@@ -150,5 +150,4 @@ class Extender
     {
         $this->defaultFilename = $defaultFilename;
     }
-
-} 
+}

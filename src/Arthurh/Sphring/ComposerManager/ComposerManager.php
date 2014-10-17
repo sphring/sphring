@@ -44,7 +44,7 @@ class ComposerManager
     public function loadComposer()
     {
         $composerFile = $this->getComposerFile();
-        if ($composerFile == null) {
+        if ($composerFile === null) {
             return;
         }
         LoggerSphring::getInstance()->debug(sprintf("Loading composer file '%s'.", $composerFile));
@@ -123,7 +123,7 @@ class ComposerManager
     private function extendFromComposer(array $extendNodesArray)
     {
         foreach ($extendNodesArray as $extendNodeName => $extendNodeNameInfo) {
-            $this->extender->AddExtendFromArray($extendNodeName, $extendNodeNameInfo);
+            $this->extender->addExtendFromArray($extendNodeName, $extendNodeNameInfo);
         }
 
     }
@@ -153,4 +153,4 @@ class ComposerManager
     }
 
 
-} 
+}

@@ -79,7 +79,7 @@ abstract class AbstractExtendNode
                 break;
             }
         }
-        if ($keyToDelete != null) {
+        if ($keyToDelete !== null) {
             unset($this->nodes[$keyToDelete]);
         }
     }
@@ -102,4 +102,4 @@ abstract class AbstractExtendNode
 
 
     abstract public function extend();
-} 
+}

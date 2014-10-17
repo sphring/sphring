@@ -46,4 +46,4 @@ class EventSphring extends Event
         $this->sphring = $sphring;
     }
 
-} 
+}

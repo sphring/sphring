@@ -21,4 +21,4 @@ class AnnotationMethodListener extends AnnotationClassListener
     {
         return SphringEventEnum::ANNOTATION_METHOD;
     }
-} 
+}

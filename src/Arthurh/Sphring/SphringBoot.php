@@ -26,7 +26,6 @@ use Arthurh\Sphring\Model\BeanProperty\BeanPropertyRef;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyValue;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyYml;
-use Composer\EventDispatcher\Event;
 
 /**
  * Class SphringBoot

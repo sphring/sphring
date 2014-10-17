@@ -105,7 +105,7 @@ abstract class SphringRunner
 
     public function onBeforeStart(Event $event)
     {
-        $this->beforeStart();
+        $this->beforeStart($event);
     }
 
     public function beforeStart()
@@ -115,7 +115,7 @@ abstract class SphringRunner
 
     public function onBeforeLoad(Event $event)
     {
-        $this->beforeLoad();
+        $this->beforeLoad($event);
     }
 
     public function beforeLoad()
@@ -125,7 +125,7 @@ abstract class SphringRunner
 
     public function onAfterLoad(Event $event)
     {
-        $this->afterLoad();
+        $this->afterLoad($event);
     }
 
     public function afterLoad()

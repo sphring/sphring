@@ -5,6 +5,7 @@ php:
   - hhvm
 install:
   - composer install
-script: phpunit --bootstrap tests/bootstraptravis.php --no-configuration tests --coverage-clover build/logs/clover.xml
+script: phpunit --bootstrap tests/bootstraptravis.php --no-configuration tests --coverage-clover clover.xml
 after_script:
+  - cat clover.xml
   - php vendor/bin/coveralls -v

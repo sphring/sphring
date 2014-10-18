@@ -27,4 +27,3 @@ class BeforeStartMethodOnSphringEventAnnotation extends AbstractMethodOnSphringE
         return "BeforeStart";
     }
 }
- 

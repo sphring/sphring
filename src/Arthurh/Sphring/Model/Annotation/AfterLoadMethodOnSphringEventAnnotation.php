@@ -27,4 +27,3 @@ class AfterLoadMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEve
         return "AfterLoad";
     }
 }
- 

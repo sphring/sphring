@@ -62,4 +62,3 @@ abstract class AbstractMethodOnSphringEventAnnotation extends AbstractAnnotation
      */
     abstract function getEventSphring();
 }
- 

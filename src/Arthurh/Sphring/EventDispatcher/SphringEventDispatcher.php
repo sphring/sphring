@@ -118,7 +118,7 @@ class SphringEventDispatcher extends EventDispatcher
     /**
      * @return boolean
      */
-    public function getIsLoaded()
+    public function getLoaded()
     {
         return $this->isLoaded;
     }
@@ -126,7 +126,7 @@ class SphringEventDispatcher extends EventDispatcher
     /**
      * @param boolean $isLoaded
      */
-    public function setIsLoaded($isLoaded)
+    public function setLoaded($isLoaded)
     {
         $this->isLoaded = $isLoaded;
     }

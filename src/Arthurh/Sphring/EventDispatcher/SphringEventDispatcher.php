@@ -73,7 +73,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
-     * @param $eventName
+     * @param integer $eventName
      * @param Event[] $events
      * @return Event[]
      */

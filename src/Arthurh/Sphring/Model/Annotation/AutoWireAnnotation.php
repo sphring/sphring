@@ -51,7 +51,7 @@ class AutoWireAnnotation extends AbstractAnnotation
     }
 
     /**
-     * @param $parameterClass
+     * @param null|\ReflectionClass $parameterClass
      * @return Bean[]
      */
     public function getValidBeans($parameterClass)
@@ -68,7 +68,7 @@ class AutoWireAnnotation extends AbstractAnnotation
     }
 
     /**
-     * @return null|\ReflectionClass
+     * @return null|string
      * @throws \Arthurh\Sphring\Exception\SphringAnnotationException
      */
     public function getParameterClass()

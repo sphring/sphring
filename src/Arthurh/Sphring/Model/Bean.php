@@ -137,36 +137,6 @@ class Bean
         $this->id = $id;
     }
 
-    /**
-     * @param $name
-     * @param $args
-     */
-    public function __call($name, $args)
-    {
-        $method = substr($name, 0, 3);
-        $dataKey = lcfirst(substr($name, 3, strlen($name) - 3));
-
-        if ($method == 'set') {
-            $this->callSet($dataKey, $args);
-            return;
-        } elseif ($method == 'get') {
-            return $this->callGet($dataKey);
-        }
-        throw new BeanException($this, "method '%s' doesn't exist", $name);
-    }
-
-    /**
-     * @param string $dataKey
-     * @param array $args
-     * @throws \Arthurh\Sphring\Exception\BeanException
-     */
-    private function callSet($dataKey, array $args)
-    {
-        if (empty($dataKey) || empty($args[0])) {
-            throw new BeanException($this, "can't set data '%s' with value '%s' for bean '%'", $dataKey, $args[0], $this->id);
-        }
-        $this->addProperty($dataKey, $args[0]);
-    }
 
     /**
      * @param $key
@@ -213,15 +183,6 @@ class Bean
             throw new BeanException($this, "event '%s' is not a '%s' event", get_class($event), EventBeanProperty::class);
         }
         return $event->getBeanProperty();
-    }
-
-    /**
-     * @param string $dataKey
-     * @return null|AbstractBeanProperty
-     */
-    private function callGet($dataKey)
-    {
-        return $this->getProperty($dataKey);
     }
 
     /**

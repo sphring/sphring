@@ -39,91 +39,91 @@ class BeanTest extends AbstractTestSphring
     public function testInjectionValue()
     {
         $datas = array('koi' => 'quoi');
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('value' =>
                 $datas
             ));
-        $this->assertEquals(json_encode($datas), json_encode($this->testBean->getTest()->getInjection()));
+        $this->assertEquals(json_encode($datas), json_encode($this->testBean->getProperty('test')->getInjection()));
     }
 
     public function testInjectionAbsoluteYml()
     {
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('yml' =>
                 self::$RESOURCE_FOLDER . '/testyml.yml'
             ));
-        $this->assertArrayHasKey('invoice', $this->testBean->getTest()->getInjection());
+        $this->assertArrayHasKey('invoice', $this->testBean->getProperty('test')->getInjection());
     }
 
     public function testInjectionRootProjectYml()
     {
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('yml' =>
                 '/Resources/testyml.yml'
             ));
-        $this->assertArrayHasKey('invoice', $this->testBean->getTest()->getInjection());
+        $this->assertArrayHasKey('invoice', $this->testBean->getProperty('test')->getInjection());
     }
 
     public function testInjectionAbsoluteIni()
     {
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('iniFile' =>
                 self::$RESOURCE_FOLDER . '/testini.ini'
             ));
-        $this->assertEquals('db.example.com', $this->testBean->getTest()->getInjection()->production->database->params->host);
+        $this->assertEquals('db.example.com', $this->testBean->getProperty('test')->getInjection()->production->database->params->host);
     }
 
     public function testInjectionAbsoluteIniWithEnv()
     {
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('iniFile' =>
                 array('production' => self::$RESOURCE_FOLDER . '/testini.ini')
             ));
-        $this->assertEquals('db.example.com', $this->testBean->getTest()->getInjection()->database->params->host);
+        $this->assertEquals('db.example.com', $this->testBean->getProperty('test')->getInjection()->database->params->host);
     }
 
     public function testInjectionRootProjectIni()
     {
 
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('iniFile' =>
                 '/Resources/testini.ini'
             ));
-        $this->assertEquals('db.example.com', $this->testBean->getTest()->getInjection()->production->database->params->host);
+        $this->assertEquals('db.example.com', $this->testBean->getProperty('test')->getInjection()->production->database->params->host);
     }
 
     public function testInjectionStream()
     {
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('stream' =>
                 array('resource' => 'http://php.net/')
             ));
-        $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $this->testBean->getTest()->getInjection());
+        $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $this->testBean->getProperty('test')->getInjection());
     }
 
 
     public function testInjectionStreamWithFakeProxy()
     {
         $_SERVER['HTTP_PROXY'] = "http://fakeproxy";
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('stream' =>
                 array('resource' => 'http://php.net/')
             ));
 
-        $this->assertEmpty(@file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()));
+        @file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext());
         unset($_SERVER['HTTP_PROXY']);
     }
 
     public function testInjectionStreamWithContext()
     {
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('stream' =>
                 array(
                     'resource' => 'http://php.net/',
                     'context' => array('http' => array('method' => 'GET'))
                 )
             ));
-        $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $this->testBean->getTest()->getInjection());
+        $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $this->testBean->getProperty('test')->getInjection());
     }
 
     /**
@@ -131,7 +131,7 @@ class BeanTest extends AbstractTestSphring
      */
     public function testNotValidPropertyException()
     {
-        $this->testBean->setTest(
+        $this->testBean->addProperty('test',
             array('notvalid' => 'zorro')
         );
     }
@@ -141,7 +141,7 @@ class BeanTest extends AbstractTestSphring
      */
     public function testNotValidMethodException()
     {
-        $this->testBean->notValid(
+        $this->testBean->addProperty('notValid',
             array('notvalid' => 'zorro')
         );
     }

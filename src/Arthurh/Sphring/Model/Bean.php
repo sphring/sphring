@@ -153,21 +153,19 @@ class Bean
      * @param $value
      * @throws \Arthurh\Sphring\Exception\BeanException
      */
-    public function addProperty($key, $value)
+    public function addProperty($key, array $value)
     {
-
-        if (!is_array($value) || count($value) < 1) {
-            throw new BeanException($this, "Error when declaring property name '%s', property not valid", $key);
-        }
         $propertyKey = null;
         $propertyValue = null;
         // key() and current() are break on hhvm do it in other way the same thing
         foreach ($value as $propertyKey => $propertyValue) {
             break;
         }
-
-
-        $propertyClass = $this->getPropertyFromEvent($propertyKey, $propertyValue);
+        try {
+            $propertyClass = $this->getPropertyFromEvent($propertyKey, $propertyValue);
+        } catch (BeanException $e) {
+            throw new BeanException($this, "Error when declaring property name '%s': '%s'.", $key, $e->getMessage());
+        }
         if (empty($propertyClass)) {
             throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
         }
@@ -183,7 +181,7 @@ class Bean
     private function getPropertyFromEvent($propertyKey, $propertyValue)
     {
         if (empty($propertyKey) || empty($propertyValue)) {
-            return null;
+            throw new BeanException($this, "property not valid");
         }
         $event = new EventBeanProperty();
         $event->setData($propertyValue);
@@ -192,7 +190,7 @@ class Bean
 
         $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
         if (!($event instanceof EventBeanProperty)) {
-            throw new BeanException($this, "Error when declaring property name, event '%s' is not a '%s' event", get_class($event), EventBeanProperty::class);
+            throw new BeanException($this, "event '%s' is not a '%s' event", get_class($event), EventBeanProperty::class);
         }
         return $event->getBeanProperty();
     }

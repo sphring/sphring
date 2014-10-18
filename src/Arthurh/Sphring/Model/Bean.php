@@ -62,6 +62,15 @@ class Bean
     private $sphringEventDispatcher;
 
     /**
+     * @var array
+     */
+    private $interfaces = [];
+    /**
+     * @var string
+     */
+    private $parent;
+
+    /**
      * @param $id
      * @param \Arthurh\Sphring\Enum\BeanTypeEnum $type
      */
@@ -99,6 +108,17 @@ class Bean
     public function setClass($class)
     {
         $this->class = $class;
+        try {
+            $reflector = new \ReflectionClass($class);
+        } catch (\ReflectionException $e) {
+            return;
+        }
+
+        $this->interfaces = $reflector->getInterfaceNames();
+        if (!empty($reflector->getParentClass())) {
+            $this->parent = $reflector->getParentClass()->getName();
+        }
+
     }
 
     /**
@@ -150,7 +170,7 @@ class Bean
 
     /**
      * @param $key
-     * @param $value
+     * @param array $value
      * @throws \Arthurh\Sphring\Exception\BeanException
      */
     public function addProperty($key, array $value)
@@ -300,7 +320,7 @@ class Bean
     }
 
     /**
-     * @param AbstractBeanProperty[] $properties
+     * @param array $properties
      */
     public function setProperties(array $properties)
     {
@@ -348,4 +368,38 @@ class Bean
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
+    /**
+     * @return array
+     */
+    public function getInterfaces()
+    {
+        return $this->interfaces;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParent()
+    {
+        return $this->parent;
+    }
+
+    /**
+     * @param $className
+     * @return bool
+     */
+    public function containClassName($className)
+    {
+        return $this->hasInterface($className) || $this->hasParent($className) || $this->class == $className;
+    }
+
+    public function hasInterface($interfaceName)
+    {
+        return in_array($interfaceName, $this->interfaces);
+    }
+
+    public function hasParent($className)
+    {
+        return $this->getParent() == $className;
+    }
 }

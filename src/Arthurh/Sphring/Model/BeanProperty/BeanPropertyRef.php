@@ -26,7 +26,7 @@ class BeanPropertyRef extends AbstractBeanProperty
         if (!is_array($beans)) {
             return $this->getBean($beans);
         }
-        if ($this->isAssoc($beans)) {
+        if (!$this->isAssoc($beans)) {
             $beansArray = array();
             foreach ($beans as $beanId) {
                 $beansArray[] = $this->getBean($beanId);

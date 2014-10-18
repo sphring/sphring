@@ -13,6 +13,7 @@
 namespace Arthurh\Sphring;
 
 
+use Arthurh\Sphring\FakeBean\Foo;
 use Arthurh\Sphring\FakeBean\IFoo;
 use Arthurh\Sphring\FakeBean\IUsing;
 use Arthurh\Sphring\FakeRunner\FakeSphringRunner;
@@ -44,6 +45,12 @@ class SphringRunnerTest extends AbstractTestSphring
     {
         $sphringRunner = FakeSphringRunner::getInstance();
         $this->assertTrue($sphringRunner->getIsAfterLoad());
+    }
+
+    public function testAutowire()
+    {
+        $sphringRunner = FakeSphringRunner::getInstance();
+        $this->assertInstanceOf(Foo::class, $sphringRunner->getFoo());
     }
 }
  

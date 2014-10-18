@@ -23,10 +23,10 @@ class AnnotationClassListener extends AbstractSphringEventListener
     /**
      * @param string $eventName
      */
-    public function register($eventName, $className, $priority = 0)
+    public function register($eventName, $className, $priority = 0, $queued = false)
     {
         $eventName = strtolower($eventName);
-        parent::register($eventName, $className, $priority);
+        parent::register($eventName, $className, $priority, $queued);
     }
 
     public function  onEvent($event)

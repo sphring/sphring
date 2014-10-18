@@ -19,6 +19,7 @@ use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\Annotation\AfterLoadMethodOnSphringEventAnnotation;
+use Arthurh\Sphring\Model\Annotation\AutoWireAnnotation;
 use Arthurh\Sphring\Model\Annotation\BeforeLoadMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\BeforeStartMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\LoadContextAnnotation;
@@ -108,6 +109,7 @@ class SphringBoot
     public function bootAnnotationMethod()
     {
         $this->annotationMethodListener->register(RequiredAnnotation::getAnnotationName(), RequiredAnnotation::class);
+        $this->annotationMethodListener->register(AutoWireAnnotation::getAnnotationName(), AutoWireAnnotation::class, 0, true);
         $this->annotationMethodListener->register(AfterLoadMethodOnSphringEventAnnotation::getAnnotationName(), AfterLoadMethodOnSphringEventAnnotation::class);
         $this->annotationMethodListener->register(BeforeLoadMethodOnSphringEventAnnotation::getAnnotationName(), BeforeLoadMethodOnSphringEventAnnotation::class);
         $this->annotationMethodListener->register(BeforeStartMethodOnSphringEventAnnotation::getAnnotationName(), BeforeStartMethodOnSphringEventAnnotation::class);

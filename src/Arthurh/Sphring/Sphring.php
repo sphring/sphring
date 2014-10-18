@@ -100,7 +100,7 @@ class Sphring
         if (empty($yamlarh)) {
             throw new SphringException("Cannot load context, file '%s' doesn't exist", $this->filename);
         }
-
+        $this->filename = realpath($yamlarh->getFilename());
         $this->contextRoot = dirname(realpath($yamlarh->getFilename()));
         $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($yamlarh->getFilename())));
         $this->context = $yamlarh->parse();
@@ -109,6 +109,7 @@ class Sphring
         $this->extender->extend();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD, new EventSphring($this));
         $this->loadBeans();
+        $this->sphringEventDispatcher->dispatchQueue();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
     }
 
@@ -118,6 +119,7 @@ class Sphring
      */
     private function getYamlarh($filename = null)
     {
+
         if (empty($filename)) {
 
             $filename = $this->getRootProject() . '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
@@ -355,4 +357,8 @@ class Sphring
         $this->extender->addAnnotationMethod($annotationClassname, $eventName, $priority);
     }
 
+    public function getBeansObject()
+    {
+        return $this->beans;
+    }
 }

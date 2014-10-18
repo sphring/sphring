@@ -39,7 +39,7 @@ class AnnotationsDispatcher
 
     /**
      * @param Bean $bean
-     * @param $class
+     * @param string $class
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     function __construct(Bean $bean, $class, SphringEventDispatcher $sphringEventDispatcher)

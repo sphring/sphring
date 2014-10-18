@@ -35,11 +35,27 @@ class Foo implements IFoo
     }
 
     /**
+     * @param string $cucu
+     */
+    public function setCucu($cucu)
+    {
+        $this->cucu = $cucu;
+    }
+
+    /**
      * @return mixed
      */
     public function getKiki()
     {
         return $this->kiki;
+    }
+
+    /**
+     * @param mixed $kiki
+     */
+    public function setKiki($kiki)
+    {
+        $this->kiki = $kiki;
     }
 
 }

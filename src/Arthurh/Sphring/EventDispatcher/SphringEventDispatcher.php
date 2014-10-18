@@ -40,6 +40,11 @@ class SphringEventDispatcher extends EventDispatcher
      */
     private $isLoaded = false;
 
+    /**
+     * @var Event[]
+     */
+    private $queue = array();
+
     function __construct(Sphring $sphring)
     {
         $this->sphring = $sphring;
@@ -48,8 +53,37 @@ class SphringEventDispatcher extends EventDispatcher
 
     public function dispatch($eventName, Event $event = null)
     {
+        if (isset($this->queue[$eventName])) {
+            $this->queue[$eventName][] = $event;
+            return null;
+        }
         LoggerSphring::getInstance()->debug(sprintf("Trigger event '%s'", $eventName));
         return parent::dispatch($eventName, $event);
+    }
+
+    public function dispatchQueue()
+    {
+
+        $eventsFromQueue = [];
+        foreach ($this->queue as $eventName => $events) {
+            LoggerSphring::getInstance()->debug(sprintf("Trigger event '%s'", $eventName));
+            $eventsFromQueue[$eventName] = $this->dispatchQueueEvents($eventName, $events);
+        }
+        $this->queue = array();
+    }
+
+    /**
+     * @param $eventName
+     * @param Event[] $events
+     * @return Event[]
+     */
+    private function dispatchQueueEvents($eventName, $events)
+    {
+        $eventsFromQueue = [];
+        foreach ($events as $event) {
+            $eventsFromQueue[] = parent::dispatch($eventName, $event);
+        }
+        return $eventsFromQueue;
     }
 
     public function load()
@@ -61,8 +95,11 @@ class SphringEventDispatcher extends EventDispatcher
         $this->isLoaded = true;
     }
 
-    public function addListener($eventName, $listener, $priority = 0)
+    public function addListener($eventName, $listener, $priority = 0, $queued = false)
     {
+        if ($queued && empty($this->queue[$eventName])) {
+            $this->queue[$eventName] = [];
+        }
         $listenerName = "";
         if (!empty($listener[0]) && is_object($listener[0])) {
             $listenerName = get_class($listener[0]);
@@ -129,6 +166,22 @@ class SphringEventDispatcher extends EventDispatcher
     public function setLoaded($isLoaded)
     {
         $this->isLoaded = $isLoaded;
+    }
+
+    /**
+     * @return Event[]
+     */
+    public function getQueue()
+    {
+        return $this->queue;
+    }
+
+    /**
+     * @param Event[] $queue
+     */
+    public function setQueue($queue)
+    {
+        $this->queue = $queue;
     }
 
 

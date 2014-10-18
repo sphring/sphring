@@ -48,12 +48,12 @@ abstract class AbstractSphringEventListener
      * @param $className
      * @param int $priority
      */
-    public function register($eventName, $className, $priority = 0)
+    public function register($eventName, $className, $priority = 0, $queued = false)
     {
         $eventName = $this->getDefaultEventName() . $eventName;
         LoggerSphring::getInstance()->debug(sprintf("Registering event '%s' for class '%s'", $eventName, $className));
         $this->registers[$eventName] = $className;
-        $this->sphringEventDispatcher->addListener($eventName, array($this, 'onEvent'), $priority);
+        $this->sphringEventDispatcher->addListener($eventName, array($this, 'onEvent'), $priority, $queued);
     }
 
     abstract public function getDefaultEventName();

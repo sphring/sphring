@@ -101,6 +101,19 @@ class BeanTest extends AbstractTestSphring
         $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $this->testBean->getTest()->getInjection());
     }
 
+
+    public function testInjectionStreamWithFakeProxy()
+    {
+        $_SERVER['HTTP_PROXY'] = "http://fakeproxy";
+        $this->testBean->setTest(
+            array('stream' =>
+                array('resource' => 'http://php.net/')
+            ));
+
+        $this->assertEmpty(@file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()));
+        unset($_SERVER['HTTP_PROXY']);
+    }
+
     public function testInjectionStreamWithContext()
     {
         $this->testBean->setTest(

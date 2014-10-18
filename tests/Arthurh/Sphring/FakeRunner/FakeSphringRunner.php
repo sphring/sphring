@@ -12,6 +12,7 @@
 
 namespace Arthurh\Sphring\FakeRunner;
 
+use Arthurh\Sphring\FakeBean\Foo;
 use Arthurh\Sphring\Runner\SphringRunner;
 
 
@@ -34,6 +35,10 @@ class FakeSphringRunner extends SphringRunner
      * @var bool
      */
     private $isAfterLoad = false;
+    /**
+     * @var Foo
+     */
+    private $foo;
 
     /**
      * @BeforeLoad
@@ -105,6 +110,23 @@ class FakeSphringRunner extends SphringRunner
     public function setIsBeforeStart($isBeforeStart)
     {
         $this->isBeforeStart = $isBeforeStart;
+    }
+
+    /**
+     * @return Foo
+     */
+    public function getFoo()
+    {
+        return $this->foo;
+    }
+
+    /**
+     * @param Foo $foo
+     * @AutoWire
+     */
+    public function setFoo(Foo $foo)
+    {
+        $this->foo = $foo;
     }
 
 }

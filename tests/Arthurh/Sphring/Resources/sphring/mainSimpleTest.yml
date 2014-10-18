@@ -1,9 +1,12 @@
 foobean:
-    class: Arthurh\Sphring\FakeBean\Foo
+  class: Arthurh\Sphring\FakeBean\Foo
+  properties:
+    kiki:
+      ref: usebean
 usebean:
-    class: Arthurh\Sphring\FakeBean\Using
-    properties:
-        foo:
-            ref: foobean
-        juju:
-            value: testValue
+  class: Arthurh\Sphring\FakeBean\Using
+  properties:
+    foo:
+      ref: foobean
+    juju:
+      value: testValue

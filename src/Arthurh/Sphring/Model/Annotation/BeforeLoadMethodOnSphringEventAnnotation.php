@@ -27,5 +27,3 @@ class BeforeLoadMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEv
         return "BeforeLoad";
     }
 }
-
- 

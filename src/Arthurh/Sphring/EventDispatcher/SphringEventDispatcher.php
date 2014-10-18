@@ -35,6 +35,11 @@ class SphringEventDispatcher extends EventDispatcher
      */
     private $sphringBoot;
 
+    /**
+     * @var bool
+     */
+    private $isLoaded = false;
+
     function __construct(Sphring $sphring)
     {
         $this->sphring = $sphring;
@@ -49,7 +54,11 @@ class SphringEventDispatcher extends EventDispatcher
 
     public function load()
     {
+        if ($this->isLoaded) {
+            return;
+        }
         $this->sphringBoot->boot();
+        $this->isLoaded = true;
     }
 
     public function addListener($eventName, $listener, $priority = 0)
@@ -105,4 +114,22 @@ class SphringEventDispatcher extends EventDispatcher
         $this->sphringBoot = $sphringBoot;
 
     }
+
+    /**
+     * @return boolean
+     */
+    public function getIsLoaded()
+    {
+        return $this->isLoaded;
+    }
+
+    /**
+     * @param boolean $isLoaded
+     */
+    public function setIsLoaded($isLoaded)
+    {
+        $this->isLoaded = $isLoaded;
+    }
+
+
 }

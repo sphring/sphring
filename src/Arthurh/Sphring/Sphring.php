@@ -119,6 +119,7 @@ class Sphring
     private function getYamlarh($filename = null)
     {
         if (empty($filename)) {
+
             $filename = $this->getRootProject() . '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
         }
         $yamlarh = null;

@@ -17,6 +17,10 @@ use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\Bean;
 use Arthurh\Sphring\Runner\SphringRunner;
 
+/**
+ * Class AbstractAnnotation
+ * @package Arthurh\Sphring\Model\Annotation
+ */
 abstract class AbstractAnnotation
 {
     /**
@@ -113,11 +117,17 @@ abstract class AbstractAnnotation
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
+    /**
+     * @return mixed
+     */
     abstract public function run();
 
+    /**
+     * @return bool
+     */
     protected function isSetter()
     {
-        if (!($this->reflector instanceof \ReflectionMethod)) {
+        if (!$this->isMethod()) {
             return false;
         }
         $name = $this->reflector->getName();
@@ -125,9 +135,12 @@ abstract class AbstractAnnotation
         return $parse == 'set';
     }
 
+    /**
+     * @return bool
+     */
     protected function isGetter()
     {
-        if (!($this->reflector instanceof \ReflectionMethod)) {
+        if (!$this->isMethod()) {
             return false;
         }
         $name = $this->reflector->getName();
@@ -135,6 +148,25 @@ abstract class AbstractAnnotation
         return $parse == 'get';
     }
 
+    /**
+     * @return bool
+     */
+    protected function isClass()
+    {
+        return $this->reflector instanceof \ReflectionClass;
+    }
+
+    /**
+     * @return bool
+     */
+    protected function isMethod()
+    {
+        return $this->reflector instanceof \ReflectionMethod;
+    }
+
+    /**
+     * @return bool
+     */
     protected function isInSphringRunner()
     {
 

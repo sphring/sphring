@@ -13,11 +13,9 @@
 namespace Arthurh\Sphring\Runner;
 
 
-use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\AnnotationsDispatcher;
 use Arthurh\Sphring\Model\Bean;
 use Arthurh\Sphring\Sphring;
-use Symfony\Component\EventDispatcher\Event;
 
 abstract class SphringRunner
 {
@@ -33,10 +31,8 @@ abstract class SphringRunner
     protected function __construct()
     {
         $this->sphring = new Sphring();
+        $this->sphring->beforeLoad();
         $this->dispatchAnnotations();
-        $this->sphring->getSphringEventDispatcher()->addListener(SphringEventEnum::SPHRING_BEFORE_LOAD, array($this, 'onBeforeLoad'));
-        $this->sphring->getSphringEventDispatcher()->addListener(SphringEventEnum::SPHRING_START_LOAD, array($this, 'onBeforeStart'));
-        $this->sphring->getSphringEventDispatcher()->addListener(SphringEventEnum::SPHRING_FINISHED_LOAD, array($this, 'onAfterLoad'));
     }
 
     private function dispatchAnnotations()
@@ -48,7 +44,7 @@ abstract class SphringRunner
     }
 
     /**
-     * @return SphringRunner
+     * @return self
      */
     public final static function getInstance()
     {
@@ -79,35 +75,5 @@ abstract class SphringRunner
     public function getBean($beanId)
     {
         return $this->sphring->getBean($beanId);
-    }
-
-    public function onBeforeStart(Event $event)
-    {
-        $this->beforeStart($event);
-    }
-
-    public function beforeStart()
-    {
-
-    }
-
-    public function onBeforeLoad(Event $event)
-    {
-        $this->beforeLoad($event);
-    }
-
-    public function beforeLoad()
-    {
-
-    }
-
-    public function onAfterLoad(Event $event)
-    {
-        $this->afterLoad($event);
-    }
-
-    public function afterLoad()
-    {
-
     }
 }

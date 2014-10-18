@@ -45,6 +45,8 @@ abstract class AbstractSphringEventListener
 
     /**
      * @param string $eventName
+     * @param $className
+     * @param int $priority
      */
     public function register($eventName, $className, $priority = 0)
     {

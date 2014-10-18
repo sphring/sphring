@@ -95,8 +95,29 @@ class Sphring
     {
         $this->beforeLoad();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_BEFORE_LOAD, new EventSphring($this));
-        $filename = $this->filename;
         $this->getLogger()->info("Starting loading context...");
+        $yamlarh = $this->getYamlarh($this->filename);
+        if (empty($yamlarh)) {
+            throw new SphringException("Cannot load context, file '%s' doesn't exist", $this->filename);
+        }
+
+        $this->contextRoot = dirname(realpath($yamlarh->getFilename()));
+        $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($yamlarh->getFilename())));
+        $this->context = $yamlarh->parse();
+        $this->extender->addExtendFromFile($this->contextRoot . '/' . $this->extender->getDefaultFilename());
+
+        $this->extender->extend();
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD, new EventSphring($this));
+        $this->loadBeans();
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
+    }
+
+    /**
+     * @param null $filename
+     * @return Yamlarh|null
+     */
+    private function getYamlarh($filename = null)
+    {
         if (empty($filename)) {
             $filename = $this->getRootProject() . '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
         }
@@ -108,19 +129,7 @@ class Sphring
             $filename = $this->getRootProject() . $filename;
             $yamlarh = new Yamlarh($filename);
         }
-        if (empty($yamlarh)) {
-            throw new SphringException("Cannot load context, file '%s' doesn't exist", $filename);
-        }
-
-        $this->contextRoot = dirname(realpath($filename));
-        $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($filename)));
-        $this->context = $yamlarh->parse();
-        $this->extender->addExtendFromFile($this->contextRoot . '/' . $this->extender->getDefaultFilename());
-
-        $this->extender->extend();
-        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD, new EventSphring($this));
-        $this->loadBeans();
-        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
+        return $yamlarh;
     }
 
     public function beforeLoad()

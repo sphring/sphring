@@ -14,11 +14,10 @@ namespace Arthurh\Sphring\Runner;
 
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
-use Arthurh\Sphring\EventDispatcher\EventAnnotation;
+use Arthurh\Sphring\EventDispatcher\AnnotationsDispatcher;
 use Arthurh\Sphring\Model\Bean;
 use Arthurh\Sphring\Sphring;
 use Symfony\Component\EventDispatcher\Event;
-use zpt\anno\Annotations;
 
 abstract class SphringRunner
 {
@@ -42,31 +41,10 @@ abstract class SphringRunner
 
     private function dispatchAnnotations()
     {
-        $classReflector = new \ReflectionClass(get_class($this));
-        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS);
-        foreach ($classReflector->getMethods() as $methodReflector) {
-            $this->dispatchEventForAnnotation($methodReflector, SphringEventEnum::ANNOTATION_METHOD);
-        }
-    }
-
-    private function dispatchEventForAnnotation(\Reflector $reflector, $eventNameBase)
-    {
-        $annotations = new Annotations($reflector);
-        $annotationsArray = $annotations->asArray();
-        if (empty($annotationsArray)) {
-            return;
-        }
         $bean = new Bean(get_class($this));
         $bean->setObject($this);
-        foreach ($annotationsArray as $annotationName => $annotationValue) {
-            $event = new EventAnnotation();
-            $event->setData($annotationValue);
-            $event->setReflector($reflector);
-            $event->setBean($bean);
-            $eventName = $eventNameBase . $annotationName;
-            $event->setName($eventName);
-            $this->sphring->getSphringEventDispatcher()->dispatch($eventName, $event);
-        }
+        $annotationDispatcher = new AnnotationsDispatcher($bean, get_class($this), $this->sphring->getSphringEventDispatcher());
+        $annotationDispatcher->dispatchAnnotations();
     }
 
     /**

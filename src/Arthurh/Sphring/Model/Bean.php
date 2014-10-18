@@ -15,13 +15,12 @@ namespace Arthurh\Sphring\Model;
 
 use Arthurh\Sphring\Enum\BeanTypeEnum;
 use Arthurh\Sphring\Enum\SphringEventEnum;
-use Arthurh\Sphring\EventDispatcher\EventAnnotation;
+use Arthurh\Sphring\EventDispatcher\AnnotationsDispatcher;
 use Arthurh\Sphring\EventDispatcher\EventBeanProperty;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\BeanException;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
-use zpt\anno\Annotations;
 
 
 /**
@@ -160,9 +159,31 @@ class Bean
         if (!is_array($value) || count($value) < 1) {
             throw new BeanException($this, "Error when declaring property name '%s', property not valid", $key);
         }
+        $propertyKey = null;
+        $propertyValue = null;
         // key() and current() are break on hhvm do it in other way the same thing
         foreach ($value as $propertyKey => $propertyValue) {
             break;
+        }
+
+
+        $propertyClass = $this->getPropertyFromEvent($propertyKey, $propertyValue);
+        if (empty($propertyClass)) {
+            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
+        }
+        $this->properties[$key] = $propertyClass;
+    }
+
+    /**
+     * @param string $propertyKey
+     * @param mixed $propertyValue
+     * @throws \Arthurh\Sphring\Exception\BeanException
+     * @return AbstractBeanProperty
+     */
+    private function getPropertyFromEvent($propertyKey, $propertyValue)
+    {
+        if (empty($propertyKey) || empty($propertyValue)) {
+            return null;
         }
         $event = new EventBeanProperty();
         $event->setData($propertyValue);
@@ -170,12 +191,10 @@ class Bean
         $event->setName($eventName);
 
         $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
-
-        $propertyClass = $event->getBeanProperty();
-        if (empty($propertyClass)) {
-            throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
+        if (!($event instanceof EventBeanProperty)) {
+            throw new BeanException($this, "Error when declaring property name, event '%s' is not a '%s' event", get_class($event), EventBeanProperty::class);
         }
-        $this->properties[$key] = $propertyClass;
+        return $event->getBeanProperty();
     }
 
     /**
@@ -294,30 +313,10 @@ class Bean
 
     private function dispatchAnnotations()
     {
-        $classReflector = new \ReflectionClass($this->class);
-        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS);
-        foreach ($classReflector->getMethods() as $methodReflector) {
-            $this->dispatchEventForAnnotation($methodReflector, SphringEventEnum::ANNOTATION_METHOD);
-        }
+        $annotationDispatcher = new AnnotationsDispatcher($this, $this->class, $this->sphringEventDispatcher);
+        $annotationDispatcher->dispatchAnnotations();
     }
 
-    private function dispatchEventForAnnotation(\Reflector $reflector, $eventNameBase)
-    {
-        $annotations = new Annotations($reflector);
-        $annotationsArray = $annotations->asArray();
-        if (empty($annotationsArray)) {
-            return;
-        }
-        foreach ($annotationsArray as $annotationName => $annotationValue) {
-            $event = new EventAnnotation();
-            $event->setData($annotationValue);
-            $event->setBean($this);
-            $event->setReflector($reflector);
-            $eventName = $eventNameBase . $annotationName;
-            $event->setName($eventName);
-            $this->sphringEventDispatcher->dispatch($eventName, $event);
-        }
-    }
 
     /**
      * @return object

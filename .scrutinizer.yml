@@ -1,5 +1,5 @@
 application:
-    type: php
+    type: none
 filter:
     excluded_paths: [tests/*]
 checks:

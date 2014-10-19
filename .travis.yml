@@ -5,6 +5,7 @@ php:
   - hhvm
 install:
   - composer install
-script: phpunit --verbose --coverage-text --coverage-clover /tmp/clover.xml --bootstrap tests/bootstraptravis.php tests
+script: phpunit --verbose --coverage-text --coverage-clover=/tmp/sphring/coverage.clover
 after_script:
-  - php vendor/bin/coveralls -v
+  - wget https://scrutinizer-ci.com/ocular.phar
+  - php ocular.phar code-coverage:upload --format=php-clover /tmp/sphring/coverage.clover

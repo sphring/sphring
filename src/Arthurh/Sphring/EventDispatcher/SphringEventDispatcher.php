@@ -69,6 +69,7 @@ class SphringEventDispatcher extends EventDispatcher
             $eventsFromQueue[$eventName] = $this->dispatchQueueEvents($eventName, $events);
         }
         $this->queue = array();
+        return $eventsFromQueue[$eventName];
     }
 
     /**

@@ -63,14 +63,6 @@ abstract class SphringRunner
         return $this->sphring;
     }
 
-    /**
-     * @param Sphring $sphring
-     */
-    public function setSphring($sphring)
-    {
-        $this->sphring = $sphring;
-    }
-
     public function getBean($beanId)
     {
         return $this->sphring->getBean($beanId);

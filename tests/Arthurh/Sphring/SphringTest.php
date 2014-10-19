@@ -131,11 +131,22 @@ class SphringTest extends AbstractTestSphring
         $sphring->removeBean(self::TEST_BEAN_ID);
         try {
             $sphring->getBean(self::TEST_BEAN_ID);
+            $this->assertTrue(false);
         } catch (SphringException $e) {
             $this->assertTrue(true);
-            return;
         }
-        $this->assertTrue(false);
+
+
+        $sphring->addBean($bean);
+        $this->assertTrue($sphring->getBean($beanId) instanceof Foo);
+        $sphring->removeBean($bean);
+        try {
+            $sphring->getBean($bean->getId());
+            $this->assertTrue(false);
+        } catch (SphringException $e) {
+            $this->assertTrue(true);
+        }
+
     }
 
     public function testAddBean()

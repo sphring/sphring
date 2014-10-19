@@ -53,6 +53,9 @@
                     "extend": {
                         "beanProperty": [
                             {"eventName": "val", "class": "Arthurh\\Sphring\\FakeExtend\\BeanPropertyExtendValue"}
+                        ],
+                        "annotationClass": [
+                           {"eventName": "test", "class": "Arthurh\\Sphring\\FakeExtend\\BeanPropertyExtendValue"}
                         ]
                     },
                     "isPlugin": true

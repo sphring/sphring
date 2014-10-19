@@ -10,12 +10,10 @@
  * Date: 14/10/2014
  */
 
-
 namespace Arthurh\Sphring\Model\BeanProperty;
 
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Sphring;
-
 
 /**
  * Class AbstractBeanProperty
@@ -92,6 +90,5 @@ abstract class AbstractBeanProperty
     {
         $this->sphring = $spring;
     }
-
 
 }

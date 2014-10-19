@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring;
 
-
 use Arthurh\Sphring\ComposerManager\ComposerManager;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationClassListener;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
@@ -204,6 +203,5 @@ class SphringBoot
         $this->composerManager = $composerManager;
 
     }
-
 
 }

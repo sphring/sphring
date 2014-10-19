@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\Model\Annotation;
 
-
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\Bean;
 use Arthurh\Sphring\Runner\SphringRunner;

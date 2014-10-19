@@ -5,6 +5,7 @@ use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\FakeBean\Foo;
 use Arthurh\Sphring\FakeBean\IFoo;
 use Arthurh\Sphring\FakeBean\IUsing;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\Bean;
 
 /**
@@ -32,11 +33,15 @@ class SphringTest extends AbstractTestSphring
     public function testSimple()
     {
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring->setLogger(LoggerSphring::getInstance()->getLogger());
+        $sphring->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
+        $sphring->setExtender($sphring->getExtender());
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test simple ' . print_r($useBean, true));
         $this->assertTrue($useBean instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
+        $this->assertEquals(realpath(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE), $sphring->getFilename());
     }
 
     public function testAssocRef()

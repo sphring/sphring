@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\Logger;
 
-
 use Psr\Log\LoggerInterface;
 
 /**
@@ -284,6 +283,5 @@ class LoggerSphring implements LoggerInterface
     {
         $this->withClass = $withClass;
     }
-
 
 }

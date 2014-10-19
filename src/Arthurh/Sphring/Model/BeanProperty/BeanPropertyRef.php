@@ -10,9 +10,7 @@
  * Date: 14/10/2014
  */
 
-
 namespace Arthurh\Sphring\Model\BeanProperty;
-
 
 use Arthurh\Sphring\Exception\BeanPropertyException;
 use Arthurh\Sphring\Exception\SphringException;

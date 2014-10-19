@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\EventDispatcher;
 
-
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Sphring;
 use Arthurh\Sphring\SphringBoot;
@@ -183,6 +182,5 @@ class SphringEventDispatcher extends EventDispatcher
     {
         $this->queue = $queue;
     }
-
 
 }

@@ -60,4 +60,40 @@ class ExtendTest extends AbstractTestSphring
         $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
     }
+
+    public function testExtendDefaultValidWithComposer()
+    {
+        $sphring = new Sphring();
+        $sphring->setRootProject(__DIR__ . '/../Resources/composer');
+        $sphring->loadContext();
+        $useBean = $sphring->getBean('usebean');
+        $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
+        $this->assertArrayHasKey('testExtend', $useBean->getJuju());
+    }
+
+    public function testExtendNode()
+    {
+        $sphring = new Sphring(self::$CONTEXT_EXTEND_FOLDER . '/' . self::SIMPLE_TEST_FILE);
+        $sphring->setRootProject(__DIR__ . '/../Resources/composer');
+        $sphring->loadContext();
+        $extender = $sphring->getExtender();
+        $extendNodes = $extender->getExtendNodes();
+        $extendNodeKey = key($extendNodes);
+        $extendNode = $extendNodes[$extendNodeKey];
+        $nodes = $extendNode->getNodes();
+
+
+        $node = $nodes[0];
+        $newNode = clone $node;
+        $newNode->setEventName('test');
+        $newNode->setPriority(2);
+        $extendNode->addNode($newNode);
+        $extendNode->removeNode($node);
+
+        $this->assertNotEmpty($extendNode->getNodes()[0]);
+        $this->assertTrue($node !== $extendNode->getNodes()[0]);
+        $extendNode->setNodes($nodes);
+        $this->assertNotEmpty($extendNode->getNodes()[0]);
+        $this->assertTrue($node === $extendNode->getNodes()[0]);
+    }
 } 

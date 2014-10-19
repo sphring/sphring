@@ -10,9 +10,7 @@
  * Date: 15/10/2014
  */
 
-
 namespace Arthurh\Sphring\Exception;
-
 
 class SphringEventListenerException extends SphringException
 {

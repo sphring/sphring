@@ -19,7 +19,6 @@
 
 namespace Arthurh\Sphring;
 
-
 use Arhframe\Yamlarh\Yamlarh;
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\EventSphring;
@@ -57,7 +56,6 @@ class Sphring
      * @var Bean[]
      */
     private $beans = array();
-
 
     /**
      * @var SphringEventDispatcher
@@ -117,13 +115,8 @@ class Sphring
      * @param null $filename
      * @return Yamlarh|null
      */
-    private function getYamlarh($filename = null)
+    public function getYamlarh($filename)
     {
-
-        if (empty($filename)) {
-
-            $filename = $this->getRootProject() . '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
-        }
         $yamlarh = null;
         if (is_file($filename)) {
             $yamlarh = new Yamlarh($filename);
@@ -300,15 +293,6 @@ class Sphring
     }
 
     /**
-     * @param null $contextroot
-     */
-    public function setContextRoot($contextroot)
-    {
-        $this->contextRoot = $contextroot;
-    }
-
-
-    /**
      * @return SphringEventDispatcher
      */
     public function getSphringEventDispatcher()
@@ -340,21 +324,6 @@ class Sphring
     {
         $this->extender = $extender;
         $this->extender->setSphringEventDispatcher($this->sphringEventDispatcher);
-    }
-
-    public function addBeanProperty($propertyClassname, $eventName, $priority = 0)
-    {
-        $this->extender->addBeanProperty($propertyClassname, $eventName, $priority);
-    }
-
-    public function addAnnotationClass($annotationClassname, $eventName = "", $priority = 0)
-    {
-        $this->extender->addAnnotationClass($annotationClassname, $eventName, $priority);
-    }
-
-    public function addAnnotationMethod($annotationClassname, $eventName = "", $priority = 0)
-    {
-        $this->extender->addAnnotationMethod($annotationClassname, $eventName, $priority);
     }
 
     public function getBeansObject()

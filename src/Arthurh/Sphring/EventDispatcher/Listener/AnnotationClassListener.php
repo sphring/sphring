@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\EventDispatcher\Listener;
 
-
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\EventAnnotation;
 use Arthurh\Sphring\Exception\SphringEventListenerException;

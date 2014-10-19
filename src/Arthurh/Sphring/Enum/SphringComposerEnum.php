@@ -10,9 +10,7 @@
  * Date: 17/10/2014
  */
 
-
 namespace Arthurh\Sphring\Enum;
-
 
 use MyCLabs\Enum\Enum;
 

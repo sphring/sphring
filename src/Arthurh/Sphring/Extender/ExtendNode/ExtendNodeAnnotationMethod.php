@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\Extender\ExtendNode;
 
-
 class ExtendNodeAnnotationMethod extends AbstractExtendNode
 {
 

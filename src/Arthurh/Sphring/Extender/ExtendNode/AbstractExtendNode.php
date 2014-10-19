@@ -10,9 +10,7 @@
  * Date: 15/10/2014
  */
 
-
 namespace Arthurh\Sphring\Extender\ExtendNode;
-
 
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Extender\Node;
@@ -54,9 +52,7 @@ abstract class AbstractExtendNode
      */
     public function setNodes(array $nodes)
     {
-        foreach ($nodes as $node) {
-            $this->addNode($node);
-        }
+        $this->nodes = $nodes;
     }
 
     /**
@@ -80,7 +76,7 @@ abstract class AbstractExtendNode
             }
         }
         if ($keyToDelete !== null) {
-            unset($this->nodes[$keyToDelete]);
+            array_splice($this->nodes, $keyToDelete, 1);
         }
     }
 
@@ -99,7 +95,6 @@ abstract class AbstractExtendNode
     {
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
-
 
     abstract public function extend();
 }

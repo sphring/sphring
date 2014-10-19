@@ -12,13 +12,11 @@
 
 namespace Arthurh\Sphring\EventDispatcher;
 
-
 use Arthurh\Sphring\Sphring;
 use Symfony\Component\EventDispatcher\Event;
 
 class EventSphring extends Event
 {
-
 
     /**
      * @var Sphring

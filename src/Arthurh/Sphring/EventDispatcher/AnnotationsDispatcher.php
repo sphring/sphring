@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\EventDispatcher;
 
-
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\Model\Bean;
 use zpt\anno\Annotations;
@@ -64,7 +63,6 @@ class AnnotationsDispatcher
         $this->class = $class;
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
-
 
     /**
      * @return Bean
@@ -158,6 +156,5 @@ class AnnotationsDispatcher
     {
         return $this->fileteredAnnotation;
     }
-
 
 }

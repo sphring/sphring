@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\EventDispatcher;
 
-
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
 class EventBeanProperty extends AbstractSphringEvent
@@ -50,6 +49,5 @@ class EventBeanProperty extends AbstractSphringEvent
     {
         $this->data = $data;
     }
-
 
 }

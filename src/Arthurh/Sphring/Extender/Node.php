@@ -10,11 +10,9 @@
  * Date: 15/10/2014
  */
 
-
 namespace Arthurh\Sphring\Extender;
 
 use Arthurh\Sphring\Exception\ExtenderException;
-
 
 /**
  * Class Node
@@ -66,7 +64,7 @@ class Node
     public function setClassName($className)
     {
         if (!class_exists($className)) {
-            throw new ExtenderException("class '%s' doesn't exist and can't be registered.");
+            throw new ExtenderException("class '%s' doesn't exist and can't be registered.", $className);
         }
         $this->className = $className;
     }

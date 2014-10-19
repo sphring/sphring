@@ -10,9 +10,7 @@
  * Date: 17/10/2014
  */
 
-
 namespace Arthurh\Sphring\ComposerManager;
-
 
 use Arthurh\Sphring\Enum\SphringComposerEnum;
 use Arthurh\Sphring\Extender\Extender;
@@ -150,6 +148,5 @@ class ComposerManager
     {
         return $this->composer;
     }
-
 
 }

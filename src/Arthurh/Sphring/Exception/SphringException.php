@@ -10,9 +10,7 @@
  * Date: 14/10/2014
  */
 
-
 namespace Arthurh\Sphring\Exception;
-
 
 /**
  * Class SphringException
@@ -20,7 +18,6 @@ namespace Arthurh\Sphring\Exception;
  */
 class SphringException extends \Exception
 {
-
 
     /**
      * @param string $message

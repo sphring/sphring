@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\Model\Annotation;
 
-
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 
 class RequiredAnnotation extends AbstractAnnotation

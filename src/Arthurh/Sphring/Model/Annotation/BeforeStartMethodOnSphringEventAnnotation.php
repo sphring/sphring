@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\Model\Annotation;
 
-
 use Arthurh\Sphring\Enum\SphringEventEnum;
 
 class BeforeStartMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEventAnnotation

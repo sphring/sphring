@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\EventDispatcher\Listener;
 
-
 use Arthurh\Sphring\Enum\SphringEventEnum;
 
 class AnnotationMethodListener extends AnnotationClassListener

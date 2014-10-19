@@ -10,9 +10,7 @@
  * Date: 15/10/2014
  */
 
-
 namespace Arthurh\Sphring\Extender;
-
 
 use Arhframe\Yamlarh\Yamlarh;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
@@ -153,4 +151,14 @@ class Extender
     {
         $this->defaultFilename = $defaultFilename;
     }
+
+    /**
+     * @return ExtendNode\AbstractExtendNode[]
+     */
+    public function getExtendNodes()
+    {
+        return $this->extendNodes;
+    }
+
+
 }

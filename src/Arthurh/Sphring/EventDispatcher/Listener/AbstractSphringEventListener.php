@@ -10,9 +10,7 @@
  * Date: 15/10/2014
  */
 
-
 namespace Arthurh\Sphring\EventDispatcher\Listener;
-
 
 use Arthurh\Sphring\EventDispatcher\AbstractSphringEvent;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
@@ -42,7 +40,6 @@ abstract class AbstractSphringEventListener
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
-
     /**
      * @param string $eventName
      * @param $className
@@ -57,7 +54,6 @@ abstract class AbstractSphringEventListener
     }
 
     abstract public function getDefaultEventName();
-
 
     /**
      * @return array

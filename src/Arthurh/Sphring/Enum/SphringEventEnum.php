@@ -12,7 +12,6 @@
 
 namespace Arthurh\Sphring\Enum;
 
-
 use MyCLabs\Enum\Enum;
 
 class SphringEventEnum extends Enum

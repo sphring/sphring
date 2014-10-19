@@ -10,9 +10,7 @@
  * Date: 17/10/2014
  */
 
-
 namespace Arthurh\Sphring\Model\Annotation;
-
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 use Arthurh\Sphring\Runner\SphringRunner;

@@ -10,7 +10,6 @@
  * Date: 14/10/2014
  */
 
-
 namespace Arthurh\Sphring\Model;
 
 use Arthurh\Sphring\Enum\BeanTypeEnum;
@@ -21,7 +20,6 @@ use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\BeanException;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
-
 
 /**
  * Class Bean
@@ -136,7 +134,6 @@ class Bean
     {
         $this->id = $id;
     }
-
 
     /**
      * @param $key
@@ -296,7 +293,6 @@ class Bean
         $annotationDispatcher->dispatchAnnotations();
     }
 
-
     /**
      * @return object
      */
@@ -346,7 +342,7 @@ class Bean
     }
 
     /**
-     * @param $className
+     * @param null|\ReflectionClass $className
      * @return bool
      */
     public function containClassName($className)

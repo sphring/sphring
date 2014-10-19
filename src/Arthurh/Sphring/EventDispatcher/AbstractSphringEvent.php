@@ -10,9 +10,7 @@
  * Date: 15/10/2014
  */
 
-
 namespace Arthurh\Sphring\EventDispatcher;
-
 
 use Symfony\Component\EventDispatcher\Event;
 
@@ -78,6 +76,5 @@ abstract class AbstractSphringEvent extends Event
     {
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
-
 
 }

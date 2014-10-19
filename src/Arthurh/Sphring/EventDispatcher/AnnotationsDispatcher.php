@@ -23,8 +23,23 @@ use zpt\anno\Annotations;
  */
 class AnnotationsDispatcher
 {
+    private $fileteredAnnotation = [
+        "package",
+        "var",
+        "return",
+        "param",
+        "throws",
+        "deprecated",
+        "link",
+        "method",
+        "property",
+        "see",
+        "inheritdoc",
+        "global"
+    ];
     /**
      * @var Bean
+     *
      */
     private $bean;
     /**
@@ -41,6 +56,7 @@ class AnnotationsDispatcher
      * @param Bean $bean
      * @param string $class
      * @param SphringEventDispatcher $sphringEventDispatcher
+     *
      */
     function __construct(Bean $bean, $class, SphringEventDispatcher $sphringEventDispatcher)
     {
@@ -122,6 +138,9 @@ class AnnotationsDispatcher
             return;
         }
         foreach ($annotationsArray as $annotationName => $annotationValue) {
+            if (in_array($annotationName, $this->fileteredAnnotation)) {
+                continue;
+            }
             $event = new EventAnnotation();
             $event->setData($annotationValue);
             $event->setBean($this->bean);
@@ -131,4 +150,14 @@ class AnnotationsDispatcher
             $this->sphringEventDispatcher->dispatch($eventName, $event);
         }
     }
+
+    /**
+     * @return array
+     */
+    public function getFileteredAnnotation()
+    {
+        return $this->fileteredAnnotation;
+    }
+
+
 }

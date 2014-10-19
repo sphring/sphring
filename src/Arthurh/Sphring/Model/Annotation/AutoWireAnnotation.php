@@ -43,10 +43,10 @@ class AutoWireAnnotation extends AbstractAnnotation
         $nbValidBean = count($validBeans);
         if ($nbValidBean !== 1) {
             throw new SphringAnnotationException("Error for bean '%s', there is '%s' beans matching your autowire for method '%s'.",
-                $this->bean->getId(), $nbValidBean, $reflector->getName());
+                $this->bean->getId(), $nbValidBean, $reflector->name);
         }
         $validBean = $validBeans[0];
-        $methodName = $reflector->getName();
+        $methodName = $reflector->name;
         $this->bean->getObject()->$methodName($validBean->getObject());
     }
 
@@ -80,14 +80,14 @@ class AutoWireAnnotation extends AbstractAnnotation
         $nbParameters = count($reflector->getParameters());
         if ($nbParameters !== 1) {
             throw new SphringAnnotationException("Error for bean '%s', you must have one parameter for autowire method '%s'.",
-                $this->bean->getId(), $reflector->getName());
+                $this->bean->getId(), $reflector->name);
         }
         $parameterClass = $reflector->getParameters()[0]->getClass();
         if (empty($parameterClass)) {
             throw new SphringAnnotationException("Error for bean '%s', you must force type for autowire method '%s'. Example: '%s'(Object \$object)",
-                $this->bean->getId(), $reflector->getName());
+                $this->bean->getId(), $reflector->name);
         }
-        return $parameterClass->getName();
+        return $parameterClass->name;
     }
 
     /**

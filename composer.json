@@ -16,7 +16,7 @@
         "myclabs/php-enum": "1.2.*",
         "zf1/zend-config": "~1.12",
         "psr/log": "1.0.0",
-        "symfony/event-dispatcher": "2.5.5",
+        "symfony/event-dispatcher": "2.5.*",
         "zeptech/annotations": "1.1.0",
         "composer/composer": "1.0.0-alpha8"
     },

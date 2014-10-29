@@ -13,7 +13,7 @@
 namespace Arthurh\Sphring\Runner;
 
 use Arthurh\Sphring\EventDispatcher\AnnotationsDispatcher;
-use Arthurh\Sphring\Model\Bean;
+use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Sphring;
 
 abstract class SphringRunner

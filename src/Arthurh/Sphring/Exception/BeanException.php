@@ -12,7 +12,7 @@
 
 namespace Arthurh\Sphring\Exception;
 
-use Arthurh\Sphring\Model\Bean;
+use Arthurh\Sphring\Model\Bean\Bean;
 
 /**
  * Class BeanException

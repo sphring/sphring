@@ -7,10 +7,11 @@
  * or at 'http://opensource.org/licenses/MIT'.
  *
  * Author: Arthur Halet
- * Date: 14/10/2014
+ * Date: 29/10/2014
  */
 
-namespace Arthurh\Sphring\Model;
+
+namespace Arthurh\Sphring\Model\Bean;
 
 use Arthurh\Sphring\Enum\BeanTypeEnum;
 use Arthurh\Sphring\Enum\SphringEventEnum;
@@ -21,64 +22,50 @@ use Arthurh\Sphring\Exception\BeanException;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
-/**
- * Class Bean
- * @package arthurh\sphring\model
- */
-class Bean
+class AbstractBean
 {
     /**
      * @var string
      */
-    private $id;
+    protected $id;
     /**
      * @var string
      */
-    private $class;
-
-    /**
-     * @var BeanTypeEnum
-     */
-    private $type;
+    protected $class;
 
     /**
      * @var AbstractBeanProperty[]
      */
-    private $properties = array();
+    protected $properties = array();
 
     /**
      * @var Bean
      */
-    private $extend;
+    protected $extend;
     /**
      * @var object
      */
-    private $object;
+    protected $object;
     /**
      * @var SphringEventDispatcher
      */
-    private $sphringEventDispatcher;
+    protected $sphringEventDispatcher;
 
     /**
      * @var array
      */
-    private $interfaces = [];
+    protected $interfaces = [];
     /**
      * @var string
      */
-    private $parent;
+    protected $parent;
 
     /**
      * @param $id
-     * @param \Arthurh\Sphring\Enum\BeanTypeEnum $type
      */
-    function __construct($id, BeanTypeEnum $type = null)
+    function __construct($id)
     {
-        if ($type === null) {
-            $type = BeanTypeEnum::NORMAL_TYPE;
-        }
         $this->id = $id;
-        $this->type = $type;
     }
 
     /**
@@ -136,6 +123,88 @@ class Bean
     }
 
     /**
+     * @param string $key
+     * @return null|AbstractBeanProperty
+     */
+    public function getProperty($key)
+    {
+        if (empty($this->properties[$key])) {
+            return null;
+        }
+        return $this->properties[$key];
+    }
+
+
+    /**
+     * @return Bean
+     */
+    public function getExtend()
+    {
+        return $this->extend;
+    }
+
+    /**
+     * @param AbstractBean $extend
+     */
+    public function setExtend(AbstractBean $extend)
+    {
+        $this->extend = $extend;
+    }
+
+    public function inject()
+    {
+        $this->getLogger()->info(sprintf("Injecting in bean '%s'", $this->id));
+        $this->instanciate();
+        $properties = $this->properties;
+        if (!empty($this->extend)) {
+            $properties = array_merge($this->extend->getProperties(), $properties);
+        }
+        foreach ($properties as $propertyName => $propertyInjector) {
+            $setter = "set" . ucfirst($propertyName);
+            $this->object->$setter($propertyInjector->getInjection());
+        }
+        $this->dispatchAnnotations();
+    }
+
+    /**
+     * @return LoggerSphring
+     */
+    protected function getLogger()
+    {
+        return LoggerSphring::getInstance();
+    }
+
+    protected function instanciate()
+    {
+        $classReflector = new \ReflectionClass($this->class);
+        $this->object = $classReflector->newInstance();
+    }
+
+    /**
+     * @return AbstractBeanProperty[]
+     */
+    public function getProperties()
+    {
+        return $this->properties;
+    }
+
+    /**
+     * @param array $properties
+     */
+    public function setProperties(array $properties)
+    {
+        foreach ($properties as $propertyKey => $propertyValue) {
+            $this->addProperty($propertyKey, $propertyValue);
+        }
+    }
+
+    protected function dispatchAnnotations()
+    {
+        $annotationDispatcher = new AnnotationsDispatcher($this, $this->class, $this->sphringEventDispatcher);
+        $annotationDispatcher->dispatchAnnotations();
+    }
+
+    /**
      * @param $key
      * @param array $value
      * @throws \Arthurh\Sphring\Exception\BeanException
@@ -165,7 +234,7 @@ class Bean
      * @throws \Arthurh\Sphring\Exception\BeanException
      * @return AbstractBeanProperty
      */
-    private function getPropertyFromEvent($propertyKey, $propertyValue)
+    protected function getPropertyFromEvent($propertyKey, $propertyValue)
     {
         if (empty($propertyKey) || empty($propertyValue)) {
             throw new BeanException($this, "property not valid");
@@ -180,117 +249,6 @@ class Bean
             throw new BeanException($this, "event '%s' is not a '%s' event", get_class($event), EventBeanProperty::class);
         }
         return $event->getBeanProperty();
-    }
-
-    /**
-     * @param string $key
-     * @return null|AbstractBeanProperty
-     */
-    public function getProperty($key)
-    {
-        if (empty($this->properties[$key])) {
-            return null;
-        }
-        return $this->properties[$key];
-    }
-
-    /**
-     * @return BeanTypeEnum
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * @param string|BeanTypeEnum $type
-     * @throws \Arthurh\Sphring\Exception\BeanException
-     */
-    public function setType($type)
-    {
-        if (empty($type)) {
-            return;
-        }
-        if ($type instanceof BeanTypeEnum) {
-            $this->type = $type;
-            return;
-        }
-        $this->type = BeanTypeEnum::fromValue($type);
-        if (empty($this->type)) {
-            throw new BeanException($this, "Bean type '%s' doesn't exist", $type);
-        }
-    }
-
-    /**
-     * @return Bean
-     */
-    public function getExtend()
-    {
-        return $this->extend;
-    }
-
-    /**
-     * @param Bean $extend
-     */
-    public function setExtend(Bean $extend)
-    {
-        $this->extend = $extend;
-    }
-
-    public function inject()
-    {
-        if ($this->type == BeanTypeEnum::ABSTRACT_TYPE) {
-            return;
-        }
-        $this->getLogger()->info(sprintf("Injecting in bean '%s'", $this->id));
-        $this->instanciate();
-        $properties = $this->properties;
-        if (!empty($this->extend)) {
-            $properties = array_merge($this->extend->getProperties(), $properties);
-        }
-        foreach ($properties as $propertyName => $propertyInjector) {
-            $setter = "set" . ucfirst($propertyName);
-            $this->object->$setter($propertyInjector->getInjection());
-        }
-        $this->dispatchAnnotations();
-    }
-
-    /**
-     * @return LoggerSphring
-     */
-    protected function getLogger()
-    {
-        return LoggerSphring::getInstance();
-    }
-
-    private function instanciate()
-    {
-        $classReflector = new \ReflectionClass($this->class);
-        $this->object = $classReflector->newInstance();
-    }
-
-    /**
-     * @return AbstractBeanProperty[]
-     */
-    public function getProperties()
-    {
-        return $this->properties;
-    }
-
-    /**
-     * @param array $properties
-     */
-    public function setProperties(array $properties)
-    {
-        foreach ($properties as $propertyKey => $propertyValue) {
-            $this->addProperty($propertyKey, $propertyValue);
-        }
-    }
-
-    private function dispatchAnnotations()
-    {
-        $annotationDispatcher = new AnnotationsDispatcher($this, $this->class, $this->sphringEventDispatcher);
-        $annotationDispatcher->dispatchAnnotations();
     }
 
     /**
@@ -334,14 +292,6 @@ class Bean
     }
 
     /**
-     * @return string
-     */
-    public function getParent()
-    {
-        return $this->parent;
-    }
-
-    /**
      * @param null|\ReflectionClass $className
      * @return bool
      */
@@ -358,5 +308,13 @@ class Bean
     public function hasParent($className)
     {
         return $this->getParent() == $className;
+    }
+
+    /**
+     * @return string
+     */
+    public function getParent()
+    {
+        return $this->parent;
     }
 }

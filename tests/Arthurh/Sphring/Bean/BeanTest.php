@@ -17,7 +17,7 @@ use Arthurh\Sphring\Sphring;
 class BeanTest extends AbstractTestSphring
 {
     /**
-     * @var \Arthurh\Sphring\Model\Bean
+     * @var \Arthurh\Sphring\Model\Bean\Bean
      */
     private $testBean;
 
@@ -28,7 +28,7 @@ class BeanTest extends AbstractTestSphring
     public function instanciation()
     {
         $_SERVER['SCRIPT_FILENAME'] = __DIR__ . '/../zorro.php';
-        $this->testBean = new \Arthurh\Sphring\Model\Bean('testBean');
+        $this->testBean = new \Arthurh\Sphring\Model\Bean\Bean('testBean');
         $sphring = new Sphring('');
         $sphring->beforeLoad();
         $this->testBean->setSphringEventDispatcher($sphring->getSphringEventDispatcher());

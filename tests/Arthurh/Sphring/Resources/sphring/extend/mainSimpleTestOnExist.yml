@@ -7,3 +7,11 @@ usebean:
             ref: foobean
         juju:
             value: testValue
+usefake:
+    class: Arthurh\Sphring\FakeBean\Using
+    type: fakeBean
+    properties:
+        foo:
+            ref: foobean
+        juju:
+            value: testValue

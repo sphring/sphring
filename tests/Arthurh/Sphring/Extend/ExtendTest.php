@@ -49,6 +49,8 @@ class ExtendTest extends AbstractTestSphring
         $useBean = $sphring->getBean('usebean');
         $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
+        $usefake = $sphring->getBean('usefake');
+        $this->assertEquals('testBeanFake', $usefake->testBeanFake);
     }
 
     public function testExtendSimpleValidWithComposer()

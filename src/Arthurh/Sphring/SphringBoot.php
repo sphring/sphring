@@ -24,6 +24,8 @@ use Arthurh\Sphring\Model\Annotation\BeforeStartMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\LoadContextAnnotation;
 use Arthurh\Sphring\Model\Annotation\RequiredAnnotation;
 use Arthurh\Sphring\Model\Annotation\RootProjectAnnotation;
+use Arthurh\Sphring\Model\Bean\Bean;
+use Arthurh\Sphring\Model\Bean\BeanAbstract;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyIniFile;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyRef;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream;
@@ -74,9 +76,33 @@ class SphringBoot
      */
     public function boot()
     {
+        $this->bootBeanTypeForFactory();
         $this->bootBeanProperty();
         $this->bootAnnotations();
         $this->bootFromComposer();
+    }
+
+    public function bootBeanTypeForFactory()
+    {
+        $factoryBean = $this->getSphringEventDispatcher()->getSphring()->getFactoryBean();
+        $factoryBean->addBeanType('abstract', BeanAbstract::class);
+        $factoryBean->addBeanType('normal', Bean::class);
+    }
+
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
     /**
@@ -137,22 +163,6 @@ class SphringBoot
     {
         $this->beanPropertyListener = $beanProperty;
         $this->beanPropertyListener->setSphringEventDispatcher($this->getSphringEventDispatcher());
-    }
-
-    /**
-     * @return SphringEventDispatcher
-     */
-    public function getSphringEventDispatcher()
-    {
-        return $this->sphringEventDispatcher;
-    }
-
-    /**
-     * @param SphringEventDispatcher $sphringEventDispatcher
-     */
-    public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
-    {
-        $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
     /**

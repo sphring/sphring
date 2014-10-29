@@ -26,7 +26,9 @@ use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Extender\Extender;
 use Arthurh\Sphring\Logger\LoggerSphring;
-use Arthurh\Sphring\Model\Bean;
+use Arthurh\Sphring\Model\Bean\AbstractBean;
+use Arthurh\Sphring\Model\Bean\Bean;
+use Arthurh\Sphring\Model\Bean\FactoryBean;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -73,6 +75,11 @@ class Sphring
     private $rootProject;
 
     /**
+     * @var FactoryBean
+     */
+    private $factoryBean;
+
+    /**
      *
      */
     public function __construct($filename = null)
@@ -83,7 +90,7 @@ class Sphring
         $this->filename = $filename;
         $this->sphringEventDispatcher = new SphringEventDispatcher($this);
         $this->extender = new Extender($this->sphringEventDispatcher);
-
+        $this->factoryBean = new FactoryBean($this);
     }
 
     /**
@@ -111,6 +118,19 @@ class Sphring
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
     }
 
+    public function beforeLoad()
+    {
+        $this->sphringEventDispatcher->load();
+    }
+
+    /**
+     * @return LoggerSphring
+     */
+    protected function getLogger()
+    {
+        return LoggerSphring::getInstance();
+    }
+
     /**
      * @param null $filename
      * @return Yamlarh|null
@@ -126,19 +146,6 @@ class Sphring
             $yamlarh = new Yamlarh($filename);
         }
         return $yamlarh;
-    }
-
-    public function beforeLoad()
-    {
-        $this->sphringEventDispatcher->load();
-    }
-
-    /**
-     * @return LoggerSphring
-     */
-    protected function getLogger()
-    {
-        return LoggerSphring::getInstance();
     }
 
     /**
@@ -169,55 +176,16 @@ class Sphring
             if (!empty($this->beans[$beanId])) {
                 continue;
             }
-            $bean = $this->makeBean($beanId, $this->context[$beanId]);
+            $bean = $this->factoryBean->createBean($beanId, $this->context[$beanId]);
             $this->addBean($bean);
 
         }
     }
 
     /**
-     * @param $beanId
-     * @param $info
-     * @return Bean
+     * @param AbstractBean $bean
      */
-    private function makeBean($beanId, $info)
-    {
-        $bean = new Bean($beanId);
-        $bean->setSphringEventDispatcher($this->sphringEventDispatcher);
-        $bean->setClass($info['class']);
-        $bean->setType($info['type']);
-        if (!empty($info['properties'])) {
-            $bean->setProperties($info['properties']);
-        }
-
-        if (!empty($info['extend'])) {
-            $bean->setExtend($this->getBeanObject($info['extend']));
-        }
-        return $bean;
-    }
-
-    /**
-     * @param $beanId
-     * @return Bean
-     * @throws Exception\SphringException
-     */
-    public function getBeanObject($beanId)
-    {
-        if (!empty($this->beans[$beanId])) {
-            return $this->beans[$beanId];
-        }
-        if (empty($this->context[$beanId])) {
-            throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
-        }
-        $bean = $this->makeBean($beanId, $this->context[$beanId]);
-        $this->addBean($bean);
-        return $bean;
-    }
-
-    /**
-     * @param Bean $bean
-     */
-    public function addBean(Bean $bean)
+    public function addBean(AbstractBean $bean)
     {
         $this->beans[$bean->getId()] = $bean;
         $bean->inject();
@@ -330,4 +298,33 @@ class Sphring
     {
         return $this->beans;
     }
+
+    /**
+     * @return FactoryBean
+     */
+    public function getFactoryBean()
+    {
+        return $this->factoryBean;
+    }
+
+
+    /**
+     * @param $beanId
+     * @return AbstractBean
+     * @throws Exception\SphringException
+     */
+    public function getBeanObject($beanId)
+    {
+        if (!empty($this->beans[$beanId])) {
+            return $this->beans[$beanId];
+        }
+        if (empty($this->context[$beanId])) {
+            throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
+        }
+        $bean = $this->factoryBean->createBean($beanId, $this->context[$beanId]);
+        $this->addBean($bean);
+        return $bean;
+    }
+
+
 }

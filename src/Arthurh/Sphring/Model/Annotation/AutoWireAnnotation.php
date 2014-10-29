@@ -13,7 +13,7 @@
 namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
-use Arthurh\Sphring\Model\Bean;
+use Arthurh\Sphring\Model\Bean\Bean;
 
 /**
  * Class AutoWireAnnotation

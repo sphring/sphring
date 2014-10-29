@@ -40,6 +40,7 @@ class Extender
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
         $this->sphringEventDispatcher = $sphringEventDispatcher;
+
     }
 
     public function extend()

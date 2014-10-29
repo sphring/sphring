@@ -12,7 +12,7 @@
 
 namespace Arthurh\Sphring\EventDispatcher;
 
-use Arthurh\Sphring\Model\Bean;
+use Arthurh\Sphring\Model\Bean\Bean;
 
 class EventAnnotation extends AbstractSphringEvent
 {

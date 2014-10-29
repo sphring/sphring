@@ -13,7 +13,7 @@
 namespace Arthurh\Sphring\EventDispatcher;
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
-use Arthurh\Sphring\Model\Bean;
+use Arthurh\Sphring\Model\Bean\AbstractBean;
 use zpt\anno\Annotations;
 
 /**
@@ -37,7 +37,7 @@ class AnnotationsDispatcher
         "global"
     ];
     /**
-     * @var Bean
+     * @var AbstractBean
      *
      */
     private $bean;
@@ -52,12 +52,12 @@ class AnnotationsDispatcher
     private $sphringEventDispatcher;
 
     /**
-     * @param Bean $bean
+     * @param AbstractBean $bean
      * @param string $class
      * @param SphringEventDispatcher $sphringEventDispatcher
      *
      */
-    function __construct(Bean $bean, $class, SphringEventDispatcher $sphringEventDispatcher)
+    function __construct(AbstractBean $bean, $class, SphringEventDispatcher $sphringEventDispatcher)
     {
         $this->bean = $bean;
         $this->class = $class;
@@ -65,7 +65,7 @@ class AnnotationsDispatcher
     }
 
     /**
-     * @return Bean
+     * @return AbstractBean
      */
     public function getBean()
     {
@@ -73,7 +73,7 @@ class AnnotationsDispatcher
     }
 
     /**
-     * @param Bean $bean
+     * @param AbstractBean $bean
      */
     public function setBean($bean)
     {

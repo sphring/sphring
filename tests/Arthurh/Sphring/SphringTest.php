@@ -6,7 +6,7 @@ use Arthurh\Sphring\FakeBean\Foo;
 use Arthurh\Sphring\FakeBean\IFoo;
 use Arthurh\Sphring\FakeBean\IUsing;
 use Arthurh\Sphring\Logger\LoggerSphring;
-use Arthurh\Sphring\Model\Bean;
+use Arthurh\Sphring\Model\Bean\Bean;
 
 /**
  * Copyright (C) 2014 Orange

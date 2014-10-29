@@ -14,6 +14,11 @@ namespace Arthurh\Sphring\Enum;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * Enum for all eventName
+ * Class SphringEventEnum
+ * @package Arthurh\Sphring\Enum
+ */
 class SphringEventEnum extends Enum
 {
     const PROPERTY_INJECTION = 'property.injection.';

@@ -12,6 +12,10 @@
 
 namespace Arthurh\Sphring\Exception;
 
+/**
+ * Class SphringAnnotationException
+ * @package Arthurh\Sphring\Exception
+ */
 class SphringAnnotationException extends SphringException
 {
 

@@ -31,7 +31,7 @@ abstract class AbstractBeanProperty
     protected $data;
 
     /**
-     * @param $data
+     * @internal param $data
      */
     function __construct()
     {
@@ -54,6 +54,9 @@ abstract class AbstractBeanProperty
         $this->data = $data;
     }
 
+    /**
+     * @return mixed
+     */
     public function getInjection()
     {
         $this->getLogger()->debug(sprintf("Get injected property..."));

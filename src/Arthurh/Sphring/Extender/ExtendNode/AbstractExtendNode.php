@@ -96,5 +96,8 @@ abstract class AbstractExtendNode
         $this->sphringEventDispatcher = $sphringEventDispatcher;
     }
 
+    /**
+     * @return mixed
+     */
     abstract public function extend();
 }

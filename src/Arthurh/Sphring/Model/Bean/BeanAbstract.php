@@ -14,8 +14,15 @@
 namespace Arthurh\Sphring\Model\Bean;
 
 
+/**
+ * Class BeanAbstract
+ * @package Arthurh\Sphring\Model\Bean
+ */
 class BeanAbstract extends AbstractBean
 {
+    /**
+     *
+     */
     public function inject()
     {
         return;

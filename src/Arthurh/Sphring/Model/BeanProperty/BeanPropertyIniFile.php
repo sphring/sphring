@@ -51,6 +51,11 @@ class BeanPropertyIniFile extends AbstractBeanProperty
         throw new BeanPropertyException("Error when injecting ini in bean, file '%s' doesn't exist.", $file);
     }
 
+    /**
+     * @param $file
+     * @param null $env
+     * @return \Zend_Config_Ini
+     */
     public function loadIni($file, $env = null)
     {
         return new \Zend_Config_Ini($file, $env);

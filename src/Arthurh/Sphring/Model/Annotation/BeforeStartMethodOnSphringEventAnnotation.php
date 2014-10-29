@@ -14,15 +14,25 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
 
+/**
+ * Class BeforeStartMethodOnSphringEventAnnotation
+ * @package Arthurh\Sphring\Model\Annotation
+ */
 class BeforeStartMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEventAnnotation
 {
-    function getEventSphring()
-    {
-        return SphringEventEnum::SPHRING_START_LOAD;
-    }
-
+    /**
+     * @return string
+     */
     public static function getAnnotationName()
     {
         return "BeforeStart";
+    }
+
+    /**
+     * @return string
+     */
+    function getEventSphring()
+    {
+        return SphringEventEnum::SPHRING_START_LOAD;
     }
 }

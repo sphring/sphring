@@ -14,6 +14,11 @@ namespace Arthurh\Sphring\EventDispatcher;
 
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Abstract sphring event
+ * Class AbstractSphringEvent
+ * @package Arthurh\Sphring\EventDispatcher
+ */
 abstract class AbstractSphringEvent extends Event
 {
     /**

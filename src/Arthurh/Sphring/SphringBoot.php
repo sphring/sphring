@@ -62,6 +62,9 @@ class SphringBoot
      */
     private $composerManager;
 
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
         $this->sphringEventDispatcher = $sphringEventDispatcher;
@@ -82,6 +85,9 @@ class SphringBoot
         $this->bootFromComposer();
     }
 
+    /**
+     *
+     */
     public function bootBeanTypeForFactory()
     {
         $factoryBean = $this->getSphringEventDispatcher()->getSphring()->getFactoryBean();
@@ -119,18 +125,27 @@ class SphringBoot
 
     }
 
+    /**
+     *
+     */
     public function bootAnnotations()
     {
         $this->bootAnnotationClass();
         $this->bootAnnotationMethod();
     }
 
+    /**
+     *
+     */
     public function bootAnnotationClass()
     {
         $this->annotationClassListener->register(LoadContextAnnotation::getAnnotationName(), LoadContextAnnotation::class);
         $this->annotationClassListener->register(RootProjectAnnotation::getAnnotationName(), RootProjectAnnotation::class);
     }
 
+    /**
+     *
+     */
     public function bootAnnotationMethod()
     {
         $this->annotationMethodListener->register(RequiredAnnotation::getAnnotationName(), RequiredAnnotation::class);
@@ -141,6 +156,9 @@ class SphringBoot
 
     }
 
+    /**
+     *
+     */
     public function bootFromComposer()
     {
         $this->composerManager->setExtender($this->sphringEventDispatcher->getSphring()->getExtender());

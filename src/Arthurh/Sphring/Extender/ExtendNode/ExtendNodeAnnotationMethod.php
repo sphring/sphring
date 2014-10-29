@@ -12,9 +12,16 @@
 
 namespace Arthurh\Sphring\Extender\ExtendNode;
 
+/**
+ * Class ExtendNodeAnnotationMethod
+ * @package Arthurh\Sphring\Extender\ExtendNode
+ */
 class ExtendNodeAnnotationMethod extends AbstractExtendNode
 {
 
+    /**
+     *
+     */
     public function extend()
     {
         foreach ($this->nodes as $node) {

@@ -17,6 +17,11 @@ use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringEventListenerException;
 use Arthurh\Sphring\Logger\LoggerSphring;
 
+/**
+ * The abstract class to implement EventListener for sphring
+ * Class AbstractSphringEventListener
+ * @package Arthurh\Sphring\EventDispatcher\Listener
+ */
 abstract class AbstractSphringEventListener
 {
     /**
@@ -24,6 +29,9 @@ abstract class AbstractSphringEventListener
      * @var array(string => string)
      */
     protected $registers;
+    /**
+     * @var
+     */
     protected $object;
     /**
      * @var SphringEventDispatcher
@@ -32,8 +40,6 @@ abstract class AbstractSphringEventListener
 
     /**
      * Constructor
-     *
-     * @return void
      */
     public function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
@@ -41,9 +47,11 @@ abstract class AbstractSphringEventListener
     }
 
     /**
+     * Register your event
      * @param string $eventName
      * @param $className
      * @param int $priority
+     * @param bool $queued
      */
     public function register($eventName, $className, $priority = 0, $queued = false)
     {
@@ -53,9 +61,14 @@ abstract class AbstractSphringEventListener
         $this->sphringEventDispatcher->addListener($eventName, array($this, 'onEvent'), $priority, $queued);
     }
 
+    /**
+     * Return the name of the event triggered
+     * @return mixed
+     */
     abstract public function getDefaultEventName();
 
     /**
+     * Return all listener registered
      * @return array
      */
     public function getRegisters()
@@ -64,6 +77,7 @@ abstract class AbstractSphringEventListener
     }
 
     /**
+     * Set listener
      * @param array $registers
      */
     public function setRegisters($registers)
@@ -71,6 +85,11 @@ abstract class AbstractSphringEventListener
         $this->registers = $registers;
     }
 
+    /**
+     * Event which will be triggered
+     * @param $event
+     * @throws \Arthurh\Sphring\Exception\SphringEventListenerException
+     */
     public function  onEvent($event)
     {
         if (!($event instanceof AbstractSphringEvent)) {

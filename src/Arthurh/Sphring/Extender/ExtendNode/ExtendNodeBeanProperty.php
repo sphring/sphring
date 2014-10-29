@@ -12,9 +12,16 @@
 
 namespace Arthurh\Sphring\Extender\ExtendNode;
 
+/**
+ * Class ExtendNodeBeanProperty
+ * @package Arthurh\Sphring\Extender\ExtendNode
+ */
 class ExtendNodeBeanProperty extends AbstractExtendNode
 {
 
+    /**
+     *
+     */
     public function extend()
     {
         foreach ($this->nodes as $node) {

@@ -14,15 +14,25 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
 
+/**
+ * Class AfterLoadMethodOnSphringEventAnnotation
+ * @package Arthurh\Sphring\Model\Annotation
+ */
 class AfterLoadMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEventAnnotation
 {
-    function getEventSphring()
-    {
-        return SphringEventEnum::SPHRING_FINISHED_LOAD;
-    }
-
+    /**
+     * @return string
+     */
     public static function getAnnotationName()
     {
         return "AfterLoad";
+    }
+
+    /**
+     * @return string
+     */
+    function getEventSphring()
+    {
+        return SphringEventEnum::SPHRING_FINISHED_LOAD;
     }
 }

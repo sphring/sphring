@@ -22,7 +22,10 @@ use zpt\anno\Annotations;
  */
 class AnnotationsDispatcher
 {
-    private $fileteredAnnotation = [
+    /**
+     * @var array
+     */
+    private $filteredAnnotation = [
         "package",
         "var",
         "return",
@@ -34,7 +37,8 @@ class AnnotationsDispatcher
         "property",
         "see",
         "inheritdoc",
-        "global"
+        "global",
+        "internal"
     ];
     /**
      * @var AbstractBean
@@ -136,7 +140,7 @@ class AnnotationsDispatcher
             return;
         }
         foreach ($annotationsArray as $annotationName => $annotationValue) {
-            if (in_array($annotationName, $this->fileteredAnnotation)) {
+            if (in_array($annotationName, $this->filteredAnnotation)) {
                 continue;
             }
             $event = new EventAnnotation();
@@ -154,7 +158,7 @@ class AnnotationsDispatcher
      */
     public function getFileteredAnnotation()
     {
-        return $this->fileteredAnnotation;
+        return $this->filteredAnnotation;
     }
 
 }

@@ -14,8 +14,17 @@ namespace Arthurh\Sphring\EventDispatcher\Listener;
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
 
+/**
+ * EventListener which Triggered event for method annotation
+ * Class AnnotationMethodListener
+ * @package Arthurh\Sphring\EventDispatcher\Listener
+ */
 class AnnotationMethodListener extends AnnotationClassListener
 {
+    /**
+     * Return the name of the event triggered
+     * @return string
+     */
     public function getDefaultEventName()
     {
         return SphringEventEnum::ANNOTATION_METHOD;

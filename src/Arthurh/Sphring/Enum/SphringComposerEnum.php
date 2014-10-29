@@ -14,6 +14,11 @@ namespace Arthurh\Sphring\Enum;
 
 use MyCLabs\Enum\Enum;
 
+/**
+ * This class is an enum to parse Composer.lock
+ * Class SphringComposerEnum
+ * @package Arthurh\Sphring\Enum
+ */
 class SphringComposerEnum extends Enum
 {
     const EXTRA_SPHRING_ISPLUGIN_COMPOSER_KEY = "isPlugin";

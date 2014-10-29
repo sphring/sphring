@@ -17,35 +17,48 @@ namespace Arthurh\Sphring\Model\Bean;
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Sphring;
 
+/**
+ * Class FactoryBean
+ * @package Arthurh\Sphring\Model\Bean
+ */
 class FactoryBean
 {
 
+    /**
+     * @var
+     */
     private $beansType;
     /**
      * @var Sphring
      */
     private $sphring;
 
+    /**
+     * @param Sphring $sphring
+     */
     public function __construct(Sphring $sphring)
     {
         $this->sphring = $sphring;
     }
 
+    /**
+     * @param $beanId
+     * @param $info
+     * @return mixed
+     * @throws \Arthurh\Sphring\Exception\SphringException
+     */
     public function createBean($beanId, $info)
     {
         $beanClass = $this->getType($info['type']);
         $bean = new $beanClass($beanId);
+        unset($info['type']);
         if (!($bean instanceof AbstractBean)) {
             throw new SphringException("'%s' is not a valid bean, it must extends '%s'", $beanClass, AbstractBean::class);
         }
         $bean->setSphringEventDispatcher($this->sphring->getSphringEventDispatcher());
-        $bean->setClass($info['class']);
-        if (!empty($info['properties'])) {
-            $bean->setProperties($info['properties']);
-        }
-
-        if (!empty($info['extend'])) {
-            $bean->setExtend($this->sphring->getBeanObject($info['extend']));
+        foreach ($info as $key => $value) {
+            $set = 'set' . ucfirst($key);
+            $bean->$set($value);
         }
         return $bean;
     }
@@ -101,6 +114,11 @@ class FactoryBean
         }
     }
 
+    /**
+     * @param $type
+     * @param $className
+     * @throws \Arthurh\Sphring\Exception\SphringException
+     */
     public function addBeanType($type, $className)
     {
         if (!empty($this->beansType[$type])) {
@@ -112,6 +130,9 @@ class FactoryBean
         $this->beansType[$type] = $className;
     }
 
+    /**
+     * @param $type
+     */
     public function removeBeanType($type)
     {
         if (empty($this->beansType[$type])) {

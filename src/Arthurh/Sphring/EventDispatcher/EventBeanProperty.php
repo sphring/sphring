@@ -14,8 +14,15 @@ namespace Arthurh\Sphring\EventDispatcher;
 
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
+/**
+ * Class EventBeanProperty
+ * @package Arthurh\Sphring\EventDispatcher
+ */
 class EventBeanProperty extends AbstractSphringEvent
 {
+    /**
+     * @var
+     */
     private $data;
 
     /**

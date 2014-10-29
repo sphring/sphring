@@ -21,6 +21,10 @@ use Arthurh\Sphring\Exception\BeanException;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
+/**
+ * Class AbstractBean
+ * @package Arthurh\Sphring\Model\Bean
+ */
 class AbstractBean
 {
     /**
@@ -143,13 +147,35 @@ class AbstractBean
     }
 
     /**
-     * @param AbstractBean $extend
+     * @param string|AbstractBean $extend
      */
-    public function setExtend(AbstractBean $extend)
+    public function setExtend($extend)
     {
+        if (is_string($extend)) {
+            $extend = $this->getSphringEventDispatcher()->getSphring()->getBeanObject($extend);
+        }
         $this->extend = $extend;
     }
 
+    /**
+     * @return SphringEventDispatcher
+     */
+    public function getSphringEventDispatcher()
+    {
+        return $this->sphringEventDispatcher;
+    }
+
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
+    public function setSphringEventDispatcher($sphringEventDispatcher)
+    {
+        $this->sphringEventDispatcher = $sphringEventDispatcher;
+    }
+
+    /**
+     *
+     */
     public function inject()
     {
         $this->getLogger()->info(sprintf("Injecting in bean '%s'", $this->id));
@@ -173,6 +199,9 @@ class AbstractBean
         return LoggerSphring::getInstance();
     }
 
+    /**
+     *
+     */
     protected function instanciate()
     {
         $classReflector = new \ReflectionClass($this->class);
@@ -197,6 +226,9 @@ class AbstractBean
         }
     }
 
+    /**
+     *
+     */
     protected function dispatchAnnotations()
     {
         $annotationDispatcher = new AnnotationsDispatcher($this, $this->class, $this->sphringEventDispatcher);
@@ -267,22 +299,6 @@ class AbstractBean
     }
 
     /**
-     * @return SphringEventDispatcher
-     */
-    public function getSphringEventDispatcher()
-    {
-        return $this->sphringEventDispatcher;
-    }
-
-    /**
-     * @param SphringEventDispatcher $sphringEventDispatcher
-     */
-    public function setSphringEventDispatcher($sphringEventDispatcher)
-    {
-        $this->sphringEventDispatcher = $sphringEventDispatcher;
-    }
-
-    /**
      * @return array
      */
     public function getInterfaces()
@@ -299,11 +315,19 @@ class AbstractBean
         return $this->hasInterface($className) || $this->hasParent($className) || $this->class == $className;
     }
 
+    /**
+     * @param $interfaceName
+     * @return bool
+     */
     public function hasInterface($interfaceName)
     {
         return in_array($interfaceName, $this->interfaces);
     }
 
+    /**
+     * @param $className
+     * @return bool
+     */
     public function hasParent($className)
     {
         return $this->getParent() == $className;

@@ -34,8 +34,9 @@ class Node
     private $priority = 0;
 
     /**
-     * @param string $className
      * @param string $eventName
+     * @param string $className
+     * @param null $priority
      */
     function __construct($eventName, $className, $priority = null)
     {

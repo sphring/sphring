@@ -20,8 +20,15 @@ use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeAnnotationClass;
 use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeAnnotationMethod;
 use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeBeanProperty;
 
+/**
+ * Class Extender
+ * @package Arthurh\Sphring\Extender
+ */
 class Extender
 {
+    /**
+     *
+     */
     const DEFAULT_EXTENDNODE_NAME = 'Arthurh\\Sphring\\Extender\\ExtendNode\\ExtendNode';
     /**
      * @var string
@@ -37,12 +44,18 @@ class Extender
      */
     private $extendNodes = array();
 
+    /**
+     * @param SphringEventDispatcher $sphringEventDispatcher
+     */
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
         $this->sphringEventDispatcher = $sphringEventDispatcher;
 
     }
 
+    /**
+     *
+     */
     public function extend()
     {
         foreach ($this->extendNodes as $extendNode) {
@@ -68,6 +81,10 @@ class Extender
         }
     }
 
+    /**
+     * @param $extendNodeName
+     * @param $extendNodeNameInfo
+     */
     public function addExtendFromArray($extendNodeName, $extendNodeNameInfo)
     {
         $className = self::DEFAULT_EXTENDNODE_NAME . ucfirst($extendNodeName);
@@ -80,6 +97,11 @@ class Extender
 
     }
 
+    /**
+     * @param $className
+     * @return AbstractExtendNode|object
+     * @throws \Arthurh\Sphring\Exception\ExtenderException
+     */
     function getExtendNodeFromClassName($className)
     {
         if (!empty($this->extendNodes[$className])) {
@@ -100,6 +122,11 @@ class Extender
         return $extendNode;
     }
 
+    /**
+     * @param $info
+     * @return Node
+     * @throws \Arthurh\Sphring\Exception\ExtenderException
+     */
     private function makeNode($info)
     {
         if (empty($info['eventName']) || empty($info['class'])) {
@@ -108,22 +135,41 @@ class Extender
         return new Node($info['eventName'], $info['class'], $info['priority']);
     }
 
+    /**
+     * @param $propertyClassname
+     * @param $eventName
+     * @param int $priority
+     */
     public function addBeanProperty($propertyClassname, $eventName, $priority = 0)
     {
         $this->addNode(ExtendNodeBeanProperty::class, new Node($eventName, $propertyClassname, $priority));
     }
 
+    /**
+     * @param $classNameExtendNode
+     * @param Node $node
+     */
     public function addNode($classNameExtendNode, Node $node)
     {
         $extendNode = $this->getExtendNodeFromClassName($classNameExtendNode);
         $extendNode->addNode($node);
     }
 
+    /**
+     * @param $annotationClassname
+     * @param string $eventName
+     * @param int $priority
+     */
     public function addAnnotationClass($annotationClassname, $eventName = "", $priority = 0)
     {
         $this->addNode(ExtendNodeAnnotationClass::class, new Node($eventName, $annotationClassname, $priority));
     }
 
+    /**
+     * @param $annotationClassname
+     * @param string $eventName
+     * @param int $priority
+     */
     public function addAnnotationMethod($annotationClassname, $eventName = "", $priority = 0)
     {
         $this->addNode(ExtendNodeAnnotationMethod::class, new Node($eventName, $annotationClassname, $priority));

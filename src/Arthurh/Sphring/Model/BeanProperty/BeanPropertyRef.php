@@ -15,9 +15,16 @@ namespace Arthurh\Sphring\Model\BeanProperty;
 use Arthurh\Sphring\Exception\BeanPropertyException;
 use Arthurh\Sphring\Exception\SphringException;
 
+/**
+ * Class BeanPropertyRef
+ * @package Arthurh\Sphring\Model\BeanProperty
+ */
 class BeanPropertyRef extends AbstractBeanProperty
 {
 
+    /**
+     * @return array|object
+     */
     public function inject()
     {
         $beans = $this->getData();
@@ -38,6 +45,11 @@ class BeanPropertyRef extends AbstractBeanProperty
         return $beansArray;
     }
 
+    /**
+     * @param $beanId
+     * @return object
+     * @throws \Arthurh\Sphring\Exception\BeanPropertyException
+     */
     private function getBean($beanId)
     {
         try {
@@ -48,6 +60,10 @@ class BeanPropertyRef extends AbstractBeanProperty
         return $bean;
     }
 
+    /**
+     * @param $beans
+     * @return bool
+     */
     public function isAssoc($beans)
     {
         return array_keys($beans) !== range(0, count($beans) - 1);

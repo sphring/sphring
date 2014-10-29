@@ -20,6 +20,9 @@ use Psr\Log\LoggerInterface;
  */
 class LoggerSphring implements LoggerInterface
 {
+    /**
+     *
+     */
     const DEFAULT_MESSAGE = "Sphring: '%s' : ";
     /**
      * @var LoggerSphring
@@ -90,11 +93,17 @@ class LoggerSphring implements LoggerInterface
         $this->logger->emergency($this->getDefaultMessage() . $message, $context);
     }
 
+    /**
+     * @return string
+     */
     private function getDefaultMessage()
     {
         return sprintf(self::DEFAULT_MESSAGE, $this->getCallerInfo());
     }
 
+    /**
+     * @return string
+     */
     private function getCallerInfo()
     {
 

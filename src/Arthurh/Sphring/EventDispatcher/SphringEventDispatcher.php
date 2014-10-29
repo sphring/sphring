@@ -44,12 +44,20 @@ class SphringEventDispatcher extends EventDispatcher
      */
     private $queue = array();
 
+    /**
+     * @param Sphring $sphring
+     */
     function __construct(Sphring $sphring)
     {
         $this->sphring = $sphring;
         $this->sphringBoot = new SphringBoot($this);
     }
 
+    /**
+     * @param string $eventName
+     * @param Event $event
+     * @return null|Event
+     */
     public function dispatch($eventName, Event $event = null)
     {
         if (isset($this->queue[$eventName])) {
@@ -60,6 +68,9 @@ class SphringEventDispatcher extends EventDispatcher
         return parent::dispatch($eventName, $event);
     }
 
+    /**
+     * @return mixed
+     */
     public function dispatchQueue()
     {
 
@@ -86,6 +97,9 @@ class SphringEventDispatcher extends EventDispatcher
         return $eventsFromQueue;
     }
 
+    /**
+     *
+     */
     public function load()
     {
         if ($this->isLoaded) {
@@ -95,6 +109,12 @@ class SphringEventDispatcher extends EventDispatcher
         $this->isLoaded = true;
     }
 
+    /**
+     * @param string $eventName
+     * @param callable $listener
+     * @param int $priority
+     * @param bool $queued
+     */
     public function addListener($eventName, $listener, $priority = 0, $queued = false)
     {
         if ($queued && empty($this->queue[$eventName])) {
@@ -109,6 +129,10 @@ class SphringEventDispatcher extends EventDispatcher
 
     }
 
+    /**
+     * @param string $eventName
+     * @param callable $listener
+     */
     public function removeListener($eventName, $listener)
     {
         $listenerName = "";

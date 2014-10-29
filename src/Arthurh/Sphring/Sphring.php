@@ -45,6 +45,9 @@ class Sphring
      *
      */
     const DEFAULT_CONTEXT_FILE = 'main.yml';
+    /**
+     * @var null|string
+     */
     private $filename;
     /**
      * @var string
@@ -118,6 +121,9 @@ class Sphring
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
     }
 
+    /**
+     *
+     */
     public function beforeLoad()
     {
         $this->sphringEventDispatcher->load();
@@ -191,6 +197,9 @@ class Sphring
         $bean->inject();
     }
 
+    /**
+     *
+     */
     public function clear()
     {
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_CLEAR, new EventSphring($this));
@@ -294,6 +303,9 @@ class Sphring
         $this->extender->setSphringEventDispatcher($this->sphringEventDispatcher);
     }
 
+    /**
+     * @return Model\Bean\Bean[]
+     */
     public function getBeansObject()
     {
         return $this->beans;

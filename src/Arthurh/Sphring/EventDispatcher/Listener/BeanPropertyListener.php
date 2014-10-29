@@ -17,11 +17,18 @@ use Arthurh\Sphring\EventDispatcher\EventBeanProperty;
 use Arthurh\Sphring\Exception\SphringEventListenerException;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
+/**
+ * EventListener which Triggered event for bean property
+ * Class BeanPropertyListener
+ * @package Arthurh\Sphring\EventDispatcher\Listener
+ */
 class BeanPropertyListener extends AbstractSphringEventListener
 {
 
     /**
+     * Event which will be triggered
      * @param EventBeanProperty $event
+     * @throws \Arthurh\Sphring\Exception\SphringEventListenerException
      */
     public function  onEvent($event)
     {
@@ -35,6 +42,10 @@ class BeanPropertyListener extends AbstractSphringEventListener
 
     }
 
+    /**
+     * Return the name of the event triggered
+     * @return string
+     */
     public function getDefaultEventName()
     {
         return SphringEventEnum::PROPERTY_INJECTION;

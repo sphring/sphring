@@ -17,10 +17,19 @@ use Arthurh\Sphring\EventDispatcher\EventAnnotation;
 use Arthurh\Sphring\Exception\SphringEventListenerException;
 use Arthurh\Sphring\Model\Annotation\AbstractAnnotation;
 
+/**
+ * EventListener which Triggered event for class annotation
+ * Class AnnotationClassListener
+ * @package Arthurh\Sphring\EventDispatcher\Listener
+ */
 class AnnotationClassListener extends AbstractSphringEventListener
 {
     /**
+     * Register your event
      * @param string $eventName
+     * @param $className
+     * @param int $priority
+     * @param bool $queued
      */
     public function register($eventName, $className, $priority = 0, $queued = false)
     {
@@ -28,6 +37,11 @@ class AnnotationClassListener extends AbstractSphringEventListener
         parent::register($eventName, $className, $priority, $queued);
     }
 
+    /**
+     * Event which will be triggered
+     * @param $event
+     * @throws \Arthurh\Sphring\Exception\SphringEventListenerException
+     */
     public function  onEvent($event)
     {
         if (!($event instanceof EventAnnotation)) {
@@ -45,6 +59,10 @@ class AnnotationClassListener extends AbstractSphringEventListener
 
     }
 
+    /**
+     * Return the name of the event triggered
+     * @return string
+     */
     public function getDefaultEventName()
     {
         return SphringEventEnum::ANNOTATION_CLASS;

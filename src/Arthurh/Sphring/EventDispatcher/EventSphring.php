@@ -15,6 +15,10 @@ namespace Arthurh\Sphring\EventDispatcher;
 use Arthurh\Sphring\Sphring;
 use Symfony\Component\EventDispatcher\Event;
 
+/**
+ * Class EventSphring
+ * @package Arthurh\Sphring\EventDispatcher
+ */
 class EventSphring extends Event
 {
 
@@ -23,6 +27,9 @@ class EventSphring extends Event
      */
     private $sphring;
 
+    /**
+     * @param Sphring $sphring
+     */
     public function __construct(Sphring $sphring)
     {
         $this->sphring = $sphring;

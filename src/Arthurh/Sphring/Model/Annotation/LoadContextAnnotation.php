@@ -15,14 +15,24 @@ namespace Arthurh\Sphring\Model\Annotation;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 use Arthurh\Sphring\Runner\SphringRunner;
 
+/**
+ * Class LoadContextAnnotation
+ * @package Arthurh\Sphring\Model\Annotation
+ */
 class LoadContextAnnotation extends AbstractAnnotation
 {
 
+    /**
+     * @return string
+     */
     public static function getAnnotationName()
     {
         return "LoadContext";
     }
 
+    /**
+     * @throws \Arthurh\Sphring\Exception\SphringAnnotationException
+     */
     public function run()
     {
         if (!$this->isInSphringRunner()) {

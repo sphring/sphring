@@ -12,6 +12,10 @@
 
 namespace Arthurh\Sphring\Exception;
 
+/**
+ * Class SphringEventListenerException
+ * @package Arthurh\Sphring\Exception
+ */
 class SphringEventListenerException extends SphringException
 {
 

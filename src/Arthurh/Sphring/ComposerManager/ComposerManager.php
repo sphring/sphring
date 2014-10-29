@@ -19,6 +19,11 @@ use Composer\Composer;
 use Composer\Factory;
 use Composer\IO\NullIO;
 
+/**
+ * This class will read your composer configuration to find any sphring plugin and extend your current sphring with theses sphring plugins
+ * Class ComposerManager
+ * @package Arthurh\Sphring\ComposerManager
+ */
 class ComposerManager
 {
     /**
@@ -35,10 +40,16 @@ class ComposerManager
      */
     private $composer;
 
+    /**
+     *
+     */
     public function __construct()
     {
     }
 
+    /**
+     * Load information from composer.lock
+     */
     public function loadComposer()
     {
         $composerFile = $this->getComposerFile();
@@ -63,6 +74,10 @@ class ComposerManager
         }
     }
 
+    /**
+     * Return the composer.json by finding it in the project
+     * @return null|string
+     */
     public function getComposerFile()
     {
         $composerFile = basename(Factory::getComposerFile());
@@ -80,6 +95,7 @@ class ComposerManager
     }
 
     /**
+     * Return the root path project
      * @return string
      */
     public function getRootProject()
@@ -88,6 +104,7 @@ class ComposerManager
     }
 
     /**
+     * Set the root path project
      * @param string $rootProject
      */
     public function setRootProject($rootProject)
@@ -96,6 +113,7 @@ class ComposerManager
     }
 
     /**
+     * Parse from composer.lock extra properties to extend the current sphring
      */
     private function loadSphringPlugin(array $packageSphring)
     {
@@ -117,6 +135,10 @@ class ComposerManager
 
     }
 
+    /**
+     * Extend the current sphring
+     * @param array $extendNodesArray
+     */
     private function extendFromComposer(array $extendNodesArray)
     {
         foreach ($extendNodesArray as $extendNodeName => $extendNodeNameInfo) {
@@ -126,6 +148,7 @@ class ComposerManager
     }
 
     /**
+     * Get extender object
      * @return Extender
      */
     public function getExtender()
@@ -134,6 +157,7 @@ class ComposerManager
     }
 
     /**
+     * Set extender object
      * @param Extender $extender
      */
     public function setExtender(Extender $extender)
@@ -142,6 +166,7 @@ class ComposerManager
     }
 
     /**
+     * Get composer object
      * @return Composer
      */
     public function getComposer()

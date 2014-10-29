@@ -16,6 +16,10 @@ use Arthurh\Sphring\EventDispatcher\AnnotationsDispatcher;
 use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Sphring;
 
+/**
+ * Class SphringRunner
+ * @package Arthurh\Sphring\Runner
+ */
 abstract class SphringRunner
 {
     /**
@@ -27,6 +31,9 @@ abstract class SphringRunner
      */
     private $sphring;
 
+    /**
+     *
+     */
     protected function __construct()
     {
         $this->sphring = new Sphring();
@@ -34,6 +41,9 @@ abstract class SphringRunner
         $this->dispatchAnnotations();
     }
 
+    /**
+     *
+     */
     private function dispatchAnnotations()
     {
         $bean = new Bean(get_class($this));
@@ -63,6 +73,10 @@ abstract class SphringRunner
         return $this->sphring;
     }
 
+    /**
+     * @param $beanId
+     * @return object
+     */
     public function getBean($beanId)
     {
         return $this->sphring->getBean($beanId);

@@ -14,14 +14,24 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 
+/**
+ * Class RequiredAnnotation
+ * @package Arthurh\Sphring\Model\Annotation
+ */
 class RequiredAnnotation extends AbstractAnnotation
 {
 
+    /**
+     * @return string
+     */
     public static function getAnnotationName()
     {
         return "Required";
     }
 
+    /**
+     * @throws \Arthurh\Sphring\Exception\SphringAnnotationException
+     */
     public function run()
     {
         if (!$this->isSetter()) {

@@ -15,13 +15,23 @@ namespace Arthurh\Sphring\Model\Annotation;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 use Arthurh\Sphring\Runner\SphringRunner;
 
+/**
+ * Class RootProjectAnnotation
+ * @package Arthurh\Sphring\Model\Annotation
+ */
 class RootProjectAnnotation extends AbstractAnnotation
 {
+    /**
+     * @return string
+     */
     public static function getAnnotationName()
     {
         return "RootProject";
     }
 
+    /**
+     * @throws \Arthurh\Sphring\Exception\SphringAnnotationException
+     */
     public function run()
     {
         if (!$this->isInSphringRunner()) {

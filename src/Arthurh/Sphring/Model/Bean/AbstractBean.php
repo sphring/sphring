@@ -13,7 +13,6 @@
 
 namespace Arthurh\Sphring\Model\Bean;
 
-use Arthurh\Sphring\Enum\BeanTypeEnum;
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\EventDispatcher\AnnotationsDispatcher;
 use Arthurh\Sphring\EventDispatcher\EventBeanProperty;

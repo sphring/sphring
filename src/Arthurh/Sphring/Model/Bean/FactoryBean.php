@@ -14,8 +14,6 @@
 namespace Arthurh\Sphring\Model\Bean;
 
 
-use Arthurh\Sphring\Enum\BeanTypeEnum;
-use Arthurh\Sphring\Exception\BeanException;
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Sphring;
 

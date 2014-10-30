@@ -41,7 +41,7 @@ class LoadContextAnnotation extends AbstractAnnotation
         }
         $contextFile = $this->getData();
         $sphring = $this->getSphringEventDispatcher()->getSphring();
-        if (!is_numeric($contextFile)) {
+        if (!is_bool($contextFile)) {
             $sphring->setFilename($contextFile);
         }
     }

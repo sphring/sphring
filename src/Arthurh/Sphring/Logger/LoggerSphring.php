@@ -77,7 +77,7 @@ class LoggerSphring implements LoggerInterface
      * Set the LoggerInterface
      * @param LoggerInterface $logger
      */
-    public function setLogger(LoggerInterface $logger)
+    public function setLogger($logger)
     {
         $this->logger = $logger;
     }

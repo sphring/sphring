@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 Orange
+ * Copyright (C) 2014 Arthur Halet
  *
  * This software is distributed under the terms and conditions of the 'MIT'
  * license which can be found in the file 'LICENSE' in this package distribution
@@ -15,13 +15,14 @@ namespace Arthurh\Sphring\Extender\ExtendNode;
 
 
 /**
+ * Extend bean type
  * Class ExtendNodeBeanType
  * @package Arthurh\Sphring\Extender\ExtendNode
  */
 class ExtendNodeBeanType extends AbstractExtendNode
 {
     /**
-     *
+     * @see AbstractExtendNode::extend
      */
     public function extend()
     {

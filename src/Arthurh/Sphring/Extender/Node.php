@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 Orange
+ * Copyright (C) 2014 Arthur Halet
  *
  * This software is distributed under the terms and conditions of the 'MIT'
  * license which can be found in the file 'LICENSE' in this package distribution
@@ -15,6 +15,8 @@ namespace Arthurh\Sphring\Extender;
 use Arthurh\Sphring\Exception\ExtenderException;
 
 /**
+ * A model class to extend sphring.
+ * It has event name, a class name and priority for a particular event
  * Class Node
  * @package Arthurh\Sphring\Extender
  */
@@ -34,6 +36,7 @@ class Node
     private $priority = 0;
 
     /**
+     * Constructor
      * @param string $eventName
      * @param string $className
      * @param null $priority
@@ -51,6 +54,7 @@ class Node
     }
 
     /**
+     * Get the class name of the extension
      * @return string
      */
     public function getClassName()
@@ -59,6 +63,7 @@ class Node
     }
 
     /**
+     * Set the class name of the extension
      * @param string $className
      * @throws \Arthurh\Sphring\Exception\ExtenderException
      */
@@ -71,6 +76,7 @@ class Node
     }
 
     /**
+     * Get the event name of the extension
      * @return string
      */
     public function getEventName()
@@ -79,6 +85,7 @@ class Node
     }
 
     /**
+     * Set the event name of the extension
      * @param string $eventName
      */
     public function setEventName($eventName)
@@ -87,6 +94,7 @@ class Node
     }
 
     /**
+     * Get the priority of the extension
      * @return int
      */
     public function getPriority()
@@ -95,6 +103,7 @@ class Node
     }
 
     /**
+     * Set the priority of the extension
      * @param int $priority
      */
     public function setPriority($priority)

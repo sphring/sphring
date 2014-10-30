@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 Orange
+ * Copyright (C) 2014 Arthur Halet
  *
  * This software is distributed under the terms and conditions of the 'MIT'
  * license which can be found in the file 'LICENSE' in this package distribution
@@ -21,6 +21,7 @@ use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeAnnotationMethod;
 use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeBeanProperty;
 
 /**
+ * Class which will extend the current Sphring
  * Class Extender
  * @package Arthurh\Sphring\Extender
  */
@@ -45,6 +46,7 @@ class Extender
     private $extendNodes = array();
 
     /**
+     * Constructor
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
@@ -54,7 +56,7 @@ class Extender
     }
 
     /**
-     *
+     * Extend from all extend nodes referenced
      */
     public function extend()
     {
@@ -64,6 +66,7 @@ class Extender
     }
 
     /**
+     * Extend from a yml file
      * @param string $file
      */
     public function addExtendFromFile($file)
@@ -82,6 +85,7 @@ class Extender
     }
 
     /**
+     * Extend from an array
      * @param $extendNodeName
      * @param $extendNodeNameInfo
      */
@@ -98,6 +102,7 @@ class Extender
     }
 
     /**
+     * Extend from an AbstractExtendNode implementation
      * @param $className
      * @return AbstractExtendNode|object
      * @throws \Arthurh\Sphring\Exception\ExtenderException
@@ -123,6 +128,7 @@ class Extender
     }
 
     /**
+     * Create node from array of info
      * @param $info
      * @return Node
      * @throws \Arthurh\Sphring\Exception\ExtenderException
@@ -136,6 +142,7 @@ class Extender
     }
 
     /**
+     * Add bean property extension with an ExtendNodeBeanProperty
      * @param $propertyClassname
      * @param $eventName
      * @param int $priority
@@ -146,6 +153,7 @@ class Extender
     }
 
     /**
+     * Add node extension to an AbstractExtendNode
      * @param $classNameExtendNode
      * @param Node $node
      */
@@ -156,6 +164,7 @@ class Extender
     }
 
     /**
+     * Add annotation class extension with an ExtendNodeAnnotationClass
      * @param $annotationClassname
      * @param string $eventName
      * @param int $priority
@@ -166,6 +175,7 @@ class Extender
     }
 
     /**
+     * Add annotation method extension with an ExtendNodeAnnotationMethod
      * @param $annotationClassname
      * @param string $eventName
      * @param int $priority
@@ -176,6 +186,7 @@ class Extender
     }
 
     /**
+     * Set the SphringEventDispatcher
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
@@ -184,6 +195,7 @@ class Extender
     }
 
     /**
+     * Get the default file name use to extend
      * @return string
      */
     public function getDefaultFilename()
@@ -192,6 +204,7 @@ class Extender
     }
 
     /**
+     * Set the default file name use to extend
      * @param string $defaultFilename
      */
     public function setDefaultFilename($defaultFilename)
@@ -200,6 +213,7 @@ class Extender
     }
 
     /**
+     * Get the list of AbstractExtendNode
      * @return ExtendNode\AbstractExtendNode[]
      */
     public function getExtendNodes()

@@ -13,6 +13,7 @@
 namespace Arthurh\Sphring\Extender\ExtendNode;
 
 /**
+ * Extend Annotation for class
  * Class ExtendNodeAnnotationClass
  * @package Arthurh\Sphring\Extender\ExtendNode
  */
@@ -20,7 +21,7 @@ class ExtendNodeAnnotationClass extends AbstractExtendNode
 {
 
     /**
-     *
+     * @see AbstractExtendNode::extend
      */
     public function extend()
     {

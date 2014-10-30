@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\Logger;
 use Psr\Log\LoggerInterface;
 
 /**
+ * Singleton class use to log Sphring, you must pass a LoggerInterface implementation to this class
  * Class LoggerSphring
  * @package Arthurh\Sphring\Logger
  */
@@ -51,6 +52,7 @@ class LoggerSphring implements LoggerInterface
     }
 
     /**
+     * Return the LoggerSphring
      * @return LoggerSphring
      */
     public static function getInstance()
@@ -63,6 +65,7 @@ class LoggerSphring implements LoggerInterface
     }
 
     /**
+     * Get the LoggerInterface
      * @return LoggerInterface
      */
     public function getLogger()
@@ -71,9 +74,10 @@ class LoggerSphring implements LoggerInterface
     }
 
     /**
+     * Set the LoggerInterface
      * @param LoggerInterface $logger
      */
-    public function setLogger($logger)
+    public function setLogger(LoggerInterface $logger)
     {
         $this->logger = $logger;
     }
@@ -262,6 +266,7 @@ class LoggerSphring implements LoggerInterface
     }
 
     /**
+     * Return true if logger will give the file which logging
      * @return boolean
      */
     public function getWithFile()
@@ -270,6 +275,7 @@ class LoggerSphring implements LoggerInterface
     }
 
     /**
+     * Set to true if you want logger gave the file which logging
      * @param boolean $withFile
      */
     public function setWithFile($withFile)
@@ -278,6 +284,7 @@ class LoggerSphring implements LoggerInterface
     }
 
     /**
+     * Return true if logger will give the class which logging
      * @return boolean
      */
     public function getWithClass()
@@ -286,6 +293,7 @@ class LoggerSphring implements LoggerInterface
     }
 
     /**
+     * Set to true if you want logger gave the class which logging
      * @param boolean $withClass
      */
     public function setWithClass($withClass)

@@ -1,6 +1,6 @@
 <?php
 /**
- * Copyright (C) 2014 Orange
+ * Copyright (C) 2014 Arthur Halet
  *
  * This software is distributed under the terms and conditions of the 'MIT'
  * license which can be found in the file 'LICENSE' in this package distribution
@@ -16,6 +16,7 @@ use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Extender\Node;
 
 /**
+ * This class is an abstract class to permit extension easily on sphring.
  * Class AbstractExtendNode
  * @package Arthurh\Sphring\Extender\ExtendNode
  */
@@ -40,6 +41,7 @@ abstract class AbstractExtendNode
     }
 
     /**
+     * Return all nodes referenced in ExtendNode
      * @return Node[]
      */
     public function getNodes()
@@ -48,6 +50,7 @@ abstract class AbstractExtendNode
     }
 
     /**
+     * Set Nodes to reference
      * @param Node[] $nodes
      */
     public function setNodes(array $nodes)
@@ -56,6 +59,7 @@ abstract class AbstractExtendNode
     }
 
     /**
+     * Add a Node in this ExtendNode
      * @param Node $node
      */
     public function addNode(Node $node)
@@ -64,6 +68,7 @@ abstract class AbstractExtendNode
     }
 
     /**
+     * Remove a Node in this ExtendNode
      * @param Node $nodeOrigin
      */
     public function removeNode(Node $nodeOrigin)
@@ -81,6 +86,7 @@ abstract class AbstractExtendNode
     }
 
     /**
+     * Return the SphringEventDispatcher
      * @return SphringEventDispatcher
      */
     public function getSphringEventDispatcher()
@@ -89,6 +95,7 @@ abstract class AbstractExtendNode
     }
 
     /**
+     * Set the SphringEventDispatcher
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
@@ -97,6 +104,7 @@ abstract class AbstractExtendNode
     }
 
     /**
+     * Method which will be called for extend the current Sphring
      * @return mixed
      */
     abstract public function extend();

@@ -106,7 +106,7 @@ class Sphring
         $this->getLogger()->info("Starting loading context...");
         $yamlarh = $this->getYamlarh($this->filename);
         if (empty($yamlarh)) {
-            throw new SphringException("Cannot load context, file '%s' doesn't exist", $this->filename);
+            throw new SphringException("Cannot load context, file '%s' doesn't exist in root project '%s'", $this->filename, $this->getRootProject());
         }
         $this->filename = realpath($yamlarh->getFilename());
         $this->contextRoot = dirname(realpath($yamlarh->getFilename()));

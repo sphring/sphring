@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\EventDispatcher;
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
 
 /**
+ * Event when bean property are read
  * Class EventBeanProperty
  * @package Arthurh\Sphring\EventDispatcher
  */
@@ -26,6 +27,7 @@ class EventBeanProperty extends AbstractSphringEvent
     private $data;
 
     /**
+     * Get the bean property
      * @return AbstractBeanProperty
      */
     public function getBeanProperty()
@@ -34,6 +36,7 @@ class EventBeanProperty extends AbstractSphringEvent
     }
 
     /**
+     * Set the bean property
      * @param AbstractBeanProperty $beanProperty
      */
     public function setBeanProperty($beanProperty)
@@ -42,6 +45,7 @@ class EventBeanProperty extends AbstractSphringEvent
     }
 
     /**
+     * Get data passed to this event
      * @return mixed
      */
     public function getData()
@@ -50,6 +54,7 @@ class EventBeanProperty extends AbstractSphringEvent
     }
 
     /**
+     * Set data passed to this event
      * @param mixed $data
      */
     public function setData($data)

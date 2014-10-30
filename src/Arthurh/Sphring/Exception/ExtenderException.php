@@ -13,6 +13,7 @@
 namespace Arthurh\Sphring\Exception;
 
 /**
+ * @see Arthurh\Sphring\Exception\SphringException
  * Class ExtenderException
  * @package Arthurh\Sphring\Exception
  */

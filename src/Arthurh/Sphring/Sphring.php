@@ -97,7 +97,7 @@ class Sphring
     }
 
     /**
-     * @param $filename
+     *
      */
     public function loadContext()
     {
@@ -138,7 +138,7 @@ class Sphring
     }
 
     /**
-     * @param null $filename
+     * @param string $filename
      * @return Yamlarh|null
      */
     public function getYamlarh($filename)

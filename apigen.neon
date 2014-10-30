@@ -1,0 +1,6 @@
+source:
+	- src
+	
+destination: api
+title: Sphring API
+download: true

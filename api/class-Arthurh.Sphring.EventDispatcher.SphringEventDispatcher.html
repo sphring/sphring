@@ -1,0 +1,741 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+
+	<title>Class Arthurh\Sphring\EventDispatcher\SphringEventDispatcher | Sphring API</title>
+
+	<link rel="stylesheet" href="resources/style.css?1648332946">
+
+</head>
+
+<body>
+<div id="left">
+	<div id="menu">
+		<a href="index.html" title="Overview"><span>Overview</span></a>
+
+
+		<div id="groups">
+			<h3>Namespaces</h3>
+			<ul>
+				<li class="active"><a href="namespace-Arthurh.html">Arthurh<span></span></a>
+						<ul>
+				<li class="active"><a href="namespace-Arthurh.Sphring.html">Sphring<span></span></a>
+						<ul>
+				<li><a href="namespace-Arthurh.Sphring.ComposerManager.html">ComposerManager</a>
+						</li>
+				<li><a href="namespace-Arthurh.Sphring.Enum.html">Enum</a>
+						</li>
+				<li class="active"><a href="namespace-Arthurh.Sphring.EventDispatcher.html">EventDispatcher<span></span></a>
+						<ul>
+				<li><a href="namespace-Arthurh.Sphring.EventDispatcher.Listener.html">Listener</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Arthurh.Sphring.Exception.html">Exception</a>
+						</li>
+				<li><a href="namespace-Arthurh.Sphring.Extender.html">Extender<span></span></a>
+						<ul>
+				<li><a href="namespace-Arthurh.Sphring.Extender.ExtendNode.html">ExtendNode</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Arthurh.Sphring.Logger.html">Logger</a>
+						</li>
+				<li><a href="namespace-Arthurh.Sphring.Model.html">Model<span></span></a>
+						<ul>
+				<li><a href="namespace-Arthurh.Sphring.Model.Annotation.html">Annotation</a>
+						</li>
+				<li><a href="namespace-Arthurh.Sphring.Model.Bean.html">Bean</a>
+						</li>
+				<li><a href="namespace-Arthurh.Sphring.Model.BeanProperty.html">BeanProperty</a>
+						</li>
+							</ul></li>
+				<li><a href="namespace-Arthurh.Sphring.Runner.html">Runner</a>
+						</li>
+							</ul></li></ul></li>
+				<li><a href="namespace-PHP.html">PHP</a>
+						</li>
+			</ul>
+		</div>
+
+		<hr>
+
+
+		<div id="elements">
+			<h3>Classes</h3>
+			<ul>
+				<li><a href="class-Arthurh.Sphring.EventDispatcher.AbstractSphringEvent.html">AbstractSphringEvent</a></li>
+				<li><a href="class-Arthurh.Sphring.EventDispatcher.AnnotationsDispatcher.html">AnnotationsDispatcher</a></li>
+				<li><a href="class-Arthurh.Sphring.EventDispatcher.EventAnnotation.html">EventAnnotation</a></li>
+				<li><a href="class-Arthurh.Sphring.EventDispatcher.EventBeanProperty.html">EventBeanProperty</a></li>
+				<li><a href="class-Arthurh.Sphring.EventDispatcher.EventSphring.html">EventSphring</a></li>
+				<li class="active"><a href="class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html">SphringEventDispatcher</a></li>
+			</ul>
+
+
+
+
+
+		</div>
+	</div>
+</div>
+
+<div id="splitter"></div>
+
+<div id="right">
+<div id="rightInner">
+	<form id="search">
+		<input type="hidden" name="cx" value="">
+		<input type="hidden" name="ie" value="UTF-8">
+		<input type="text" name="q" class="text" placeholder="Search">
+	</form>
+
+	<div id="navigation">
+		<ul>
+			<li>
+				<a href="index.html" title="Overview"><span>Overview</span></a>
+			</li>
+			<li>
+				<a href="namespace-Arthurh.Sphring.EventDispatcher.html" title="Summary of Arthurh\Sphring\EventDispatcher"><span>Namespace</span></a>
+			</li>
+			<li class="active">
+<span>Class</span>			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="tree.html" title="Tree view of classes, interfaces, traits and exceptions"><span>Tree</span></a>
+			</li>
+		</ul>
+		<ul>
+			<li>
+				<a href="sphring-api-api-documentation.zip" title="Download documentation as ZIP archive"><span>Download</span></a>
+			</li>
+		</ul>
+	</div>
+
+<div id="content" class="class">
+	<h1>Class SphringEventDispatcher</h1>
+
+
+	<div class="description">
+	<p>SphringEventDispatcher extends EventDispatcher
+Listeners are registered on the manager and events are dispatched through the
+manager.
+You can also put in queue event which will be triggered when load context is finished
+Class SphringEventDispatcher</p>
+
+	</div>
+
+	<dl class="tree">
+		<dd style="padding-left:0px">
+Symfony\Component\EventDispatcher\EventDispatcher
+			
+			
+		</dd>
+		<dd style="padding-left:30px">
+			<img src="resources/inherit.png" alt="Extended by">
+<b><span>Arthurh\Sphring\EventDispatcher\SphringEventDispatcher</span></b>			
+			
+			
+		</dd>
+	</dl>
+
+
+
+
+
+
+
+
+	<div class="info">
+		
+		
+		<b>Namespace:</b> Arthurh\Sphring\EventDispatcher<br>
+		<b>Package:</b> Arthurh\Sphring\EventDispatcher<br>
+
+		<b>Located at</b> <a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#21-229" title="Go to source code">Arthurh/Sphring/EventDispatcher/SphringEventDispatcher.php</a><br>
+	</div>
+
+
+
+	<table class="summary methods" id="methods">
+	<caption>Methods summary</caption>
+	<tr data-order="__construct" id="___construct">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#___construct">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#51-59" title="Go to source code">__construct</a>( <span><code><a href="class-Arthurh.Sphring.Sphring.html">Arthurh\Sphring\Sphring</a></code> <var>$sphring</var></span> )</code>
+
+		<div class="description short">
+			<p>Constructor</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Constructor</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sphring</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="dispatch" id="_dispatch">
+
+		<td class="attributes"><code>
+			 public 
+
+			null|Symfony\Component\EventDispatcher\Event
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_dispatch">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#61-75" title="Go to source code">dispatch</a>( <span>string <var>$eventName</var></span>, <span>Symfony\Component\EventDispatcher\Event <var>$event</var> = <span class="php-keyword1">null</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eventName</var></dt>
+					<dd>
+</dd>
+					<dt><var>$event</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>null|Symfony\Component\EventDispatcher\Event</code>
+				</div>
+
+
+				<h4>See</h4>
+				<div class="list">
+						EventDispatcher::dispatch
+<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="dispatchQueue" id="_dispatchQueue">
+
+		<td class="attributes"><code>
+			 public 
+
+			mixed
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_dispatchQueue">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#77-91" title="Go to source code">dispatchQueue</a>( )</code>
+
+		<div class="description short">
+			<p>Dispatch events from queue</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Dispatch events from queue</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>mixed</code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="load" id="_load">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_load">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#108-118" title="Go to source code">load</a>( )</code>
+
+		<div class="description short">
+			<p>Initialize SphringEventDispatcher by register event listener from SphringBoot</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Initialize SphringEventDispatcher by register event listener from SphringBoot</p>
+
+
+
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="addListener" id="_addListener">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_addListener">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#120-139" title="Go to source code">addListener</a>( <span>string <var>$eventName</var></span>, <span>callable <var>$listener</var></span>, <span>integer <var>$priority</var> = <span class="php-num">0</span></span>, <span>boolean <var>$queued</var> = <span class="php-keyword1">false</span></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eventName</var></dt>
+					<dd>
+</dd>
+					<dt><var>$listener</var></dt>
+					<dd>
+</dd>
+					<dt><var>$priority</var></dt>
+					<dd>
+</dd>
+					<dt><var>$queued</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						EventDispatcher::addListener
+<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="removeListener" id="_removeListener">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_removeListener">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#141-154" title="Go to source code">removeListener</a>( <span>string <var>$eventName</var></span>, <span>callable <var>$listener</var></span> )</code>
+
+		<div class="description short">
+			
+
+		</div>
+
+		<div class="description detailed hidden">
+			
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$eventName</var></dt>
+					<dd>
+</dd>
+					<dt><var>$listener</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+
+
+				<h4>See</h4>
+				<div class="list">
+						EventDispatcher::removeListener
+<br>
+				</div>
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getSphring" id="_getSphring">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Arthurh.Sphring.Sphring.html">Arthurh\Sphring\Sphring</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getSphring">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#156-163" title="Go to source code">getSphring</a>( )</code>
+
+		<div class="description short">
+			<p>Return Sphring object</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return Sphring object</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Arthurh.Sphring.Sphring.html">Arthurh\Sphring\Sphring</a></code></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setSphring" id="_setSphring">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setSphring">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#165-172" title="Go to source code">setSphring</a>( <span><code><a href="class-Arthurh.Sphring.Sphring.html">Arthurh\Sphring\Sphring</a></code> <var>$sphring</var></span> )</code>
+
+		<div class="description short">
+			<p>Set the Sphring object</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Set the Sphring object</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sphring</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getSphringBoot" id="_getSphringBoot">
+
+		<td class="attributes"><code>
+			 public 
+
+			<code><a href="class-Arthurh.Sphring.SphringBoot.html">Arthurh\Sphring\SphringBoot</a></code>
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getSphringBoot">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#174-181" title="Go to source code">getSphringBoot</a>( )</code>
+
+		<div class="description short">
+			<p>Return SphringBoot object</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return SphringBoot object</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code><code><a href="class-Arthurh.Sphring.SphringBoot.html">Arthurh\Sphring\SphringBoot</a></code></code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setSphringBoot" id="_setSphringBoot">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setSphringBoot">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#183-191" title="Go to source code">setSphringBoot</a>( <span><code><a href="class-Arthurh.Sphring.SphringBoot.html">Arthurh\Sphring\SphringBoot</a></code> <var>$sphringBoot</var></span> )</code>
+
+		<div class="description short">
+			<p>Set the SphringBoot object</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Set the SphringBoot object</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$sphringBoot</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getLoaded" id="_getLoaded">
+
+		<td class="attributes"><code>
+			 public 
+
+			boolean
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getLoaded">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#193-200" title="Go to source code">getLoaded</a>( )</code>
+
+		<div class="description short">
+			<p>Return true if SphringEventDispatcher has finished to load</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return true if SphringEventDispatcher has finished to load</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>boolean</code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setLoaded" id="_setLoaded">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setLoaded">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#202-209" title="Go to source code">setLoaded</a>( <span>boolean <var>$isLoaded</var></span> )</code>
+
+		<div class="description short">
+			<p>Set if SphringEventDispatcher has finished to load</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Set if SphringEventDispatcher has finished to load</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$isLoaded</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="getQueue" id="_getQueue">
+
+		<td class="attributes"><code>
+			 public 
+
+			Symfony\Component\EventDispatcher\Event
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_getQueue">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#211-218" title="Go to source code">getQueue</a>( )</code>
+
+		<div class="description short">
+			<p>Return the queue</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Return the queue</p>
+
+
+
+
+				<h4>Returns</h4>
+				<div class="list">
+					<code>Symfony\Component\EventDispatcher\Event</code>
+				</div>
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	<tr data-order="setQueue" id="_setQueue">
+
+		<td class="attributes"><code>
+			 public 
+
+			
+			
+			</code>
+		</td>
+
+		<td class="name"><div>
+		<a class="anchor" href="#_setQueue">#</a>
+		<code><a href="source-class-Arthurh.Sphring.EventDispatcher.SphringEventDispatcher.html#220-227" title="Go to source code">setQueue</a>( <span>Symfony\Component\EventDispatcher\Event <var>$queue</var></span> )</code>
+
+		<div class="description short">
+			<p>Set the queue</p>
+
+		</div>
+
+		<div class="description detailed hidden">
+			<p>Set the queue</p>
+
+
+
+				<h4>Parameters</h4>
+				<div class="list"><dl>
+					<dt><var>$queue</var></dt>
+					<dd>
+</dd>
+				</dl></div>
+
+
+
+
+
+		</div>
+		</div></td>
+	</tr>
+	</table>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+</div>
+
+	<div id="footer">
+		Sphring API API documentation generated by <a href="http://apigen.org">ApiGen</a>
+	</div>
+</div>
+</div>
+<script src="resources/combined.js?721046668"></script>
+<script src="elementlist.js?3391189599"></script>
+</body>
+</html>

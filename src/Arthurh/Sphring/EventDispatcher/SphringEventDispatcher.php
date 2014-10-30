@@ -19,6 +19,10 @@ use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 
 /**
+ * SphringEventDispatcher extends EventDispatcher
+ * Listeners are registered on the manager and events are dispatched through the
+ * manager.
+ * You can also put in queue event which will be triggered when load context is finished
  * Class SphringEventDispatcher
  * @package Arthurh\Sphring\EventDispatcher
  */
@@ -45,6 +49,7 @@ class SphringEventDispatcher extends EventDispatcher
     private $queue = array();
 
     /**
+     * Constructor
      * @param Sphring $sphring
      */
     function __construct(Sphring $sphring)
@@ -54,6 +59,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * @see EventDispatcher::dispatch
      * @param string $eventName
      * @param Event $event
      * @return null|Event
@@ -69,6 +75,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Dispatch events from queue
      * @return mixed
      */
     public function dispatchQueue()
@@ -84,6 +91,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Dispatch events from queue
      * @param integer $eventName
      * @param Event[] $events
      * @return Event[]
@@ -98,7 +106,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
-     *
+     * Initialize SphringEventDispatcher by register event listener from SphringBoot
      */
     public function load()
     {
@@ -110,6 +118,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * @see EventDispatcher::addListener
      * @param string $eventName
      * @param callable $listener
      * @param int $priority
@@ -130,6 +139,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * @see EventDispatcher::removeListener
      * @param string $eventName
      * @param callable $listener
      */
@@ -144,6 +154,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Return Sphring object
      * @return Sphring
      */
     public function getSphring()
@@ -152,6 +163,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Set the Sphring object
      * @param Sphring $sphring
      */
     public function setSphring(Sphring $sphring)
@@ -160,6 +172,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Return SphringBoot object
      * @return SphringBoot
      */
     public function getSphringBoot()
@@ -168,6 +181,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Set the SphringBoot object
      * @param SphringBoot $sphringBoot
      */
     public function setSphringBoot(SphringBoot $sphringBoot)
@@ -177,6 +191,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Return true if SphringEventDispatcher has finished to load
      * @return boolean
      */
     public function getLoaded()
@@ -185,6 +200,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Set if SphringEventDispatcher has finished to load
      * @param boolean $isLoaded
      */
     public function setLoaded($isLoaded)
@@ -193,6 +209,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Return the queue
      * @return Event[]
      */
     public function getQueue()
@@ -201,6 +218,7 @@ class SphringEventDispatcher extends EventDispatcher
     }
 
     /**
+     * Set the queue
      * @param Event[] $queue
      */
     public function setQueue($queue)

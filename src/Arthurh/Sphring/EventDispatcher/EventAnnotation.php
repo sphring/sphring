@@ -14,6 +14,11 @@ namespace Arthurh\Sphring\EventDispatcher;
 
 use Arthurh\Sphring\Model\Bean\Bean;
 
+/**
+ * Event for annotation
+ * Class EventAnnotation
+ * @package Arthurh\Sphring\EventDispatcher
+ */
 class EventAnnotation extends AbstractSphringEvent
 {
     private $data;
@@ -27,6 +32,7 @@ class EventAnnotation extends AbstractSphringEvent
     private $bean;
 
     /**
+     * Return data passed to this event
      * @return mixed
      */
     public function getData()
@@ -35,6 +41,7 @@ class EventAnnotation extends AbstractSphringEvent
     }
 
     /**
+     * Set data for this event
      * @param mixed $data
      */
     public function setData($data)
@@ -43,6 +50,7 @@ class EventAnnotation extends AbstractSphringEvent
     }
 
     /**
+     * Get the reflector class
      * @return \Reflector
      */
     public function getReflector()
@@ -51,6 +59,7 @@ class EventAnnotation extends AbstractSphringEvent
     }
 
     /**
+     * Set the reflector class
      * @param \Reflector $reflector
      */
     public function setReflector($reflector)
@@ -59,6 +68,7 @@ class EventAnnotation extends AbstractSphringEvent
     }
 
     /**
+     * Return the bean passed to this event
      * @return Bean
      */
     public function getBean()
@@ -67,6 +77,7 @@ class EventAnnotation extends AbstractSphringEvent
     }
 
     /**
+     * Set the bean passed to this event
      * @param Bean $bean
      */
     public function setBean($bean)

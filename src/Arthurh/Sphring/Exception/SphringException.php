@@ -13,6 +13,9 @@
 namespace Arthurh\Sphring\Exception;
 
 /**
+ * The SphringException, it has a different way to leverage exception.
+ * You can pass a message in sprintf style and pass your arguments for sprintf on it.
+ * If you pass an Exception object at the end it will passed to Exception constructor
  * Class SphringException
  * @package arthurh\sphring\exception
  */
@@ -20,6 +23,7 @@ class SphringException extends \Exception
 {
 
     /**
+     * Constructor
      * @param string $message
      */
     public function  __construct($message = "")
@@ -36,6 +40,7 @@ class SphringException extends \Exception
     }
 
     /**
+     * Set the error code
      * @param int $code
      */
     public function setCode($code)

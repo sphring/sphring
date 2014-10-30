@@ -35,6 +35,7 @@ abstract class AbstractSphringEvent extends Event
     protected $object;
 
     /**
+     * Return the name of this event
      * @return string
      */
     public function getName()
@@ -43,6 +44,7 @@ abstract class AbstractSphringEvent extends Event
     }
 
     /**
+     * Set the name of this event
      * @param string $name
      */
     public function setName($name)
@@ -51,6 +53,7 @@ abstract class AbstractSphringEvent extends Event
     }
 
     /**
+     * Return the object passed to this event
      * @return mixed
      */
     public function getObject()
@@ -59,6 +62,7 @@ abstract class AbstractSphringEvent extends Event
     }
 
     /**
+     * Passed an object to this event
      * @param object $object
      */
     public function setObject($object)
@@ -67,6 +71,7 @@ abstract class AbstractSphringEvent extends Event
     }
 
     /**
+     * Return the SphringEventDispatcher
      * @return SphringEventDispatcher
      */
     public function getSphringEventDispatcher()
@@ -75,6 +80,7 @@ abstract class AbstractSphringEvent extends Event
     }
 
     /**
+     * Set the SphringEventDispatcher
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     public function setSphringEventDispatcher($sphringEventDispatcher)

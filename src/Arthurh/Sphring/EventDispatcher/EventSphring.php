@@ -16,6 +16,7 @@ use Arthurh\Sphring\Sphring;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
+ * Event passed when triggering sphring event
  * Class EventSphring
  * @package Arthurh\Sphring\EventDispatcher
  */
@@ -28,6 +29,7 @@ class EventSphring extends Event
     private $sphring;
 
     /**
+     * Constructor
      * @param Sphring $sphring
      */
     public function __construct(Sphring $sphring)
@@ -36,6 +38,7 @@ class EventSphring extends Event
     }
 
     /**
+     * Return the Sphring object
      * @return Sphring
      */
     public function getSphring()
@@ -44,6 +47,7 @@ class EventSphring extends Event
     }
 
     /**
+     * Set the Sphring object
      * @param Sphring $sphring
      */
     public function setSphring($sphring)

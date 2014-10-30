@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\Exception;
 use Arthurh\Sphring\Model\Bean\Bean;
 
 /**
+ * @see Arthurh\Sphring\Exception\SphringException
  * Class BeanException
  * @package arthurh\sphring\exception
  */

@@ -13,6 +13,7 @@
 namespace Arthurh\Sphring\Exception;
 
 /**
+ * @see Arthurh\Sphring\Exception\SphringException
  * Class BeanPropertyException
  * @package Arthurh\Sphring\Exception
  */

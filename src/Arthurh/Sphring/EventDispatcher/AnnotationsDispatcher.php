@@ -17,12 +17,14 @@ use Arthurh\Sphring\Model\Bean\AbstractBean;
 use zpt\anno\Annotations;
 
 /**
+ * This class dispatch for a bean her annotation to the SphringEventDispatcher
  * Class AnnotationsDispatcher
  * @package Arthurh\Sphring\EventDispatcher
  */
 class AnnotationsDispatcher
 {
     /**
+     * Filter list of annotation which are read by IDE or php doc
      * @var array
      */
     private $filteredAnnotation = [
@@ -38,7 +40,8 @@ class AnnotationsDispatcher
         "see",
         "inheritdoc",
         "global",
-        "internal"
+        "internal",
+        "function"
     ];
     /**
      * @var AbstractBean
@@ -56,6 +59,7 @@ class AnnotationsDispatcher
     private $sphringEventDispatcher;
 
     /**
+     * Constructor
      * @param AbstractBean $bean
      * @param string $class
      * @param SphringEventDispatcher $sphringEventDispatcher
@@ -69,6 +73,7 @@ class AnnotationsDispatcher
     }
 
     /**
+     * Return the current bean which will be dispatched
      * @return AbstractBean
      */
     public function getBean()
@@ -77,6 +82,7 @@ class AnnotationsDispatcher
     }
 
     /**
+     * Set the bean which will be dispatched
      * @param AbstractBean $bean
      */
     public function setBean($bean)
@@ -85,6 +91,7 @@ class AnnotationsDispatcher
     }
 
     /**
+     * Return the class name of the object passed in the bean
      * @return string
      */
     public function getClass()
@@ -93,6 +100,7 @@ class AnnotationsDispatcher
     }
 
     /**
+     * Set the class name of the object passed in the bean
      * @param string $class
      */
     public function setClass($class)
@@ -101,6 +109,7 @@ class AnnotationsDispatcher
     }
 
     /**
+     * Return the SphringEventDispatcher
      * @return SphringEventDispatcher
      */
     public function getSphringEventDispatcher()
@@ -109,6 +118,7 @@ class AnnotationsDispatcher
     }
 
     /**
+     * Set the SphringEventDispatcher
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     public function setSphringEventDispatcher($sphringEventDispatcher)
@@ -117,7 +127,7 @@ class AnnotationsDispatcher
     }
 
     /**
-     *
+     * Read annotations from class annotation and method annotation and dispatch events
      */
     public function dispatchAnnotations()
     {
@@ -129,6 +139,7 @@ class AnnotationsDispatcher
     }
 
     /**
+     * Dispatch events
      * @param \Reflector $reflector
      * @param $eventNameBase
      */
@@ -154,6 +165,7 @@ class AnnotationsDispatcher
     }
 
     /**
+     * Return the filtering list
      * @return array
      */
     public function getFileteredAnnotation()

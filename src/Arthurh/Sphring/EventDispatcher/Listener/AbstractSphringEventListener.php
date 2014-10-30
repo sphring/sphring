@@ -109,6 +109,7 @@ abstract class AbstractSphringEventListener
     }
 
     /**
+     * Return the SphringEventDispatcher
      * @return SphringEventDispatcher
      */
     public function getSphringEventDispatcher()
@@ -117,6 +118,7 @@ abstract class AbstractSphringEventListener
     }
 
     /**
+     * Set the SphringEventDispatcher
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     public function setSphringEventDispatcher(SphringEventDispatcher $sphringEventDispatcher)
@@ -125,6 +127,7 @@ abstract class AbstractSphringEventListener
     }
 
     /**
+     * Return the object passed to this event listener
      * @return mixed
      */
     public function getObject()
@@ -133,6 +136,7 @@ abstract class AbstractSphringEventListener
     }
 
     /**
+     * Passed an object to this event listener
      * @param mixed $object
      */
     public function setObject($object)

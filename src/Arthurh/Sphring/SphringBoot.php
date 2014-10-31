@@ -16,6 +16,7 @@ use Arthurh\Sphring\ComposerManager\ComposerManager;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationClassListener;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
+use Arthurh\Sphring\EventDispatcher\Listener\SphringGlobalListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\Annotation\AfterLoadMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\AutoWireAnnotation;
@@ -63,6 +64,11 @@ class SphringBoot
     private $composerManager;
 
     /**
+     * @var SphringGlobalListener
+     */
+    private $sphringGlobalListener;
+
+    /**
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
@@ -71,6 +77,7 @@ class SphringBoot
         $this->beanPropertyListener = new BeanPropertyListener($this->sphringEventDispatcher);
         $this->annotationMethodListener = new AnnotationMethodListener($this->sphringEventDispatcher);
         $this->annotationClassListener = new AnnotationClassListener($this->sphringEventDispatcher);
+        $this->sphringGlobalListener = new SphringGlobalListener($this->sphringEventDispatcher);
         $this->composerManager = new ComposerManager();
     }
 
@@ -230,6 +237,22 @@ class SphringBoot
     {
         $this->composerManager = $composerManager;
 
+    }
+
+    /**
+     * @return SphringGlobalListener
+     */
+    public function getSphringGlobalListener()
+    {
+        return $this->sphringGlobalListener;
+    }
+
+    /**
+     * @param SphringGlobalListener $sphringGlobalListener
+     */
+    public function setSphringGlobalListener($sphringGlobalListener)
+    {
+        $this->sphringGlobalListener = $sphringGlobalListener;
     }
 
 }

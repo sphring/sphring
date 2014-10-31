@@ -41,6 +41,15 @@ class ExtendTest extends AbstractTestSphring
         $this->assertEquals('testAnnotationExtend', $useBean->testExtend);
     }
 
+    public function testExtendLoadContextSphringGlobal()
+    {
+        $sphring = new Sphring(self::$CONTEXT_EXTEND_FOLDER . '/' . self::ONEXIST_TEST_FILE);
+        $sphring->getExtender()->setDefaultFilename('sphring-extend-onexist.yml');
+        $sphring->loadContext();
+
+        $this->assertEquals('test', $sphring->jojo);
+    }
+
     public function testExtendOnExistValid()
     {
         $sphring = new Sphring(self::$CONTEXT_EXTEND_FOLDER . '/' . self::ONEXIST_TEST_FILE);

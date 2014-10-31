@@ -7,38 +7,28 @@
  * or at 'http://opensource.org/licenses/MIT'.
  *
  * Author: Arthur Halet
- * Date: 15/10/2014
+ * Date: 31/10/2014
  */
 
-namespace Arthurh\Sphring\EventDispatcher;
+
+namespace Arthurh\Sphring\Model;
+
 
 use Arthurh\Sphring\Sphring;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Event passed when triggering sphring event
- * Class EventSphring
- * @package Arthurh\Sphring\EventDispatcher
+ * Object for SphringGlobalListerner, extend it for run when sphring trigger an event
+ * Class SphringGlobal
+ * @package Arthurh\Sphring\Model
  */
-class EventSphring extends AbstractSphringEvent
+abstract class SphringGlobal
 {
-
     /**
      * @var Sphring
      */
-    private $sphring;
+    protected $sphring;
 
     /**
-     * Constructor
-     * @param Sphring $sphring
-     */
-    public function __construct(Sphring $sphring)
-    {
-        $this->sphring = $sphring;
-    }
-
-    /**
-     * Return the Sphring object
      * @return Sphring
      */
     public function getSphring()
@@ -47,12 +37,16 @@ class EventSphring extends AbstractSphringEvent
     }
 
     /**
-     * Set the Sphring object
      * @param Sphring $sphring
      */
     public function setSphring($sphring)
     {
         $this->sphring = $sphring;
     }
+
+    /**
+     * @return mixed
+     */
+    abstract public function run();
 
 }

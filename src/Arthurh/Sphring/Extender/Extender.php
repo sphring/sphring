@@ -19,6 +19,7 @@ use Arthurh\Sphring\Extender\ExtendNode\AbstractExtendNode;
 use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeAnnotationClass;
 use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeAnnotationMethod;
 use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeBeanProperty;
+use Arthurh\Sphring\Extender\ExtendNode\ExtendNodeSphringGlobal;
 
 /**
  * Class which will extend the current Sphring
@@ -183,6 +184,17 @@ class Extender
     public function addAnnotationMethod($annotationClassname, $eventName = "", $priority = 0)
     {
         $this->addNode(ExtendNodeAnnotationMethod::class, new Node($eventName, $annotationClassname, $priority));
+    }
+
+    /**
+     * Add sphring global extension with an ExtendNodeSphringGlobal
+     * @param $sphringGlobalClassname
+     * @param string $eventName
+     * @param int $priority
+     */
+    public function addSphringGlobal($sphringGlobalClassname, $eventName = "", $priority = 0)
+    {
+        $this->addNode(ExtendNodeSphringGlobal::class, new Node($eventName, $sphringGlobalClassname, $priority));
     }
 
     /**

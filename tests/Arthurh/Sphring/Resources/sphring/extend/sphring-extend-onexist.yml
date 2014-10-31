@@ -4,3 +4,5 @@ annotationMethod:
 - {eventName: 'required', class: Arthurh\Sphring\FakeExtend\AnnotationRequiredExtend}
 beanType:
 - {eventName: 'fakeBean', class: Arthurh\Sphring\FakeExtend\BeanFake}
+sphringGlobal:
+- {eventName: 'SPHRING_START_LOAD', class: Arthurh\Sphring\FakeExtend\LoadContextSphringGlobal}

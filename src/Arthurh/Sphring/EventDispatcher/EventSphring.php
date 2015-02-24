@@ -13,7 +13,6 @@
 namespace Arthurh\Sphring\EventDispatcher;
 
 use Arthurh\Sphring\Sphring;
-use Symfony\Component\EventDispatcher\Event;
 
 /**
  * Event passed when triggering sphring event

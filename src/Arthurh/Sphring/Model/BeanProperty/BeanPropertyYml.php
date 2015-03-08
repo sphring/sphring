@@ -32,7 +32,6 @@ class BeanPropertyYml extends AbstractBeanProperty
         if (is_file($file)) {
             return $this->loadYml($file);
         }
-        echo $this->sphring->getRootProject() . $file;
         if (is_file($this->sphring->getRootProject() . $file)) {
             return $this->loadYml($this->sphring->getRootProject() . $file);
         }

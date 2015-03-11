@@ -28,7 +28,6 @@ class ExtendTest extends AbstractTestSphring
         $sphring->getExtender()->setDefaultFilename('sphring-extend-simple.yml');
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
     }
 
@@ -56,7 +55,6 @@ class ExtendTest extends AbstractTestSphring
         $sphring->getExtender()->setDefaultFilename('sphring-extend-onexist.yml');
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
         $usefake = $sphring->getBean('usefake');
         $this->assertEquals('testBeanFake', $usefake->testBeanFake);
@@ -68,7 +66,6 @@ class ExtendTest extends AbstractTestSphring
         $sphring->setRootProject(__DIR__ . '/../Resources/composer');
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
     }
 

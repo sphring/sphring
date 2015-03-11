@@ -17,6 +17,7 @@ use Arthurh\Sphring\Enum\SphringEventEnum;
 /**
  * Class BeforeStartMethodOnSphringEventAnnotation
  * @package Arthurh\Sphring\Model\Annotation
+ *
  */
 class BeforeStartMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEventAnnotation
 {

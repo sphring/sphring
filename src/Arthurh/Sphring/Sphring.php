@@ -27,8 +27,8 @@ use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Extender\Extender;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\Bean\AbstractBean;
-use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Model\Bean\FactoryBean;
+use Arthurh\Sphring\Model\Bean\ProxyBean;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -58,7 +58,7 @@ class Sphring
      */
     private $context = array();
     /**
-     * @var Bean[]
+     * @var ProxyBean[]
      */
     private $beans = array();
 
@@ -189,12 +189,12 @@ class Sphring
     }
 
     /**
-     * @param AbstractBean $bean
+     * @param ProxyBean $bean
      */
-    public function addBean(AbstractBean $bean)
+    public function addBean(ProxyBean $bean)
     {
-        $this->beans[$bean->getId()] = $bean;
-        $bean->inject();
+        $this->beans[$bean->__getBean()->getId()] = $bean;
+        $bean->__getBean()->inject();
     }
 
     /**
@@ -217,7 +217,7 @@ class Sphring
         if (empty($this->beans[$beanId])) {
             throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
         }
-        return $this->beans[$beanId]->getObject();
+        return $this->beans[$beanId];
     }
 
     /**
@@ -225,8 +225,10 @@ class Sphring
      */
     public function removeBean($bean)
     {
-        if ($bean instanceof Bean) {
+        if ($bean instanceof AbstractBean) {
             $beanId = $bean->getId();
+        } else if ($bean instanceof ProxyBean) {
+            $beanId = $bean->__getBean()->getId();
         } else {
             $beanId = $bean;
         }
@@ -304,11 +306,15 @@ class Sphring
     }
 
     /**
-     * @return Model\Bean\Bean[]
+     * @return Model\Bean\AbstractBean[]
      */
     public function getBeansObject()
     {
-        return $this->beans;
+        $beans = [];
+        foreach ($this->beans as $bean) {
+            $beans[] = $bean->__getBean();
+        }
+        return $beans;
     }
 
     /**
@@ -328,14 +334,14 @@ class Sphring
     public function getBeanObject($beanId)
     {
         if (!empty($this->beans[$beanId])) {
-            return $this->beans[$beanId];
+            return $this->beans[$beanId]->__getBean();
         }
         if (empty($this->context[$beanId])) {
             throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
         }
         $bean = $this->factoryBean->createBean($beanId, $this->context[$beanId]);
         $this->addBean($bean);
-        return $bean;
+        return $bean->__getBean();
     }
 
 

@@ -18,6 +18,7 @@ use Arthurh\Sphring\Runner\SphringRunner;
 
 /**
  * Class SphringRunnerTest
+ *
  * @LoadContext(tests/Arthurh/Sphring/Resources/sphring/mainSimpleTest.yml)
  * @RootProject(../../../../)
  */

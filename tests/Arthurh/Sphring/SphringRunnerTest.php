@@ -25,7 +25,7 @@ class SphringRunnerTest extends AbstractTestSphring
         $sphringRunner = FakeSphringRunner::getInstance();
         $useBean = $sphringRunner->getBean('usebean');
         $this->getLogger()->debug('test simple ' . print_r($useBean, true));
-        $this->assertTrue($useBean instanceof IUsing);
+        $this->assertTrue($useBean->__getBean()->getObject() instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
     }
 

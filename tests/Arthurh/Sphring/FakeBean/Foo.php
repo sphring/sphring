@@ -21,9 +21,9 @@ class Foo implements IFoo
     private $kiki;
     private $cucu = 'test';
 
-    public function __construct()
+    public function __construct($kiki = null)
     {
-        # code...
+        $this->kiki = $kiki;
     }
 
     /**

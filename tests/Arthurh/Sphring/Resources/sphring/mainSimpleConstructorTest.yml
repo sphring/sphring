@@ -1,0 +1,11 @@
+foobean:
+  class: Arthurh\Sphring\FakeBean\Foo
+  constructor:
+    value: testkiki
+usebean:
+  class: Arthurh\Sphring\FakeBean\Using
+  properties:
+    foo:
+      ref: foobean
+    juju:
+      value: testValue

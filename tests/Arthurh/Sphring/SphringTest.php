@@ -21,6 +21,7 @@ use Arthurh\Sphring\Model\Bean\Bean;
 class SphringTest extends AbstractTestSphring
 {
     const SIMPLE_TEST_FILE = 'mainSimpleTest.yml';
+    const SIMPLE_TEST_CONSTRUCTOR_FILE = 'mainSimpleConstructorTest.yml';
     const ASSOCREF_TEST_FILE = 'mainAssocRefTest.yml';
     const ABSTRACT_TEST_FILE = 'mainTestAbstractBean.yml';
     const IMPORT_TEST_FILE = 'testimport/main.yml';
@@ -42,6 +43,17 @@ class SphringTest extends AbstractTestSphring
         $this->assertTrue($useBean instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
         $this->assertEquals(realpath(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE), $sphring->getFilename());
+    }
+
+    public function testSimpleConstructor()
+    {
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_CONSTRUCTOR_FILE);
+        $sphring->setLogger(LoggerSphring::getInstance()->getLogger());
+        $sphring->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
+        $sphring->setExtender($sphring->getExtender());
+        $sphring->loadContext();
+        $foobean = $sphring->getBean('foobean');
+        $this->assertEquals('testkiki', $foobean->getKiki());
     }
 
     public function testAssocRef()

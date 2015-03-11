@@ -42,6 +42,10 @@ class AbstractBean
     protected $properties = array();
 
     /**
+     * @var AbstractBeanProperty[]
+     */
+    protected $constructor = array();
+    /**
      * @var Bean
      */
     protected $extend;
@@ -205,7 +209,43 @@ class AbstractBean
     protected function instanciate()
     {
         $classReflector = new \ReflectionClass($this->class);
-        $this->object = $classReflector->newInstance();
+        if (empty($this->constructor)) {
+            $this->object = $classReflector->newInstance();
+            return;
+        }
+        $constructor = $this->constructor;
+        if (!empty($this->extend)) {
+            $constructor = array_merge($this->extend->getConstructor(), $constructor);
+        }
+        $this->object = $classReflector->newInstanceArgs($constructor);
+    }
+
+    /**
+     * @return \Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty[]
+     */
+    public function getConstructor()
+    {
+        return $this->constructor;
+    }
+
+    /**
+     * @param \Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty[] $constructor
+     * @throws BeanException
+     */
+    public function setConstructor($constructor)
+    {
+        foreach ($constructor as $constructorKey => $constructorValue) {
+            try {
+                $propertyClass = $this->getPropertyFromEvent($constructorKey, $constructorValue);
+                $this->constructor[] = $propertyClass->inject();
+            } catch (BeanException $e) {
+                throw new BeanException($this, "Error when declaring constructor: '%s'.", $e->getMessage());
+            }
+            if (empty($propertyClass)) {
+                throw new BeanException($this, "Error when declaring constructor, property '%s' doesn't exist", $constructorKey);
+            }
+        }
+
     }
 
     /**
@@ -236,6 +276,29 @@ class AbstractBean
     }
 
     /**
+     * @param string $propertyKey
+     * @param mixed $propertyValue
+     * @throws \Arthurh\Sphring\Exception\BeanException
+     * @return AbstractBeanProperty
+     */
+    protected function getPropertyFromEvent($propertyKey, $propertyValue)
+    {
+        if (empty($propertyValue)) {
+            throw new BeanException($this, "property not valid");
+        }
+        $event = new EventBeanProperty();
+        $event->setData($propertyValue);
+        $eventName = SphringEventEnum::PROPERTY_INJECTION . $propertyKey;
+        $event->setName($eventName);
+
+        $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
+        if (!($event instanceof EventBeanProperty)) {
+            throw new BeanException($this, "event '%s' is not a '%s' event", get_class($event), EventBeanProperty::class);
+        }
+        return $event->getBeanProperty();
+    }
+
+    /**
      * @param $key
      * @param array $value
      * @throws \Arthurh\Sphring\Exception\BeanException
@@ -257,29 +320,6 @@ class AbstractBean
             throw new BeanException($this, "Error when declaring property name '%s', property '%s' doesn't exist", $key, $propertyKey);
         }
         $this->properties[$key] = $propertyClass;
-    }
-
-    /**
-     * @param string $propertyKey
-     * @param mixed $propertyValue
-     * @throws \Arthurh\Sphring\Exception\BeanException
-     * @return AbstractBeanProperty
-     */
-    protected function getPropertyFromEvent($propertyKey, $propertyValue)
-    {
-        if (empty($propertyKey) || empty($propertyValue)) {
-            throw new BeanException($this, "property not valid");
-        }
-        $event = new EventBeanProperty();
-        $event->setData($propertyValue);
-        $eventName = SphringEventEnum::PROPERTY_INJECTION . $propertyKey;
-        $event->setName($eventName);
-
-        $event = $this->sphringEventDispatcher->dispatch($eventName, $event);
-        if (!($event instanceof EventBeanProperty)) {
-            throw new BeanException($this, "event '%s' is not a '%s' event", get_class($event), EventBeanProperty::class);
-        }
-        return $event->getBeanProperty();
     }
 
     /**
@@ -340,4 +380,5 @@ class AbstractBean
     {
         return $this->parent;
     }
+
 }

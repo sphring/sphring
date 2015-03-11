@@ -22,6 +22,7 @@ class SphringTest extends AbstractTestSphring
 {
     const SIMPLE_TEST_FILE = 'mainSimpleTest.yml';
     const SIMPLE_TEST_CONSTRUCTOR_FILE = 'mainSimpleConstructorTest.yml';
+    const METHOD_INIT_TEST_FILE = 'mainMethodInitTest.yml';
     const ASSOCREF_TEST_FILE = 'mainAssocRefTest.yml';
     const ABSTRACT_TEST_FILE = 'mainTestAbstractBean.yml';
     const IMPORT_TEST_FILE = 'testimport/main.yml';
@@ -54,6 +55,17 @@ class SphringTest extends AbstractTestSphring
         $sphring->loadContext();
         $foobean = $sphring->getBean('foobean');
         $this->assertEquals('testkiki', $foobean->getKiki());
+    }
+
+    public function testMethodInit()
+    {
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::METHOD_INIT_TEST_FILE);
+        $sphring->setLogger(LoggerSphring::getInstance()->getLogger());
+        $sphring->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
+        $sphring->setExtender($sphring->getExtender());
+        $sphring->loadContext();
+        $foobean = $sphring->getBean('foobean');
+        $this->assertEquals('initValue', $foobean->getInitValue());
     }
 
     public function testAssocRef()

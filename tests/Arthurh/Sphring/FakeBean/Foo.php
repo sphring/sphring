@@ -20,6 +20,7 @@ class Foo implements IFoo
 {
     private $kiki;
     private $cucu = 'test';
+    private $initValue;
 
     public function __construct($kiki = null)
     {
@@ -58,4 +59,16 @@ class Foo implements IFoo
         $this->kiki = $kiki;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getInitValue()
+    {
+        return $this->initValue;
+    }
+
+    public function initialization()
+    {
+        $this->initValue = "initValue";
+    }
 }

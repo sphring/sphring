@@ -13,13 +13,18 @@
 namespace Arthurh\Sphring;
 
 use Arthurh\Sphring\ComposerManager\ComposerManager;
+use Arthurh\Sphring\EventDispatcher\Listener\AnnotationClassInstantiateListener;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationClassListener;
+use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodCallAfterListener;
+use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodCallBeforeListener;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
 use Arthurh\Sphring\EventDispatcher\Listener\SphringGlobalListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
+use Arthurh\Sphring\Model\Annotation\AfterCallAnnotation;
 use Arthurh\Sphring\Model\Annotation\AfterLoadMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\AutoWireAnnotation;
+use Arthurh\Sphring\Model\Annotation\BeforeCallAnnotation;
 use Arthurh\Sphring\Model\Annotation\BeforeLoadMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\BeforeStartMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\LoadContextAnnotation;
@@ -69,6 +74,21 @@ class SphringBoot
     private $sphringGlobalListener;
 
     /**
+     * @var AnnotationClassInstantiateListener
+     */
+    private $annotationClassInstantiateListener;
+
+    /**
+     * @var AnnotationMethodCallBeforeListener
+     */
+    private $annotationMethodCallAfterListener;
+
+    /**
+     * @var AnnotationMethodCallAfterListener
+     */
+    private $annotationMethodCallBeforeListener;
+
+    /**
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
@@ -77,6 +97,9 @@ class SphringBoot
         $this->beanPropertyListener = new BeanPropertyListener($this->sphringEventDispatcher);
         $this->annotationMethodListener = new AnnotationMethodListener($this->sphringEventDispatcher);
         $this->annotationClassListener = new AnnotationClassListener($this->sphringEventDispatcher);
+        $this->annotationClassInstantiateListener = new AnnotationClassInstantiateListener($this->sphringEventDispatcher);
+        $this->annotationMethodCallAfterListener = new AnnotationMethodCallAfterListener($this->sphringEventDispatcher);
+        $this->annotationMethodCallBeforeListener = new AnnotationMethodCallBeforeListener($this->sphringEventDispatcher);
         $this->sphringGlobalListener = new SphringGlobalListener($this->sphringEventDispatcher);
         $this->composerManager = new ComposerManager();
     }
@@ -139,6 +162,8 @@ class SphringBoot
     {
         $this->bootAnnotationClass();
         $this->bootAnnotationMethod();
+        $this->bootAnnotationMethodCallAfter();
+        $this->bootAnnotationMethodCallBefore();
     }
 
     /**
@@ -148,6 +173,16 @@ class SphringBoot
     {
         $this->annotationClassListener->register(LoadContextAnnotation::getAnnotationName(), LoadContextAnnotation::class);
         $this->annotationClassListener->register(RootProjectAnnotation::getAnnotationName(), RootProjectAnnotation::class);
+    }
+
+    public function bootAnnotationMethodCallAfter()
+    {
+        $this->annotationMethodCallAfterListener->register(AfterCallAnnotation::getAnnotationName(), AfterCallAnnotation::class);
+    }
+
+    public function bootAnnotationMethodCallBefore()
+    {
+        $this->annotationMethodCallBeforeListener->register(BeforeCallAnnotation::getAnnotationName(), BeforeCallAnnotation::class);
     }
 
     /**
@@ -253,6 +288,54 @@ class SphringBoot
     public function setSphringGlobalListener($sphringGlobalListener)
     {
         $this->sphringGlobalListener = $sphringGlobalListener;
+    }
+
+    /**
+     * @return AnnotationClassInstantiateListener
+     */
+    public function getAnnotationClassInstantiateListener()
+    {
+        return $this->annotationClassInstantiateListener;
+    }
+
+    /**
+     * @param AnnotationClassInstantiateListener $annotationClassInstantiateListener
+     */
+    public function setAnnotationClassInstantiateListener($annotationClassInstantiateListener)
+    {
+        $this->annotationClassInstantiateListener = $annotationClassInstantiateListener;
+    }
+
+    /**
+     * @return AnnotationMethodCallBeforeListener
+     */
+    public function getAnnotationMethodCallAfterListener()
+    {
+        return $this->annotationMethodCallAfterListener;
+    }
+
+    /**
+     * @param AnnotationMethodCallBeforeListener $annotationMethodCallAfterListener
+     */
+    public function setAnnotationMethodCallAfterListener($annotationMethodCallAfterListener)
+    {
+        $this->annotationMethodCallAfterListener = $annotationMethodCallAfterListener;
+    }
+
+    /**
+     * @return AnnotationMethodCallAfterListener
+     */
+    public function getAnnotationMethodCallBeforeListener()
+    {
+        return $this->annotationMethodCallBeforeListener;
+    }
+
+    /**
+     * @param AnnotationMethodCallAfterListener $annotationMethodCallBeforeListener
+     */
+    public function setAnnotationMethodCallBeforeListener(AnnotationMethodCallAfterListener $annotationMethodCallBeforeListener)
+    {
+        $this->annotationMethodCallBeforeListener = $annotationMethodCallBeforeListener;
     }
 
 }

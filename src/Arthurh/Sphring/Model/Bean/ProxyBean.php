@@ -13,6 +13,8 @@
 namespace Arthurh\Sphring\Model\Bean;
 
 
+use Arthurh\Sphring\EventDispatcher\AnnotationsDispatcher;
+
 class ProxyBean
 {
     /**
@@ -23,11 +25,24 @@ class ProxyBean
     public function __construct(AbstractBean $bean)
     {
         $this->bean = $bean;
+
     }
 
     public function __call($name, $arguments)
     {
-        return call_user_func_array(array($this->bean->getObject(), $name), $arguments);
+        $annotationDispatcher = new AnnotationsDispatcher($this->bean, $this->bean->getClass(), $this->bean->getSphringEventDispatcher());
+
+        $annotationDispatcher->setMethodArgs($arguments);
+        $toReturn = $annotationDispatcher->dispatchAnnotationMethodCallBefore($name);
+        if ($toReturn === null) {
+            $toReturn = call_user_func_array(array($this->bean->getObject(), $name), $annotationDispatcher->getMethodArgs());
+
+        }
+        $toReturnAfter = $annotationDispatcher->dispatchAnnotationMethodCallAfter($name);
+        if ($toReturnAfter !== null) {
+            return $toReturnAfter;
+        }
+        return $toReturn;
     }
 
     public function __get($name)

@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\FakeBean;
 /**
  * Class Foo
  * @package Arthurh\Sphring\FakeBean
+ * @TestClassInstantiate
  */
 class Foo implements IFoo
 {
@@ -65,6 +66,24 @@ class Foo implements IFoo
     public function getInitValue()
     {
         return $this->initValue;
+    }
+
+    /**
+     * @BeforeCall(bean=usebean, method=injectValueForTestCall, return=true)
+     * @TestCallBefore(bean=usebean, method=injectValueForTestCall, return=true)
+     */
+    public function testBeforeCall()
+    {
+
+    }
+
+    /**
+     * @AfterCall(bean=usebean, method=injectValueForTestCall, return=true)
+     * @TestCallAfter(bean=usebean, method=injectValueForTestCall, return=true)
+     */
+    public function testAfterCall()
+    {
+
     }
 
     public function initialization()

@@ -57,6 +57,15 @@ class AnnotationsDispatcher
      * @var SphringEventDispatcher
      */
     private $sphringEventDispatcher;
+    /**
+     * @var mixed
+     */
+    private $methodArgs;
+
+    /**
+     * @var mixed
+     */
+    private $toReturn;
 
     /**
      * Constructor
@@ -138,6 +147,33 @@ class AnnotationsDispatcher
         }
     }
 
+    public function dispatchAnnotationClassInstantiate()
+    {
+        $classReflector = new \ReflectionClass($this->class);
+        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS_CALL_INSTANTIATE);
+    }
+
+    public function dispatchAnnotationMethodCall($methodName, $eventName)
+    {
+        $classReflector = new \ReflectionClass($this->class);
+
+        $this->dispatchEventForAnnotation($classReflector->getMethod($methodName), $eventName);
+        if ($this->toReturn !== null) {
+            return $this->toReturn;
+        }
+        return null;
+    }
+
+    public function dispatchAnnotationMethodCallAfter($methodName)
+    {
+        return $this->dispatchAnnotationMethodCall($methodName, SphringEventEnum::ANNOTATION_METHOD_CALL_AFTER);
+    }
+
+    public function dispatchAnnotationMethodCallBefore($methodName)
+    {
+        return $this->dispatchAnnotationMethodCall($methodName, SphringEventEnum::ANNOTATION_METHOD_CALL_BEFORE);
+    }
+
     /**
      * Dispatch events
      * @param \Reflector $reflector
@@ -147,21 +183,32 @@ class AnnotationsDispatcher
     {
         $annotations = new Annotations($reflector);
         $annotationsArray = $annotations->asArray();
+
         if (empty($annotationsArray)) {
             return;
         }
+        $toReturn = null;
         foreach ($annotationsArray as $annotationName => $annotationValue) {
             if (in_array($annotationName, $this->filteredAnnotation)) {
                 continue;
             }
+            $eventName = $eventNameBase . $annotationName;
+
             $event = new EventAnnotation();
             $event->setData($annotationValue);
             $event->setBean($this->bean);
             $event->setReflector($reflector);
-            $eventName = $eventNameBase . $annotationName;
+            $event->setMethodArgs($this->methodArgs);
             $event->setName($eventName);
             $this->sphringEventDispatcher->dispatch($eventName, $event);
+            $this->methodArgs = $event->getMethodArgs();
+
+            if ($annotationValue != $event->getData()) {
+                $toReturn = $event->getData();
+            }
         }
+        $this->toReturn = $toReturn;
+
     }
 
     /**
@@ -171,6 +218,22 @@ class AnnotationsDispatcher
     public function getFileteredAnnotation()
     {
         return $this->filteredAnnotation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getMethodArgs()
+    {
+        return $this->methodArgs;
+    }
+
+    /**
+     * @param mixed $methodArgs
+     */
+    public function setMethodArgs($methodArgs)
+    {
+        $this->methodArgs = $methodArgs;
     }
 
 }

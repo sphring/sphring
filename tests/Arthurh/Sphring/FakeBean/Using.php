@@ -70,4 +70,8 @@ class Using implements IUsing
         $this->juju = $text;
     }
 
+    public function injectValueForTestCall($bean, $value)
+    {
+        return $value;
+    }
 }

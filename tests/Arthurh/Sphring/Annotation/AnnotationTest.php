@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\Annotation;
 
 use Arthurh\Sphring\AbstractTestSphring;
 use Arthurh\Sphring\Sphring;
+use Arthurh\Sphring\SphringTest;
 
 class AnnotationTest extends AbstractTestSphring
 {
@@ -27,5 +28,23 @@ class AnnotationTest extends AbstractTestSphring
     {
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::REQUIRED_ANNOTATION_FILE);
         $sphring->loadContext();
+    }
+
+    public function testBeforeCall()
+    {
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . SphringTest::SIMPLE_TEST_FILE);
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $fooTest = $foo->testBeforeCall('jojo');
+        $this->assertEquals('jojo', $fooTest);
+    }
+
+    public function testAfterCall()
+    {
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . SphringTest::SIMPLE_TEST_FILE);
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $fooTest = $foo->testAfterCall('juju');
+        $this->assertEquals('juju', $fooTest);
     }
 } 

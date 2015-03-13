@@ -103,4 +103,33 @@ class ExtendTest extends AbstractTestSphring
         $this->assertNotEmpty($extendNode->getNodes()[0]);
         $this->assertTrue($node === $extendNode->getNodes()[0]);
     }
+
+    public function testExtendMethodCallAfterComposer()
+    {
+        $sphring = new Sphring();
+        $sphring->setRootProject(__DIR__ . '/../Resources/composer');
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $fooTest = $foo->testAfterCall('john');
+        $this->assertEquals('john', $fooTest);
+    }
+
+    public function testExtendMethodCallBeforeComposer()
+    {
+        $sphring = new Sphring();
+        $sphring->setRootProject(__DIR__ . '/../Resources/composer');
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $fooTest = $foo->testBeforeCall('johny');
+        $this->assertEquals('johny', $fooTest);
+    }
+
+    public function testExtendClassInstantiateComposer()
+    {
+        $sphring = new Sphring();
+        $sphring->setRootProject(__DIR__ . '/../Resources/composer');
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $this->assertTrue($foo->classInstantiate);
+    }
 } 

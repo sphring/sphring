@@ -68,7 +68,7 @@ class AbstractBean
     protected $parent;
 
     /**
-     * @param $id
+     * @param string $id
      */
     function __construct($id)
     {
@@ -208,9 +208,11 @@ class AbstractBean
      */
     protected function instanciate()
     {
+        $annotationDispatcher = new AnnotationsDispatcher($this, $this->getClass(), $this->getSphringEventDispatcher());
         $classReflector = new \ReflectionClass($this->class);
         if (empty($this->constructor)) {
             $this->object = $classReflector->newInstance();
+            $annotationDispatcher->dispatchAnnotationClassInstantiate();
             return;
         }
         $constructor = $this->constructor;
@@ -218,6 +220,8 @@ class AbstractBean
             $constructor = array_merge($this->extend->getConstructor(), $constructor);
         }
         $this->object = $classReflector->newInstanceArgs($constructor);
+        $annotationDispatcher->setMethodArgs($constructor);
+        $annotationDispatcher->dispatchAnnotationClassInstantiate();
     }
 
     /**
@@ -356,7 +360,7 @@ class AbstractBean
     }
 
     /**
-     * @param $interfaceName
+     * @param string $interfaceName
      * @return bool
      */
     public function hasInterface($interfaceName)
@@ -365,7 +369,7 @@ class AbstractBean
     }
 
     /**
-     * @param $className
+     * @param string $className
      * @return bool
      */
     public function hasParent($className)

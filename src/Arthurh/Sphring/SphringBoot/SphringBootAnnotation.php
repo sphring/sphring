@@ -49,12 +49,12 @@ class SphringBootAnnotation
     private $annotationClassInstantiateListener;
 
     /**
-     * @var AnnotationMethodCallBeforeListener
+     * @var AnnotationMethodCallAfterListener
      */
     private $annotationMethodCallAfterListener;
 
     /**
-     * @var AnnotationMethodCallAfterListener
+     * @var AnnotationMethodCallBeforeListener
      */
     private $annotationMethodCallBeforeListener;
 
@@ -128,7 +128,7 @@ class SphringBootAnnotation
     }
 
     /**
-     * @return AnnotationMethodCallBeforeListener
+     * @return AnnotationMethodCallAfterListener
      */
     public function getAnnotationMethodCallAfterListener()
     {
@@ -136,15 +136,15 @@ class SphringBootAnnotation
     }
 
     /**
-     * @param AnnotationMethodCallBeforeListener $annotationMethodCallAfterListener
+     * @param AnnotationMethodCallAfterListener $annotationMethodCallAfterListener
      */
-    public function setAnnotationMethodCallAfterListener($annotationMethodCallAfterListener)
+    public function setAnnotationMethodCallAfterListener(AnnotationMethodCallAfterListener $annotationMethodCallAfterListener)
     {
         $this->annotationMethodCallAfterListener = $annotationMethodCallAfterListener;
     }
 
     /**
-     * @return AnnotationMethodCallAfterListener
+     * @return AnnotationMethodCallBeforeListener
      */
     public function getAnnotationMethodCallBeforeListener()
     {
@@ -152,9 +152,9 @@ class SphringBootAnnotation
     }
 
     /**
-     * @param AnnotationMethodCallAfterListener $annotationMethodCallBeforeListener
+     * @param AnnotationMethodCallBeforeListener $annotationMethodCallBeforeListener
      */
-    public function setAnnotationMethodCallBeforeListener(AnnotationMethodCallAfterListener $annotationMethodCallBeforeListener)
+    public function setAnnotationMethodCallBeforeListener(AnnotationMethodCallBeforeListener $annotationMethodCallBeforeListener)
     {
         $this->annotationMethodCallBeforeListener = $annotationMethodCallBeforeListener;
     }

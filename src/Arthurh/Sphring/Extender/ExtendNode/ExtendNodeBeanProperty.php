@@ -26,7 +26,7 @@ class ExtendNodeBeanProperty extends AbstractExtendNode
     public function extend()
     {
         foreach ($this->nodes as $node) {
-            $this->getSphringEventDispatcher()->getSphringBoot()->getBeanPropertyListener()
+            $this->getSphringEventDispatcher()->getSphringBoot()->getSphringBootBeanProperty()->getBeanPropertyListener()
                 ->register($node->getEventName(), $node->getClassName(), $node->getPriority());
         }
     }

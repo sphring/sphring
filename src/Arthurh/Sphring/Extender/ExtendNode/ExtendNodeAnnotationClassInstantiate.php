@@ -31,7 +31,7 @@ class ExtendNodeAnnotationClassInstantiate extends AbstractExtendNode
             if (empty($eventName)) {
                 $eventName = strtolower($className::getAnnotationName());
             }
-            $this->getSphringEventDispatcher()->getSphringBoot()->getAnnotationClassInstantiateListener()
+            $this->getSphringEventDispatcher()->getSphringBoot()->getSphringBootAnnotation()->getAnnotationClassInstantiateListener()
                 ->register($eventName, $node->getClassName(), $node->getPriority());
         }
     }

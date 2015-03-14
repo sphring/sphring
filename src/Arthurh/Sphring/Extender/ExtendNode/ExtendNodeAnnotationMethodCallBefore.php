@@ -31,7 +31,7 @@ class ExtendNodeAnnotationMethodCallBefore extends AbstractExtendNode
             if (empty($eventName)) {
                 $eventName = strtolower($className::getAnnotationName());
             }
-            $this->getSphringEventDispatcher()->getSphringBoot()->getAnnotationMethodCallBeforeListener()
+            $this->getSphringEventDispatcher()->getSphringBoot()->getSphringBootAnnotation()->getAnnotationMethodCallBeforeListener()
                 ->register($eventName, $node->getClassName(), $node->getPriority());
         }
     }

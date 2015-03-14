@@ -1,6 +1,7 @@
 <?php
 namespace Arthurh\Sphring;
 
+use Arhframe\Util\Proxy;
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\FakeBean\Foo;
 use Arthurh\Sphring\FakeBean\IFoo;
@@ -130,7 +131,7 @@ class SphringTest extends AbstractTestSphring
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::STREAM_TEST_FILE);
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $useBean->getJojo());
+        $this->assertEquals(file_get_contents('http://php.net/', false, Proxy::createStreamContext()), $useBean->getJojo());
 
     }
 

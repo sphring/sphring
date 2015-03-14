@@ -3,6 +3,7 @@ namespace Arthurh\Sphring\Bean;
 
 use Arhframe\Util\File;
 use Arhframe\Util\Folder;
+use Arhframe\Util\Proxy;
 use Arthurh\Sphring\AbstractTestSphring;
 use Arthurh\Sphring\Sphring;
 
@@ -118,7 +119,7 @@ class BeanTest extends AbstractTestSphring
             array('stream' =>
                 array('resource' => 'http://php.net/')
             ));
-        $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $this->testBean->getProperty('test')->getInjection());
+        $this->assertEquals(file_get_contents('http://php.net/', false, Proxy::createStreamContext()), $this->testBean->getProperty('test')->getInjection());
     }
 
 
@@ -130,7 +131,7 @@ class BeanTest extends AbstractTestSphring
                 array('resource' => 'http://php.net/')
             ));
 
-        @file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext());
+        @file_get_contents('http://php.net/', false, Proxy::createStreamContext());
         unset($_SERVER['HTTP_PROXY']);
     }
 
@@ -143,7 +144,7 @@ class BeanTest extends AbstractTestSphring
                     'context' => array('http' => array('method' => 'GET'))
                 )
             ));
-        $this->assertEquals(file_get_contents('http://php.net/', false, \Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream::getContext()), $this->testBean->getProperty('test')->getInjection());
+        $this->assertEquals(file_get_contents('http://php.net/', false, Proxy::createStreamContext()), $this->testBean->getProperty('test')->getInjection());
     }
 
     /**

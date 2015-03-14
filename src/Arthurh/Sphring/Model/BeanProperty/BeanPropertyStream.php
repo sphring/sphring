@@ -11,6 +11,7 @@
  */
 
 namespace Arthurh\Sphring\Model\BeanProperty;
+use Arhframe\Util\Proxy;
 
 /**
  * Class BeanPropertyStream
@@ -26,55 +27,10 @@ class BeanPropertyStream extends AbstractBeanProperty
     {
         $datas = $this->getData();
         $resource = $datas['resource'];
-        $context = self::getContext($datas['context']);
+        $context = Proxy::createStreamContext($datas['context']);
         if (empty($context)) {
             return file_get_contents($resource);
         }
         return file_get_contents($resource, false, $context);
-    }
-
-    /**
-     * @param null $context
-     * @return resource
-     */
-    public static function getContext($context = null)
-    {
-        $proxy = self::getProxy();
-        if (empty($proxy)) {
-            return empty($context) ? null : stream_context_create($context);
-        }
-        $proxyContext = array(
-            'proxy' => $proxy,
-            'request_fulluri' => true
-        );
-        if (empty($context)) {
-            $context['http'] = $proxyContext;
-        } else {
-            $context['http'] = array_merge($proxyContext, $context['http']);
-        }
-        return stream_context_create($context);
-    }
-
-    /**
-     * @return null|string
-     */
-    public static function getProxy()
-    {
-        $proxyKeys = array("HTTP_PROXY", "HTTPS_PROXY", "http_proxy", "https_proxy");
-        $proxyUri = null;
-        foreach ($proxyKeys as $proxyKey) {
-            $proxy = getenv($proxyKey);
-            if (!empty($proxy)) {
-                $proxyUri = $proxy;
-                break;
-            }
-            $proxy = $_SERVER[$proxyKey];
-            if (!empty($proxy)) {
-                $proxyUri = $proxy;
-                break;
-            }
-        }
-        $proxyUri = str_replace('http', 'tcp', $proxyUri);
-        return $proxyUri;
     }
 }

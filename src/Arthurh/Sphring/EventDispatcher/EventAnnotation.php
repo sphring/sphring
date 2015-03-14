@@ -32,6 +32,11 @@ class EventAnnotation extends AbstractSphringEvent
     private $bean;
 
     /**
+     * @var mixed[]
+     */
+    private $methodArgs;
+
+    /**
      * Return data passed to this event
      * @return mixed
      */
@@ -83,6 +88,25 @@ class EventAnnotation extends AbstractSphringEvent
     public function setBean($bean)
     {
         $this->bean = $bean;
+    }
+
+    /**
+     * @return mixed[]
+     */
+    public function getMethodArgs()
+    {
+        return $this->methodArgs;
+    }
+
+    /**
+     * @param mixed[] $methodArgs
+     */
+    public function setMethodArgs($methodArgs)
+    {
+        if (!is_array($methodArgs)) {
+            $methodArgs = [$methodArgs];
+        }
+        $this->methodArgs = $methodArgs;
     }
 
 }

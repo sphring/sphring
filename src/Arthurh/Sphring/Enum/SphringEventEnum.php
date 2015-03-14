@@ -31,4 +31,8 @@ class SphringEventEnum extends Enum
     const SPHRING_FINISHED_LOAD = 'sphring.load.after';
 
     const SPHRING_CLEAR = 'sphring.clear';
+
+    const ANNOTATION_CLASS_CALL_INSTANTIATE = 'annotation.class.call.instantiate.';
+    const ANNOTATION_METHOD_CALL_BEFORE = 'annotation.method.call.before.';
+    const ANNOTATION_METHOD_CALL_AFTER = 'annotation.method.call.after.';
 }

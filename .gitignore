@@ -2,3 +2,4 @@
 vendor
 index.php
 *.phar
+/.idea

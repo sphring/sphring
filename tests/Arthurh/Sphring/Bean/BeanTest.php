@@ -1,6 +1,8 @@
 <?php
 namespace Arthurh\Sphring\Bean;
 
+use Arhframe\Util\File;
+use Arhframe\Util\Folder;
 use Arthurh\Sphring\AbstractTestSphring;
 use Arthurh\Sphring\Sphring;
 
@@ -71,6 +73,24 @@ class BeanTest extends AbstractTestSphring
                 self::$RESOURCE_FOLDER . '/testini.ini'
             ));
         $this->assertEquals('db.example.com', $this->testBean->getProperty('test')->getInjection()->production->database->params->host);
+    }
+
+    public function testInjectionFile()
+    {
+        $this->testBean->addProperty('test',
+            array('file' =>
+                self::$RESOURCE_FOLDER . '/testini.ini'
+            ));
+        $this->assertInstanceOf(File::class, $this->testBean->getProperty('test')->getInjection());
+    }
+
+    public function testInjectionFolder()
+    {
+        $this->testBean->addProperty('test',
+            array('folder' =>
+                self::$RESOURCE_FOLDER
+            ));
+        $this->assertInstanceOf(Folder::class, $this->testBean->getProperty('test')->getInjection());
     }
 
     public function testInjectionAbsoluteIniWithEnv()

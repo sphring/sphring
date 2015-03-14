@@ -7,33 +7,19 @@
  * or at 'http://opensource.org/licenses/MIT'.
  *
  * Author: Arthur Halet
- * Date: 18/10/2014
+ * Date: 13/03/2015
  */
 
 namespace Arthurh\Sphring\Model\Annotation;
 
-use Arthurh\Sphring\Enum\SphringEventEnum;
 
-/**
- * Class BeforeStartMethodOnSphringEventAnnotation
- * @package Arthurh\Sphring\Model\Annotation
- *
- */
-class BeforeStartMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEventAnnotation
+class BeforeCallAnnotation extends CallAnnotation
 {
     /**
      * @return string
      */
     public static function getAnnotationName()
     {
-        return "BeforeStart";
-    }
-
-    /**
-     * @return string
-     */
-    function getEventSphring()
-    {
-        return SphringEventEnum::SPHRING_START_LOAD;
+        return "BeforeCall";
     }
 }

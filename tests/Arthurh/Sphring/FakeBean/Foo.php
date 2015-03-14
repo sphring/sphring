@@ -15,15 +15,17 @@ namespace Arthurh\Sphring\FakeBean;
 /**
  * Class Foo
  * @package Arthurh\Sphring\FakeBean
+ * @TestClassInstantiate
  */
 class Foo implements IFoo
 {
     private $kiki;
     private $cucu = 'test';
+    private $initValue;
 
-    public function __construct()
+    public function __construct($kiki = null)
     {
-        # code...
+        $this->kiki = $kiki;
     }
 
     /**
@@ -58,4 +60,34 @@ class Foo implements IFoo
         $this->kiki = $kiki;
     }
 
+    /**
+     * @return mixed
+     */
+    public function getInitValue()
+    {
+        return $this->initValue;
+    }
+
+    /**
+     * @BeforeCall(bean=usebean, method=injectValueForTestCall, return=true)
+     * @TestCallBefore(bean=usebean, method=injectValueForTestCall, return=true)
+     */
+    public function testBeforeCall()
+    {
+
+    }
+
+    /**
+     * @AfterCall(bean=usebean, method=injectValueForTestCall, return=true)
+     * @TestCallAfter(bean=usebean, method=injectValueForTestCall, return=true)
+     */
+    public function testAfterCall()
+    {
+
+    }
+
+    public function initialization()
+    {
+        $this->initValue = "initValue";
+    }
 }

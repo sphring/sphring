@@ -28,7 +28,6 @@ class ExtendTest extends AbstractTestSphring
         $sphring->getExtender()->setDefaultFilename('sphring-extend-simple.yml');
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
     }
 
@@ -56,7 +55,6 @@ class ExtendTest extends AbstractTestSphring
         $sphring->getExtender()->setDefaultFilename('sphring-extend-onexist.yml');
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
         $usefake = $sphring->getBean('usefake');
         $this->assertEquals('testBeanFake', $usefake->testBeanFake);
@@ -68,7 +66,6 @@ class ExtendTest extends AbstractTestSphring
         $sphring->setRootProject(__DIR__ . '/../Resources/composer');
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
     }
 
@@ -78,7 +75,6 @@ class ExtendTest extends AbstractTestSphring
         $sphring->setRootProject(__DIR__ . '/../Resources/composer');
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->getLogger()->debug('test extend valid ' . print_r($useBean, true));
         $this->assertArrayHasKey('testExtend', $useBean->getJuju());
     }
 
@@ -106,5 +102,34 @@ class ExtendTest extends AbstractTestSphring
         $extendNode->setNodes($nodes);
         $this->assertNotEmpty($extendNode->getNodes()[0]);
         $this->assertTrue($node === $extendNode->getNodes()[0]);
+    }
+
+    public function testExtendMethodCallAfterComposer()
+    {
+        $sphring = new Sphring();
+        $sphring->setRootProject(__DIR__ . '/../Resources/composer');
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $fooTest = $foo->testAfterCall('john');
+        $this->assertEquals('john', $fooTest);
+    }
+
+    public function testExtendMethodCallBeforeComposer()
+    {
+        $sphring = new Sphring();
+        $sphring->setRootProject(__DIR__ . '/../Resources/composer');
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $fooTest = $foo->testBeforeCall('johny');
+        $this->assertEquals('johny', $fooTest);
+    }
+
+    public function testExtendClassInstantiateComposer()
+    {
+        $sphring = new Sphring();
+        $sphring->setRootProject(__DIR__ . '/../Resources/composer');
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $this->assertTrue($foo->classInstantiate);
     }
 } 

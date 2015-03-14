@@ -24,12 +24,41 @@ class Using implements IUsing
     }
 
     /**
+     * @return mixed
+     */
+    public function getFoo()
+    {
+        return $this->foo;
+    }
+
+    /**
      *
      * @Required
      */
     public function setFoo(IFoo $foo)
     {
         $this->foo = $foo;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJojo()
+    {
+        return $this->jojo;
+    }
+
+    public function setJojo($stream)
+    {
+        $this->jojo = $stream;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getJuju()
+    {
+        return $this->juju;
     }
 
     /**
@@ -41,33 +70,8 @@ class Using implements IUsing
         $this->juju = $text;
     }
 
-    public function setJojo($stream)
+    public function injectValueForTestCall($bean, $value)
     {
-        $this->jojo = $stream;
+        return $value;
     }
-
-    /**
-     * @return mixed
-     */
-    public function getFoo()
-    {
-        return $this->foo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getJojo()
-    {
-        return $this->jojo;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getJuju()
-    {
-        return $this->juju;
-    }
-
 }

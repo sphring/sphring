@@ -44,7 +44,7 @@ class FactoryBean
     /**
      * @param $beanId
      * @param $info
-     * @return mixed
+     * @return ProxyBean
      * @throws \Arthurh\Sphring\Exception\SphringException
      */
     public function createBean($beanId, $info)
@@ -60,7 +60,7 @@ class FactoryBean
             $set = 'set' . ucfirst($key);
             $bean->$set($value);
         }
-        return $bean;
+        return new ProxyBean($bean);
     }
 
     /**

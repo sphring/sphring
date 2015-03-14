@@ -14,7 +14,7 @@ namespace Arthurh\Sphring\EventDispatcher;
 
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Sphring;
-use Arthurh\Sphring\SphringBoot;
+use Arthurh\Sphring\SphringBoot\SphringBoot;
 use Symfony\Component\EventDispatcher\Event;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 

@@ -12,6 +12,8 @@
 
 namespace Arthurh\Sphring\Model\Bean;
 
+use Arthurh\Sphring\Exception\BeanException;
+
 
 /**
  * Class Bean
@@ -19,5 +21,47 @@ namespace Arthurh\Sphring\Model\Bean;
  */
 class Bean extends AbstractBean
 {
+    /**
+     * @var string
+     */
+    private $methodInit;
+
+    public function inject()
+    {
+        parent::inject();
+        $this->startMethodInit();
+
+    }
+
+    private function startMethodInit()
+    {
+        if (empty($this->methodInit)) {
+            return;
+        }
+        if (!is_string($this->methodInit)) {
+            throw new BeanException($this, "Error when sphring start initialization method, method name is not a string.");
+        }
+        if (!method_exists($this->object, $this->methodInit)) {
+            throw new BeanException($this, "Error when sphring start initialization method '%s' for object '%s'. Thie method doesn't exist.", $this->methodInit, $this->object);
+        }
+        $method = $this->methodInit;
+        $this->object->$method();
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethodInit()
+    {
+        return $this->methodInit;
+    }
+
+    /**
+     * @param string $methodInit
+     */
+    public function setMethodInit($methodInit)
+    {
+        $this->methodInit = $methodInit;
+    }
 
 }

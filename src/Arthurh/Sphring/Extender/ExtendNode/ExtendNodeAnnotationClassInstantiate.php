@@ -13,11 +13,11 @@
 namespace Arthurh\Sphring\Extender\ExtendNode;
 
 /**
- * Extend Annotation for method
- * Class ExtendNodeAnnotationMethod
+ * Extend Annotation for class
+ * Class ExtendNodeAnnotationClass
  * @package Arthurh\Sphring\Extender\ExtendNode
  */
-class ExtendNodeAnnotationMethod extends AbstractExtendNode
+class ExtendNodeAnnotationClassInstantiate extends AbstractExtendNode
 {
 
     /**
@@ -31,7 +31,7 @@ class ExtendNodeAnnotationMethod extends AbstractExtendNode
             if (empty($eventName)) {
                 $eventName = strtolower($className::getAnnotationName());
             }
-            $this->getSphringEventDispatcher()->getSphringBoot()->getSphringBootAnnotation()->getAnnotationMethodListener()
+            $this->getSphringEventDispatcher()->getSphringBoot()->getSphringBootAnnotation()->getAnnotationClassInstantiateListener()
                 ->register($eventName, $node->getClassName(), $node->getPriority());
         }
     }

@@ -1,8 +1,7 @@
 foobean:
   class: Arthurh\Sphring\FakeBean\Foo
-  properties:
-    kiki:
-      ref: usebean
+  constructor:
+    value: testkiki
 usebean:
   class: Arthurh\Sphring\FakeBean\Using
   properties:

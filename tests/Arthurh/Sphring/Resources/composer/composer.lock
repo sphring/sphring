@@ -56,6 +56,15 @@
                         ],
                         "annotationClass": [
                            {"eventName": "test", "class": "Arthurh\\Sphring\\FakeExtend\\BeanPropertyExtendValue"}
+                        ],
+                        "annotationMethodCallAfter": [
+                           {"eventName": "TestCallAfter", "class": "Arthurh\\Sphring\\Model\\Annotation\\AfterCallAnnotation"}
+                        ],
+                        "annotationMethodCallBefore": [
+                           {"eventName": "TestCallBefore", "class": "Arthurh\\Sphring\\Model\\Annotation\\BeforeCallAnnotation"}
+                        ],
+                        "annotationClassInstantiate": [
+                           {"eventName": "TestClassInstantiate", "class": "Arthurh\\Sphring\\FakeExtend\\AnnotationClassInstantiateExtend"}
                         ]
                     },
                     "isPlugin": true

@@ -105,7 +105,7 @@ class Extender
     /**
      * Extend from an AbstractExtendNode implementation
      * @param $className
-     * @return AbstractExtendNode|object
+     * @return AbstractExtendNode
      * @throws \Arthurh\Sphring\Exception\ExtenderException
      */
     function getExtendNodeFromClassName($className)

@@ -3,6 +3,7 @@ foobean:
   properties:
     kiki:
       ref: usebean
+  methodInit: initialization
 usebean:
   class: Arthurh\Sphring\FakeBean\Using
   properties:

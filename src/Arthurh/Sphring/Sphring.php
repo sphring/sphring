@@ -21,14 +21,15 @@ namespace Arthurh\Sphring;
 
 use Arhframe\Yamlarh\Yamlarh;
 use Arthurh\Sphring\Enum\SphringEventEnum;
+use Arthurh\Sphring\Enum\SphringYamlarhConstantEnum;
 use Arthurh\Sphring\EventDispatcher\EventSphring;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Extender\Extender;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\Bean\AbstractBean;
-use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Model\Bean\FactoryBean;
+use Arthurh\Sphring\Model\Bean\ProxyBean;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -58,7 +59,7 @@ class Sphring
      */
     private $context = array();
     /**
-     * @var Bean[]
+     * @var ProxyBean[]
      */
     private $beans = array();
 
@@ -83,10 +84,17 @@ class Sphring
     private $factoryBean;
 
     /**
+     * @var Yamlarh
+     */
+    private $yamlarh;
+
+    /**
      *
      */
     public function __construct($filename = null)
     {
+        $this->yamlarh = new Yamlarh(null);
+        $this->injectConstantInYamlarh();
         if (empty($filename)) {
             $filename = '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
         }
@@ -94,6 +102,7 @@ class Sphring
         $this->sphringEventDispatcher = new SphringEventDispatcher($this);
         $this->extender = new Extender($this->sphringEventDispatcher);
         $this->factoryBean = new FactoryBean($this);
+        $this->loadYamlarh($this->filename);
     }
 
     /**
@@ -104,14 +113,17 @@ class Sphring
         $this->beforeLoad();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_BEFORE_LOAD, new EventSphring($this));
         $this->getLogger()->info("Starting loading context...");
-        $yamlarh = $this->getYamlarh($this->filename);
-        if (empty($yamlarh)) {
+        $this->loadYamlarh($this->filename);
+        if (empty($this->yamlarh->getFilename())) {
             throw new SphringException("Cannot load context, file '%s' doesn't exist in root project '%s'", $this->filename, $this->getRootProject());
+        } else {
+
         }
-        $this->filename = realpath($yamlarh->getFilename());
-        $this->contextRoot = dirname(realpath($yamlarh->getFilename()));
-        $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($yamlarh->getFilename())));
-        $this->context = $yamlarh->parse();
+        $this->filename = realpath($this->yamlarh->getFilename());
+        $this->contextRoot = dirname(realpath($this->yamlarh->getFilename()));
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::CONTEXTROOT, $this->contextRoot);
+        $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($this->yamlarh->getFilename())));
+        $this->context = $this->yamlarh->parse();
         $this->extender->addExtendFromFile($this->contextRoot . '/' . $this->extender->getDefaultFilename());
 
         $this->extender->extend();
@@ -141,17 +153,23 @@ class Sphring
      * @param string $filename
      * @return Yamlarh|null
      */
-    public function getYamlarh($filename)
+    public function loadYamlarh($filename)
     {
-        $yamlarh = null;
         if (is_file($filename)) {
-            $yamlarh = new Yamlarh($filename);
+            $this->yamlarh->setFileName($filename);
         }
         if (is_file($this->getRootProject() . $filename)) {
             $filename = $this->getRootProject() . $filename;
-            $yamlarh = new Yamlarh($filename);
+            $this->yamlarh->setFileName($filename);
         }
-        return $yamlarh;
+    }
+
+    private function injectConstantInYamlarh()
+    {
+        if ($this->yamlarh === null) {
+            return;
+        }
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::ROOTPROJECT, $this->getRootProject());
     }
 
     /**
@@ -189,12 +207,12 @@ class Sphring
     }
 
     /**
-     * @param AbstractBean $bean
+     * @param ProxyBean $bean
      */
-    public function addBean(AbstractBean $bean)
+    public function addBean(ProxyBean $bean)
     {
-        $this->beans[$bean->getId()] = $bean;
-        $bean->inject();
+        $this->beans[$bean->__getBean()->getId()] = $bean;
+        $bean->__getBean()->inject();
     }
 
     /**
@@ -217,7 +235,7 @@ class Sphring
         if (empty($this->beans[$beanId])) {
             throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
         }
-        return $this->beans[$beanId]->getObject();
+        return $this->beans[$beanId];
     }
 
     /**
@@ -225,8 +243,10 @@ class Sphring
      */
     public function removeBean($bean)
     {
-        if ($bean instanceof Bean) {
+        if ($bean instanceof AbstractBean) {
             $beanId = $bean->getId();
+        } else if ($bean instanceof ProxyBean) {
+            $beanId = $bean->__getBean()->getId();
         } else {
             $beanId = $bean;
         }
@@ -304,11 +324,15 @@ class Sphring
     }
 
     /**
-     * @return Model\Bean\Bean[]
+     * @return Model\Bean\AbstractBean[]
      */
     public function getBeansObject()
     {
-        return $this->beans;
+        $beans = [];
+        foreach ($this->beans as $bean) {
+            $beans[] = $bean->__getBean();
+        }
+        return $beans;
     }
 
     /**
@@ -328,14 +352,22 @@ class Sphring
     public function getBeanObject($beanId)
     {
         if (!empty($this->beans[$beanId])) {
-            return $this->beans[$beanId];
+            return $this->beans[$beanId]->__getBean();
         }
         if (empty($this->context[$beanId])) {
             throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
         }
         $bean = $this->factoryBean->createBean($beanId, $this->context[$beanId]);
         $this->addBean($bean);
-        return $bean;
+        return $bean->__getBean();
+    }
+
+    /**
+     * @return Yamlarh
+     */
+    public function getYamlarh()
+    {
+        return $this->yamlarh;
     }
 
 

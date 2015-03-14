@@ -386,5 +386,5 @@ abstract class AbstractBean
         return $this->parent;
     }
 
-    abstract function getValidBeanFile();
+    abstract public function getValidBeanFile();
 }

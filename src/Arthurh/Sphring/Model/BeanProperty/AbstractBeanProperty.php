@@ -98,7 +98,10 @@ abstract class AbstractBeanProperty
     /**
      * @return array
      */
-    abstract public static function getValidation();
+    public static function getValidation()
+    {
+        return null;
+    }
 
 
 }

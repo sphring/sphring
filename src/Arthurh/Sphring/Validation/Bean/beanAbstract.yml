@@ -16,3 +16,4 @@ root:
         _children: %beanproperties%
       methodInit:
         _type: text
+  

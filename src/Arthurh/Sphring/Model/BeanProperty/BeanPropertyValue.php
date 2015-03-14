@@ -26,4 +26,9 @@ class BeanPropertyValue extends AbstractBeanProperty
     {
         return $this->getData();
     }
+
+    public static function getValidation()
+    {
+        return null;
+    }
 }

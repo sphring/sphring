@@ -30,6 +30,7 @@ abstract class AbstractBeanProperty
      */
     protected $data;
 
+
     /**
      * @internal param $data
      */
@@ -93,5 +94,11 @@ abstract class AbstractBeanProperty
     {
         $this->sphring = $spring;
     }
+
+    /**
+     * @return array
+     */
+    abstract public static function getValidation();
+
 
 }

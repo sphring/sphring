@@ -50,4 +50,14 @@ class BeanPropertyYml extends AbstractBeanProperty
         $yamlArh = new Yamlarh($file);
         return $yamlArh->parse();
     }
+
+    /**
+     * @return array
+     */
+    public static function getValidation()
+    {
+        return [
+            '_type' => 'text'
+        ];
+    }
 }

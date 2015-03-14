@@ -170,6 +170,9 @@ class Sphring
             return;
         }
         $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::ROOTPROJECT, $this->getRootProject());
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::SERVER, $_SERVER);
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::POST, $_POST);
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::GET, $_GET);
     }
 
     /**

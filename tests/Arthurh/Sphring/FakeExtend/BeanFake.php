@@ -24,4 +24,9 @@ class BeanFake extends AbstractBean
         parent::inject();
         $this->object->testBeanFake = 'testBeanFake';
     }
-} 
+
+    function getValidBeanFile()
+    {
+        return __DIR__ . '/../../../../src/Arthurh/Sphring/Validation/Bean/bean.yml';
+    }
+}

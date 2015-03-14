@@ -25,7 +25,7 @@ use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
  * Class AbstractBean
  * @package Arthurh\Sphring\Model\Bean
  */
-class AbstractBean
+abstract class AbstractBean
 {
     /**
      * @var string
@@ -66,6 +66,7 @@ class AbstractBean
      * @var string
      */
     protected $parent;
+
 
     /**
      * @param string $id
@@ -385,4 +386,5 @@ class AbstractBean
         return $this->parent;
     }
 
+    abstract function getValidBeanFile();
 }

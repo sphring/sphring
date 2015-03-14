@@ -68,4 +68,25 @@ class BeanPropertyRef extends AbstractBeanProperty
     {
         return array_keys($beans) !== range(0, count($beans) - 1);
     }
+
+    /**
+     * @return array
+     */
+    public static function getValidation()
+    {
+        return [
+            '_type' => 'choice',
+            '_choices' => [
+                [
+                    '_type' => 'prototype',
+                    '_prototype' => [
+                        '_type' => 'text'
+                    ]
+                ],
+                [
+                    '_type' => 'text'
+                ]
+            ]
+        ];
+    }
 }

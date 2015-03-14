@@ -60,4 +60,14 @@ class BeanPropertyIniFile extends AbstractBeanProperty
     {
         return new \Zend_Config_Ini($file, $env);
     }
+
+    /**
+     * @return array
+     */
+    public static function getValidation()
+    {
+        return [
+            '_type' => 'text'
+        ];
+    }
 }

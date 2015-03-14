@@ -13,7 +13,6 @@
 namespace Arthurh\Sphring\SphringBoot;
 
 use Arthurh\Sphring\ComposerManager\ComposerManager;
-use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
 use Arthurh\Sphring\EventDispatcher\Listener\SphringGlobalListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\Bean\Bean;
@@ -108,14 +107,6 @@ class SphringBoot
         $this->composerManager->setExtender($this->sphringEventDispatcher->getSphring()->getExtender());
         $this->composerManager->setRootProject($this->sphringEventDispatcher->getSphring()->getRootProject());
         $this->composerManager->loadComposer();
-    }
-
-    /**
-     * @param AnnotationMethodListener $annotationMethodListener
-     */
-    public function setAnnotationMethodListener($annotationMethodListener)
-    {
-        $this->annotationMethodListener = $annotationMethodListener;
     }
 
     /**

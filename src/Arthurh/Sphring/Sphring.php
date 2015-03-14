@@ -21,6 +21,7 @@ namespace Arthurh\Sphring;
 
 use Arhframe\Yamlarh\Yamlarh;
 use Arthurh\Sphring\Enum\SphringEventEnum;
+use Arthurh\Sphring\Enum\SphringYamlarhConstantEnum;
 use Arthurh\Sphring\EventDispatcher\EventSphring;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Exception\SphringException;
@@ -83,10 +84,17 @@ class Sphring
     private $factoryBean;
 
     /**
+     * @var Yamlarh
+     */
+    private $yamlarh;
+
+    /**
      *
      */
     public function __construct($filename = null)
     {
+        $this->yamlarh = new Yamlarh(null);
+        $this->injectConstantInYamlarh();
         if (empty($filename)) {
             $filename = '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
         }
@@ -94,6 +102,7 @@ class Sphring
         $this->sphringEventDispatcher = new SphringEventDispatcher($this);
         $this->extender = new Extender($this->sphringEventDispatcher);
         $this->factoryBean = new FactoryBean($this);
+        $this->loadYamlarh($this->filename);
     }
 
     /**
@@ -104,14 +113,17 @@ class Sphring
         $this->beforeLoad();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_BEFORE_LOAD, new EventSphring($this));
         $this->getLogger()->info("Starting loading context...");
-        $yamlarh = $this->getYamlarh($this->filename);
-        if (empty($yamlarh)) {
+        $this->loadYamlarh($this->filename);
+        if (empty($this->yamlarh->getFilename())) {
             throw new SphringException("Cannot load context, file '%s' doesn't exist in root project '%s'", $this->filename, $this->getRootProject());
+        } else {
+
         }
-        $this->filename = realpath($yamlarh->getFilename());
-        $this->contextRoot = dirname(realpath($yamlarh->getFilename()));
-        $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($yamlarh->getFilename())));
-        $this->context = $yamlarh->parse();
+        $this->filename = realpath($this->yamlarh->getFilename());
+        $this->contextRoot = dirname(realpath($this->yamlarh->getFilename()));
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::CONTEXTROOT, $this->contextRoot);
+        $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($this->yamlarh->getFilename())));
+        $this->context = $this->yamlarh->parse();
         $this->extender->addExtendFromFile($this->contextRoot . '/' . $this->extender->getDefaultFilename());
 
         $this->extender->extend();
@@ -141,17 +153,23 @@ class Sphring
      * @param string $filename
      * @return Yamlarh|null
      */
-    public function getYamlarh($filename)
+    public function loadYamlarh($filename)
     {
-        $yamlarh = null;
         if (is_file($filename)) {
-            $yamlarh = new Yamlarh($filename);
+            $this->yamlarh->setFileName($filename);
         }
         if (is_file($this->getRootProject() . $filename)) {
             $filename = $this->getRootProject() . $filename;
-            $yamlarh = new Yamlarh($filename);
+            $this->yamlarh->setFileName($filename);
         }
-        return $yamlarh;
+    }
+
+    private function injectConstantInYamlarh()
+    {
+        if ($this->yamlarh === null) {
+            return;
+        }
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::ROOTPROJECT, $this->getRootProject());
     }
 
     /**
@@ -342,6 +360,14 @@ class Sphring
         $bean = $this->factoryBean->createBean($beanId, $this->context[$beanId]);
         $this->addBean($bean);
         return $bean->__getBean();
+    }
+
+    /**
+     * @return Yamlarh
+     */
+    public function getYamlarh()
+    {
+        return $this->yamlarh;
     }
 
 

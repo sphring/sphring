@@ -15,6 +15,8 @@ namespace Arthurh\Sphring\SphringBoot;
 
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyFile;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyFolder;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyIniFile;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyRef;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream;
@@ -45,6 +47,8 @@ class SphringBootBeanProperty
     {
         $beanProperty = $this->beanPropertyListener;
         $beanProperty->register('iniFile', BeanPropertyIniFile::class);
+        $beanProperty->register('file', BeanPropertyFile::class);
+        $beanProperty->register('folder', BeanPropertyFolder::class);
         $beanProperty->register('ref', BeanPropertyRef::class);
         $beanProperty->register('stream', BeanPropertyStream::class);
         $beanProperty->register('value', BeanPropertyValue::class);

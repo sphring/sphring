@@ -19,3 +19,7 @@ abstracttest:
       json:
         file: ../testjson.json
         asObject: true
+    jiji:
+      xml:
+        file: ../textxml.xml
+        asArray: true

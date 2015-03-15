@@ -22,6 +22,7 @@ use Arthurh\Sphring\Model\BeanProperty\BeanPropertyJson;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyRef;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyValue;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyXml;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyYml;
 
 class SphringBootBeanProperty
@@ -55,6 +56,7 @@ class SphringBootBeanProperty
         $beanProperty->register('value', BeanPropertyValue::class);
         $beanProperty->register('yml', BeanPropertyYml::class);
         $beanProperty->register('json', BeanPropertyJson::class);
+        $beanProperty->register('xml', BeanPropertyXml::class);
     }
 
     /**

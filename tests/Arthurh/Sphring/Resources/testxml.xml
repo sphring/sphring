@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<root>
+    <invoice>34843</invoice>
+    <date/>
+    <bill-to>
+        <given>Chris</given>
+        <family>Dumars</family>
+        <address>
+            <lines>458 Walkman Dr.
+                Suite #292
+            </lines>
+            <city>Royal Oak</city>
+            <state>MI</state>
+            <postal>48046</postal>
+        </address>
+    </bill-to>
+    <ship-to>
+        <given>Chris</given>
+        <family>Dumars</family>
+        <address>
+            <lines>458 Walkman Dr.
+                Suite #292
+            </lines>
+            <city>Royal Oak</city>
+            <state>MI</state>
+            <postal>48046</postal>
+        </address>
+    </ship-to>
+    <product>
+        <sku>BL394D</sku>
+        <quantity>4</quantity>
+        <description>Basketball</description>
+        <price>450</price>
+    </product>
+    <product>
+        <sku>BL4438H</sku>
+        <quantity>1</quantity>
+        <description>Super Hoop</description>
+        <price>2392</price>
+    </product>
+    <tax>251.42</tax>
+    <total>4443.52</total>
+    <comments>Late afternoon is best. Backup contact is Nancy Billsmer @ 338-4338.
+    </comments>
+</root>

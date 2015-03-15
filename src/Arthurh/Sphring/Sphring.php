@@ -57,7 +57,7 @@ class Sphring
     /**
      * @var array
      */
-    private $context;
+    private $context = array();
     /**
      * @var ProxyBean[]
      */
@@ -135,7 +135,7 @@ class Sphring
     private function parseYaml()
     {
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD_CONTEXT, new EventSphring($this));
-        if ($this->context === null) {
+        if (empty($this->context)) {
             $this->context = $this->yamlarh->parse();
         }
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD_CONTEXT, new EventSphring($this));
@@ -232,7 +232,7 @@ class Sphring
     public function clear()
     {
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_CLEAR, new EventSphring($this));
-        $this->context = null;
+        $this->context = array();
         $this->beans = array();
     }
 
@@ -289,7 +289,6 @@ class Sphring
      */
     public function setFilename($filename)
     {
-        $this->context = null;
         $this->filename = $filename;
     }
 

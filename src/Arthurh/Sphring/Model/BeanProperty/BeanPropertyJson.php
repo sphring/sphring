@@ -28,7 +28,6 @@ class BeanPropertyJson extends AbstractBeanPropertyFileLoader
     {
         $data = $this->getData();
         $asArray = true;
-        $file = null;
         if (is_array($data)) {
             $file = $data['file'];
             $asArray = empty($data['asObject']) ? true : false;
@@ -37,7 +36,7 @@ class BeanPropertyJson extends AbstractBeanPropertyFileLoader
         }
         $file = $this->getFilePath($file);
         if ($file == null) {
-            throw new BeanPropertyException("Error when injecting yml in bean, file '%s' doesn't exist.", $file);
+            throw new BeanPropertyException("Error when injecting json in bean, file '%s' doesn't exist.", $file);
         }
         $file = new File($file);
         return json_decode($file->getContent(), $asArray);

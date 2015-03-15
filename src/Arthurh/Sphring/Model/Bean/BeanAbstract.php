@@ -27,4 +27,9 @@ class BeanAbstract extends AbstractBean
     {
         return;
     }
+
+    public function getValidBeanFile()
+    {
+        return __DIR__ . '/../../Validation/Bean/beanAbstract.yml';
+    }
 }

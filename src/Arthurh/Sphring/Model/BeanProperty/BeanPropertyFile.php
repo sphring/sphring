@@ -31,4 +31,14 @@ class BeanPropertyFile extends AbstractBeanProperty
         }
         return new File($filename);
     }
+
+    /**
+     * @return array
+     */
+    public static function getValidation()
+    {
+        return [
+            '_type' => 'text'
+        ];
+    }
 }

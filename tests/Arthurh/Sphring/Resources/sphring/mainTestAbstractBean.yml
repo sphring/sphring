@@ -1,12 +1,25 @@
 foobean:
-    class: Arthurh\Sphring\FakeBean\Foo
+  class: Arthurh\Sphring\FakeBean\Foo
 abstractusebean:
-    type: abstract
-    properties:
-        foo:
-            ref: foobean
-        juju:
-            value: testValue
+  type: abstract
+  properties:
+    foo:
+      ref: foobean
+    juju:
+      value: testValue
 usebean:
-    class: Arthurh\Sphring\FakeBean\Using
-    extend: abstractusebean
+  class: Arthurh\Sphring\FakeBean\Using
+  extend: abstractusebean
+abstracttest:
+  type: abstract
+  properties:
+    foo:
+      json: ../testjson.json
+    juju:
+      json:
+        file: ../testjson.json
+        asObject: true
+    jiji:
+      xml:
+        file: ../textxml.xml
+        asArray: true

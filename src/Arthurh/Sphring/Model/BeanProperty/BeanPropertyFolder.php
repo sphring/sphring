@@ -20,7 +20,7 @@ class BeanPropertyFolder extends AbstractBeanProperty
 {
 
     /**
-     * @return File
+     * @return Folder
      * @throws BeanPropertyException
      */
     public function inject()
@@ -30,5 +30,15 @@ class BeanPropertyFolder extends AbstractBeanProperty
             throw new BeanPropertyException("Error when injecting folder in bean, it's not a valid folder name (not a string).");
         }
         return new Folder($foldername);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getValidation()
+    {
+        return [
+            '_type' => 'text'
+        ];
     }
 }

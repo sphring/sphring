@@ -19,4 +19,7 @@ class SphringYamlarhConstantEnum extends Enum
 {
     const ROOTPROJECT = 'ROOTPROJECT';
     const CONTEXTROOT = 'CONTEXTROOT';
+    const SERVER = 'SERVER';
+    const POST = 'POST';
+    const GET = 'GET';
 }

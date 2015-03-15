@@ -11,6 +11,7 @@
  */
 
 namespace Arthurh\Sphring\Model\BeanProperty;
+
 use Arhframe\Util\Proxy;
 
 /**
@@ -32,5 +33,22 @@ class BeanPropertyStream extends AbstractBeanProperty
             return file_get_contents($resource);
         }
         return file_get_contents($resource, false, $context);
+    }
+
+    /**
+     * @return array
+     */
+    public static function getValidation()
+    {
+        return [
+            '_type' => 'array',
+            '_ignore_extra_keys' => true,
+            '_children' => [
+                'resource' => [
+                    '_type' => 'text',
+                    '_required' => true
+                ]
+            ]
+        ];
     }
 }

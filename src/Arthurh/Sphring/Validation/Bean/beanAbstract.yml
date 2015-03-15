@@ -1,0 +1,18 @@
+root:
+  _type: array
+  _children:
+    type:
+      _type: enum
+      _values:
+        - abstract
+    constructor:
+      _type: array
+      _children: %beanproperties%
+    properties:
+      _type: prototype
+      _prototype:
+        _type: array
+        _ignore_extra_keys: true
+        _children: %beanproperties%
+      methodInit:
+        _type: text

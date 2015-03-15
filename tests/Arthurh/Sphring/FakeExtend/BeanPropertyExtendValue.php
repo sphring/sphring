@@ -15,7 +15,6 @@ namespace Arthurh\Sphring\FakeExtend;
 
 
 use Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty;
-use Arthurh\Sphring\Model\BeanProperty\BeanPropertyValue;
 
 class BeanPropertyExtendValue extends AbstractBeanProperty
 {
@@ -31,5 +30,10 @@ class BeanPropertyExtendValue extends AbstractBeanProperty
         }
         $data['testExtend'] = 'testExtend';
         return $data;
+    }
+
+    public static function getValidation()
+    {
+        return null;
     }
 }

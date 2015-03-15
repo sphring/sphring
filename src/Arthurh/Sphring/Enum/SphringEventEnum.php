@@ -28,6 +28,9 @@ class SphringEventEnum extends Enum
     const SPHRING_BEFORE_LOAD = 'sphring.load.before';
     const SPHRING_START_LOAD = 'sphring.load.start';
 
+    const SPHRING_START_LOAD_CONTEXT = 'sphring.load.start.context';
+    const SPHRING_FINISHED_LOAD_CONTEXT = 'sphring.load.after.context';
+
     const SPHRING_FINISHED_LOAD = 'sphring.load.after';
 
     const SPHRING_CLEAR = 'sphring.clear';

@@ -88,6 +88,7 @@ class Sphring
      */
     private $yamlarh;
 
+
     /**
      *
      */
@@ -116,14 +117,12 @@ class Sphring
         $this->loadYamlarh($this->filename);
         if (empty($this->yamlarh->getFilename())) {
             throw new SphringException("Cannot load context, file '%s' doesn't exist in root project '%s'", $this->filename, $this->getRootProject());
-        } else {
-
         }
         $this->filename = realpath($this->yamlarh->getFilename());
         $this->contextRoot = dirname(realpath($this->yamlarh->getFilename()));
         $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::CONTEXTROOT, $this->contextRoot);
         $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($this->yamlarh->getFilename())));
-        $this->context = $this->yamlarh->parse();
+        $this->parseYaml();
         $this->extender->addExtendFromFile($this->contextRoot . '/' . $this->extender->getDefaultFilename());
 
         $this->extender->extend();
@@ -131,6 +130,15 @@ class Sphring
         $this->loadBeans();
         $this->sphringEventDispatcher->dispatchQueue();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
+    }
+
+    private function parseYaml()
+    {
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD_CONTEXT, new EventSphring($this));
+        if (empty($this->context)) {
+            $this->context = $this->yamlarh->parse();
+        }
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD_CONTEXT, new EventSphring($this));
     }
 
     /**
@@ -170,6 +178,9 @@ class Sphring
             return;
         }
         $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::ROOTPROJECT, $this->getRootProject());
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::SERVER, $_SERVER);
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::POST, $_POST);
+        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::GET, $_GET);
     }
 
     /**
@@ -368,6 +379,22 @@ class Sphring
     public function getYamlarh()
     {
         return $this->yamlarh;
+    }
+
+    /**
+     * @return array
+     */
+    public function getContext()
+    {
+        return $this->context;
+    }
+
+    /**
+     * @param array $context
+     */
+    public function setContext($context)
+    {
+        $this->context = $context;
     }
 
 

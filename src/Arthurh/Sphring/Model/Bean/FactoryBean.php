@@ -16,6 +16,8 @@ namespace Arthurh\Sphring\Model\Bean;
 
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Sphring;
+use Arthurh\Sphring\Validation\Validator;
+use RomaricDrigon\MetaYaml\Exception\NodeValidatorException;
 
 /**
  * Class FactoryBean
@@ -55,6 +57,20 @@ class FactoryBean
         if (!($bean instanceof AbstractBean)) {
             throw new SphringException("'%s' is not a valid bean, it must extends '%s'", $beanClass, AbstractBean::class);
         }
+
+        $validator = Validator::getInstance();
+        $sphringBoot = $this->sphring->getSphringEventDispatcher()->getSphringBoot();
+        $validator->setBeanPropertyListener($sphringBoot->getSphringBootBeanProperty()->getBeanPropertyListener());
+        try {
+            $validator->validate($bean->getValidBeanFile(), $info);
+        } catch (NodeValidatorException $e) {
+            echo $bean->getValidBeanFile();
+            throw new SphringException("'%s' is not a valid bean: %s", $beanId, $e->getMessage(), $e);
+        } catch (SphringException $e) {
+            throw new SphringException("'%s' can't be validated: %s", $beanId, $e->getMessage(), $e);
+        }
+
+
         $bean->setSphringEventDispatcher($this->sphring->getSphringEventDispatcher());
         foreach ($info as $key => $value) {
             $set = 'set' . ucfirst($key);

@@ -64,4 +64,8 @@ class Bean extends AbstractBean
         $this->methodInit = $methodInit;
     }
 
+    public function getValidBeanFile()
+    {
+        return __DIR__ . '/../../Validation/Bean/bean.yml';
+    }
 }

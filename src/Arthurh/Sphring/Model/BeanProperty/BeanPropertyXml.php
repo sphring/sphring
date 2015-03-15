@@ -38,7 +38,12 @@ class BeanPropertyXml extends AbstractBeanPropertyFileLoader
         if ($file == null) {
             throw new BeanPropertyException("Error when injecting xml in bean, file '%s' doesn't exist.", $file);
         }
-        return $this->loadXml($file, $asArray);
+        try {
+            $data = $this->loadXml($file, $asArray);
+            return $data;
+        } catch (\Exception $e) {
+            throw new SphringException("Error when injecting xml in bean: ", $e)
+        }
     }
 
     /**
@@ -51,39 +56,35 @@ class BeanPropertyXml extends AbstractBeanPropertyFileLoader
     {
         libxml_use_internal_errors(true);
         if ($asArray) {
-            $data = simplexml_load_file($file, null, LIBXML_NOERROR);
+            return $this->loadXmlArray($file);
         } else {
-            $data = simplexml_load_file($file);
-        }
-
-        if ($data === false) {
-            $errors = libxml_get_errors();
-            $latestError = array_pop($errors);
-            $error = array(
-                'message' => $latestError->message,
-                'type' => $latestError->level,
-                'code' => $latestError->code,
-                'file' => $latestError->file,
-                'line' => $latestError->line,
-            );
-            throw new SphringException("Error when injecting xml in bean: ", $this->getExceptionFromSimpleXml($error));
-        }
-        if ($asArray) {
-            return json_decode(json_encode($data), true);
-        } else {
-            return $data;
+            return $this->loadXmlObject($file);
         }
     }
 
-    private function getExceptionFromSimpleXml(array $error)
+    /**
+     * @param $file
+     * @return \SimpleXMLElement
+     */
+    private function loadXmlObject($file)
     {
-        $message = $error['message'];
-        $code = isset($error['code']) ? $error['code'] : 0;
-        $severity = isset($error['type']) ? $error['type'] : 1;
-        $filename = isset($error['file']) ? $error['file'] : __FILE__;
-        $lineno = isset($error['line']) ? $error['line'] : __LINE__;
-        $exception = isset($error['exception']) ? $error['exception'] : null;
-        return new \Exception($message, $code, $severity, $filename, $lineno, $exception);
+        return simplexml_load_file($file);
+    }
+
+    /**
+     * @param $file
+     * @return mixed
+     * @throws \Exception
+     */
+    private function loadXmlArray($file)
+    {
+        $data = simplexml_load_file($file, null, LIBXML_NOERROR);
+        if ($data === false) {
+            $errors = libxml_get_errors();
+            $latestError = array_pop($errors);
+            throw new \Exception($latestError->message, $latestError->code);
+        }
+        return json_decode(json_encode($data), true);
     }
 
     /**

@@ -42,7 +42,7 @@ class BeanPropertyXml extends AbstractBeanPropertyFileLoader
             $data = $this->loadXml($file, $asArray);
             return $data;
         } catch (\Exception $e) {
-            throw new SphringException("Error when injecting xml in bean: ", $e)
+            throw new SphringException("Error when injecting xml in bean: ", $e);
         }
     }
 

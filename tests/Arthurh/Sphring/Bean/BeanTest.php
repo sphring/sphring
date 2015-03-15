@@ -67,6 +67,23 @@ class BeanTest extends AbstractTestSphring
         $this->assertArrayHasKey('invoice', $this->testBean->getProperty('test')->getInjection());
     }
 
+    public function testInjectionRootProjectJson()
+    {
+        $this->testBean->addProperty('test',
+            array('json' =>
+                '/Resources/testjson.json'
+            ));
+        $this->assertArrayHasKey('invoice', $this->testBean->getProperty('test')->getInjection());
+        $this->testBean->addProperty('test',
+            array('json' =>
+                [
+                    'file' => '/Resources/testjson.json',
+                    'asObject' => true
+                ]
+            ));
+        $this->assertEquals(34843, $this->testBean->getProperty('test')->getInjection()->invoice);
+    }
+
     public function testInjectionAbsoluteIni()
     {
         $this->testBean->addProperty('test',

@@ -18,6 +18,7 @@ use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyFile;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyFolder;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyIniFile;
+use Arthurh\Sphring\Model\BeanProperty\BeanPropertyJson;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyRef;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyStream;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyValue;
@@ -53,6 +54,7 @@ class SphringBootBeanProperty
         $beanProperty->register('stream', BeanPropertyStream::class);
         $beanProperty->register('value', BeanPropertyValue::class);
         $beanProperty->register('yml', BeanPropertyYml::class);
+        $beanProperty->register('json', BeanPropertyJson::class);
     }
 
     /**

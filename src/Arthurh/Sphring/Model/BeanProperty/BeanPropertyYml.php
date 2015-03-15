@@ -19,7 +19,7 @@ use Arthurh\Sphring\Exception\BeanPropertyException;
  * Class BeanPropertyYml
  * @package arthurh\sphring\model\beanproperty
  */
-class BeanPropertyYml extends AbstractBeanProperty
+class BeanPropertyYml extends AbstractBeanPropertyFileLoader
 {
 
     /**
@@ -29,16 +29,11 @@ class BeanPropertyYml extends AbstractBeanProperty
     public function inject()
     {
         $file = $this->getData();
-        if (is_file($file)) {
-            return $this->loadYml($file);
+        $file = $this->getFilePath($file);
+        if ($file == null) {
+            throw new BeanPropertyException("Error when injecting yml in bean, file '%s' doesn't exist.", $file);
         }
-        if (is_file($this->sphring->getRootProject() . $file)) {
-            return $this->loadYml($this->sphring->getRootProject() . $file);
-        }
-        if (is_file($this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . $file)) {
-            return $this->loadYml($this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . $file);
-        }
-        throw new BeanPropertyException("Error when injecting yml in bean, file '%s' doesn't exist.", $file);
+        return $this->loadYml($file);
     }
 
     /**

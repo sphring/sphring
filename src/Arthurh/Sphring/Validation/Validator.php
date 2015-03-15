@@ -20,7 +20,7 @@ use RomaricDrigon\MetaYaml\MetaYaml;
 
 class Validator
 {
-    const yamlarhBeanPropertie = 'beanproperties';
+    const YAMLARHBEANPROPERTY = 'beanproperties';
     /**
      * @var Yamlarh
      */
@@ -94,7 +94,7 @@ class Validator
             }
             $beanPropertiesToInject[$propertyName] = $validation;
         }
-        $this->yamlarh->addAccessibleVariable(self::yamlarhBeanPropertie, $beanPropertiesToInject);
+        $this->yamlarh->addAccessibleVariable(self::YAMLARHBEANPROPERTY, $beanPropertiesToInject);
     }
 
 }

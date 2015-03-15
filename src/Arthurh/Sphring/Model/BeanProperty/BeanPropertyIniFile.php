@@ -40,7 +40,7 @@ class BeanPropertyIniFile extends AbstractBeanPropertyFileLoader
             $file = $data;
         }
         $file = $this->getFilePath($file);
-        if ($file == null) {
+        if ($file === null) {
             throw new BeanPropertyException("Error when injecting ini in bean, file '%s' doesn't exist.", $file);
         }
         return $this->loadIni($file, $env);

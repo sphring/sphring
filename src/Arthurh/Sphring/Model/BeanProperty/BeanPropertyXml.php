@@ -35,7 +35,7 @@ class BeanPropertyXml extends AbstractBeanPropertyFileLoader
             $file = $data;
         }
         $file = $this->getFilePath($file);
-        if ($file == null) {
+        if ($file === null) {
             throw new BeanPropertyException("Error when injecting xml in bean, file '%s' doesn't exist.", $file);
         }
         try {

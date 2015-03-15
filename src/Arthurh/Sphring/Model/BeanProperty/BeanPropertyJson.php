@@ -35,7 +35,7 @@ class BeanPropertyJson extends AbstractBeanPropertyFileLoader
             $file = $data;
         }
         $file = $this->getFilePath($file);
-        if ($file == null) {
+        if ($file === null) {
             throw new BeanPropertyException("Error when injecting json in bean, file '%s' doesn't exist.", $file);
         }
         $file = new File($file);

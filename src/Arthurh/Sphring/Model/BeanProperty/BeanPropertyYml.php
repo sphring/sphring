@@ -30,7 +30,7 @@ class BeanPropertyYml extends AbstractBeanPropertyFileLoader
     {
         $file = $this->getData();
         $file = $this->getFilePath($file);
-        if ($file == null) {
+        if ($file === null) {
             throw new BeanPropertyException("Error when injecting yml in bean, file '%s' doesn't exist.", $file);
         }
         return $this->loadYml($file);

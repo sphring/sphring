@@ -1,4 +1,4 @@
 foobean:
     class: Arthurh\Sphring\FakeBean\Foo
-@import:
+sph-import:
 - import.yml

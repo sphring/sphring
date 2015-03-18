@@ -67,6 +67,7 @@ class SphringBoot
      */
     public function boot()
     {
+        $this->bootPhpConfig();
         $this->bootBeanTypeForFactory();
         $this->sphringBootBeanProperty->bootBeanProperty();
         $this->sphringBootAnnotation->bootAnnotations();
@@ -81,6 +82,14 @@ class SphringBoot
         $factoryBean = $this->getSphringEventDispatcher()->getSphring()->getFactoryBean();
         $factoryBean->addBeanType('abstract', BeanAbstract::class);
         $factoryBean->addBeanType('normal', Bean::class);
+    }
+
+    /**
+     *
+     */
+    public function bootPhpConfig()
+    {
+        error_reporting(ini_get("error_reporting") & ~E_NOTICE);
     }
 
     /**

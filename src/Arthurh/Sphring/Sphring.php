@@ -95,6 +95,7 @@ class Sphring
     public function __construct($filename = null)
     {
         $this->yamlarh = new Yamlarh(null);
+        $this->yamlarh->setParamaterKey(SphringYamlarhConstantEnum::PARAMETERNAME);
         $this->injectConstantInYamlarh();
         if (empty($filename)) {
             $filename = '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;

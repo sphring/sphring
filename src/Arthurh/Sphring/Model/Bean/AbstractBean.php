@@ -238,7 +238,6 @@ abstract class AbstractBean
      */
     public function setConstructor($constructor)
     {
-        var_dump($constructor);
         foreach ($constructor as $constructorData) {
             $constructorKey = null;
             $constructorValue = null;

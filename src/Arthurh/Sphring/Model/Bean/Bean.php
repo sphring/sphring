@@ -21,10 +21,6 @@ use Arthurh\Sphring\Exception\BeanException;
  */
 class Bean extends AbstractBean
 {
-    /**
-     * @var string
-     */
-    private $methodInit;
 
     public function inject()
     {
@@ -46,22 +42,6 @@ class Bean extends AbstractBean
         }
         $method = $this->methodInit;
         $this->object->$method();
-    }
-
-    /**
-     * @return string
-     */
-    public function getMethodInit()
-    {
-        return $this->methodInit;
-    }
-
-    /**
-     * @param string $methodInit
-     */
-    public function setMethodInit($methodInit)
-    {
-        $this->methodInit = $methodInit;
     }
 
     public function getValidBeanFile()

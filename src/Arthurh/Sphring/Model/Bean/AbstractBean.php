@@ -90,33 +90,6 @@ abstract class AbstractBean
     /**
      * @return string
      */
-    public function getClass()
-    {
-        return $this->class;
-    }
-
-    /**
-     * @param string $class
-     */
-    public function setClass($class)
-    {
-        $this->class = $class;
-        try {
-            $reflector = new \ReflectionClass($class);
-        } catch (\ReflectionException $e) {
-            return;
-        }
-
-        $this->interfaces = $reflector->getInterfaceNames();
-        if (!empty($reflector->getParentClass())) {
-            $this->parent = $reflector->getParentClass()->getName();
-        }
-
-    }
-
-    /**
-     * @return string
-     */
     public function getId()
     {
         return $this->id;
@@ -141,7 +114,6 @@ abstract class AbstractBean
         }
         return $this->properties[$key];
     }
-
 
     /**
      * @return Bean
@@ -226,6 +198,33 @@ abstract class AbstractBean
     }
 
     /**
+     * @return string
+     */
+    public function getClass()
+    {
+        return $this->class;
+    }
+
+    /**
+     * @param string $class
+     */
+    public function setClass($class)
+    {
+        $this->class = $class;
+        try {
+            $reflector = new \ReflectionClass($class);
+        } catch (\ReflectionException $e) {
+            return;
+        }
+
+        $this->interfaces = $reflector->getInterfaceNames();
+        if (!empty($reflector->getParentClass())) {
+            $this->parent = $reflector->getParentClass()->getName();
+        }
+
+    }
+
+    /**
      * @return \Arthurh\Sphring\Model\BeanProperty\AbstractBeanProperty[]
      */
     public function getConstructor()
@@ -239,7 +238,13 @@ abstract class AbstractBean
      */
     public function setConstructor($constructor)
     {
-        foreach ($constructor as $constructorKey => $constructorValue) {
+        var_dump($constructor);
+        foreach ($constructor as $constructorData) {
+            $constructorKey = null;
+            $constructorValue = null;
+            foreach ($constructorData as $constructorKey => $constructorValue) {
+                break;
+            }
             try {
                 $propertyClass = $this->getPropertyFromEvent($constructorKey, $constructorValue);
                 $this->constructor[] = $propertyClass->inject();

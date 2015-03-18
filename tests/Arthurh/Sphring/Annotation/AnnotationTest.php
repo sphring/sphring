@@ -47,4 +47,12 @@ class AnnotationTest extends AbstractTestSphring
         $fooTest = $foo->testAfterCall('juju');
         $this->assertEquals('juju', $fooTest);
     }
+
+    public function testMethodInit()
+    {
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . SphringTest::SIMPLE_TEST_FILE);
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $this->assertEquals('initValue', $foo->getInitValueAnnotation());
+    }
 } 

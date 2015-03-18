@@ -22,6 +22,7 @@ class Foo implements IFoo
     private $kiki;
     private $cucu = 'test';
     private $initValue;
+    private $initValueAnnotation;
 
     public function __construct($kiki = null)
     {
@@ -90,4 +91,22 @@ class Foo implements IFoo
     {
         $this->initValue = "initValue";
     }
+
+    /**
+     * @MethodInit()
+     */
+    public function initializationAnnotation()
+    {
+        $this->initValueAnnotation = "initValue";
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getInitValueAnnotation()
+    {
+        return $this->initValueAnnotation;
+    }
+
+
 }

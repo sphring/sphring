@@ -5,9 +5,11 @@ root:
       _type: text
       _required: true
     constructor:
-      _type: array
-      _ignore_extra_keys: true
-      _children: %beanproperties%
+      _type: prototype
+      _prototype:
+        _type: array
+        _ignore_extra_keys: true
+        _children: %beanproperties%
     properties:
       _type: prototype
       _prototype:

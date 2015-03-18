@@ -26,6 +26,7 @@ use Arthurh\Sphring\Model\Annotation\BeforeCallAnnotation;
 use Arthurh\Sphring\Model\Annotation\BeforeLoadMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\BeforeStartMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\LoadContextAnnotation;
+use Arthurh\Sphring\Model\Annotation\MethodInitAnnotation;
 use Arthurh\Sphring\Model\Annotation\RequiredAnnotation;
 use Arthurh\Sphring\Model\Annotation\RootProjectAnnotation;
 
@@ -88,6 +89,20 @@ class SphringBootAnnotation
         $this->annotationClassListener->register(RootProjectAnnotation::getAnnotationName(), RootProjectAnnotation::class);
     }
 
+    /**
+     *
+     */
+    public function bootAnnotationMethod()
+    {
+        $this->annotationMethodListener->register(RequiredAnnotation::getAnnotationName(), RequiredAnnotation::class);
+        $this->annotationMethodListener->register(MethodInitAnnotation::getAnnotationName(), MethodInitAnnotation::class);
+        $this->annotationMethodListener->register(AutoWireAnnotation::getAnnotationName(), AutoWireAnnotation::class, 0, true);
+        $this->annotationMethodListener->register(AfterLoadMethodOnSphringEventAnnotation::getAnnotationName(), AfterLoadMethodOnSphringEventAnnotation::class);
+        $this->annotationMethodListener->register(BeforeLoadMethodOnSphringEventAnnotation::getAnnotationName(), BeforeLoadMethodOnSphringEventAnnotation::class);
+        $this->annotationMethodListener->register(BeforeStartMethodOnSphringEventAnnotation::getAnnotationName(), BeforeStartMethodOnSphringEventAnnotation::class);
+
+    }
+
     public function bootAnnotationMethodCallAfter()
     {
         $this->annotationMethodCallAfterListener->register(AfterCallAnnotation::getAnnotationName(), AfterCallAnnotation::class);
@@ -96,19 +111,6 @@ class SphringBootAnnotation
     public function bootAnnotationMethodCallBefore()
     {
         $this->annotationMethodCallBeforeListener->register(BeforeCallAnnotation::getAnnotationName(), BeforeCallAnnotation::class);
-    }
-
-    /**
-     *
-     */
-    public function bootAnnotationMethod()
-    {
-        $this->annotationMethodListener->register(RequiredAnnotation::getAnnotationName(), RequiredAnnotation::class);
-        $this->annotationMethodListener->register(AutoWireAnnotation::getAnnotationName(), AutoWireAnnotation::class, 0, true);
-        $this->annotationMethodListener->register(AfterLoadMethodOnSphringEventAnnotation::getAnnotationName(), AfterLoadMethodOnSphringEventAnnotation::class);
-        $this->annotationMethodListener->register(BeforeLoadMethodOnSphringEventAnnotation::getAnnotationName(), BeforeLoadMethodOnSphringEventAnnotation::class);
-        $this->annotationMethodListener->register(BeforeStartMethodOnSphringEventAnnotation::getAnnotationName(), BeforeStartMethodOnSphringEventAnnotation::class);
-
     }
 
     /**

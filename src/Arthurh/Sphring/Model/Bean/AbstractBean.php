@@ -67,6 +67,10 @@ abstract class AbstractBean
      */
     protected $parent;
 
+    /**
+     * @var string
+     */
+    protected $methodInit;
 
     /**
      * @param string $id
@@ -388,6 +392,22 @@ abstract class AbstractBean
     public function getParent()
     {
         return $this->parent;
+    }
+
+    /**
+     * @return string
+     */
+    public function getMethodInit()
+    {
+        return $this->methodInit;
+    }
+
+    /**
+     * @param string $methodInit
+     */
+    public function setMethodInit($methodInit)
+    {
+        $this->methodInit = $methodInit;
     }
 
     abstract public function getValidBeanFile();

@@ -19,6 +19,7 @@ use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Model\Bean\BeanAbstract;
 
 /**
+ *
  * Class SphringBoot
  * @package Arthurh\Sphring
  */
@@ -77,19 +78,19 @@ class SphringBoot
     /**
      *
      */
-    public function bootBeanTypeForFactory()
+    public function bootPhpConfig()
     {
-        $factoryBean = $this->getSphringEventDispatcher()->getSphring()->getFactoryBean();
-        $factoryBean->addBeanType('abstract', BeanAbstract::class);
-        $factoryBean->addBeanType('normal', Bean::class);
+        error_reporting(ini_get("error_reporting") & ~E_NOTICE);
     }
 
     /**
      *
      */
-    public function bootPhpConfig()
+    public function bootBeanTypeForFactory()
     {
-        error_reporting(ini_get("error_reporting") & ~E_NOTICE);
+        $factoryBean = $this->getSphringEventDispatcher()->getSphring()->getFactoryBean();
+        $factoryBean->addBeanType('abstract', BeanAbstract::class);
+        $factoryBean->addBeanType('normal', Bean::class);
     }
 
     /**

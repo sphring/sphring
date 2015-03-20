@@ -18,6 +18,8 @@ class Using implements IUsing
     private $jojo;
     private $juju;
     private $foo;
+    private $envValue;
+    private $envTest;
 
     public function __construct()
     {
@@ -74,4 +76,38 @@ class Using implements IUsing
     {
         return $value;
     }
+
+    /**
+     * @return mixed
+     */
+    public function getEnvValue()
+    {
+        return $this->envValue;
+    }
+
+    /**
+     * @param mixed $envValue
+     */
+    public function setEnvValue($envValue)
+    {
+        $this->envValue = $envValue;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getEnvTest()
+    {
+        return $this->envTest;
+    }
+
+    /**
+     * @param mixed $envTest
+     */
+    public function setEnvTest($envTest)
+    {
+        $this->envTest = $envTest;
+    }
+
+
 }

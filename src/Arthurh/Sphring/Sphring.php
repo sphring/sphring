@@ -96,7 +96,6 @@ class Sphring
     {
         $this->yamlarh = new Yamlarh(null);
         $this->yamlarh->setParamaterKey(SphringYamlarhConstantEnum::PARAMETERNAME);
-        $this->injectConstantInYamlarh();
         if (empty($filename)) {
             $filename = '/' . self::DEFAULT_CONTEXT_FOLDER . '/' . self::DEFAULT_CONTEXT_FILE;
         }
@@ -104,7 +103,6 @@ class Sphring
         $this->sphringEventDispatcher = new SphringEventDispatcher($this);
         $this->extender = new Extender($this->sphringEventDispatcher);
         $this->factoryBean = new FactoryBean($this);
-        $this->loadYamlarh($this->filename);
     }
 
     /**
@@ -173,16 +171,6 @@ class Sphring
         }
     }
 
-    private function injectConstantInYamlarh()
-    {
-        if ($this->yamlarh === null) {
-            return;
-        }
-        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::ROOTPROJECT, $this->getRootProject());
-        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::SERVER, $_SERVER);
-        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::POST, $_POST);
-        $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::GET, $_GET);
-    }
 
     /**
      * @return string

@@ -1,0 +1,16 @@
+foobean:
+  class: Arthurh\Sphring\FakeBean\Foo
+  properties:
+    kiki:
+      ref: usebean
+usebean:
+  class: Arthurh\Sphring\FakeBean\Using
+  properties:
+    foo:
+      ref: foobean
+    juju:
+      value: testValue
+    envTest:
+      value: %this_is_a_test%
+    envValue:
+      value: %this_is_a_test_value%

@@ -1,0 +1,19 @@
+foobean:
+  class: Arthurh\Sphring\FakeBean\Foo
+  properties:
+    kiki:
+      ref: usebean
+usebean:
+  class: Arthurh\Sphring\FakeBean\Using
+  properties:
+    foo:
+      ref: foobean
+    juju:
+      value: testValue
+    envTest:
+      value: %this.is.a.test%
+    envValue:
+      value: %my.a.test%
+sph-properties-file:
+  - 'propertiesfile/prop.ini'
+  - 'propertiesfile/prop.yml'

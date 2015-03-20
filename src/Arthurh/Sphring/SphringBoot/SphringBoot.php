@@ -52,6 +52,11 @@ class SphringBoot
     private $sphringBootBeanProperty;
 
     /**
+     * @var SphringBootYamlarhEnv
+     */
+    private $sphringBootYamlarhEnv;
+
+    /**
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
@@ -61,6 +66,7 @@ class SphringBoot
         $this->composerManager = new ComposerManager();
         $this->sphringBootAnnotation = new SphringBootAnnotation($this->sphringEventDispatcher);
         $this->sphringBootBeanProperty = new SphringBootBeanProperty($this->sphringEventDispatcher);
+        $this->sphringBootYamlarhEnv = new SphringBootYamlarhEnv($this->sphringEventDispatcher->getSphring());
     }
 
     /**
@@ -73,6 +79,7 @@ class SphringBoot
         $this->sphringBootBeanProperty->bootBeanProperty();
         $this->sphringBootAnnotation->bootAnnotations();
         $this->bootFromComposer();
+        $this->sphringBootYamlarhEnv->boot();
     }
 
     /**
@@ -182,6 +189,22 @@ class SphringBoot
     public function setSphringBootBeanProperty(SphringBootBeanProperty $sphringBootBeanProperty)
     {
         $this->sphringBootBeanProperty = $sphringBootBeanProperty;
+    }
+
+    /**
+     * @return SphringBootYamlarhEnv
+     */
+    public function getSphringBootYamlarhEnv()
+    {
+        return $this->sphringBootYamlarhEnv;
+    }
+
+    /**
+     * @param SphringBootYamlarhEnv $sphringBootYamlarhEnv
+     */
+    public function setSphringBootYamlarhEnv(SphringBootYamlarhEnv $sphringBootYamlarhEnv)
+    {
+        $this->sphringBootYamlarhEnv = $sphringBootYamlarhEnv;
     }
 
 

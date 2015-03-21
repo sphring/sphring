@@ -296,7 +296,7 @@ abstract class AbstractBean
      */
     protected function getPropertyFromEvent($propertyKey, $propertyValue)
     {
-        if (empty($propertyValue)) {
+        if (!isset($propertyValue)) {
             throw new BeanException($this, "property not valid");
         }
         $event = new EventBeanProperty();

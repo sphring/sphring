@@ -12,12 +12,10 @@
 
 namespace Arthurh\Sphring\ComposerManager;
 
+use Arhframe\Util\File;
 use Arthurh\Sphring\Enum\SphringComposerEnum;
 use Arthurh\Sphring\Extender\Extender;
 use Arthurh\Sphring\Logger\LoggerSphring;
-use Composer\Composer;
-use Composer\Factory;
-use Composer\IO\NullIO;
 
 /**
  * This class will read your composer configuration to find any sphring plugin and extend your current sphring with theses sphring plugins
@@ -36,9 +34,9 @@ class ComposerManager
     private $rootProject;
 
     /**
-     * @var Composer
+     * @var string
      */
-    private $composer;
+    private $composerLockFile;
 
     /**
      *
@@ -52,13 +50,14 @@ class ComposerManager
      */
     public function loadComposer()
     {
-        $composerFile = $this->getComposerFile();
-        if ($composerFile === null) {
+        $composerLockFile = $this->getComposerLockFile();
+        if ($composerLockFile === null) {
             return;
         }
-        LoggerSphring::getInstance()->debug(sprintf("Loading composer file '%s'.", $composerFile));
-        $this->composer = Factory::create(new NullIO(), $composerFile);
-        $packages = $this->composer->getLocker()->getLockData()['packages'];
+        LoggerSphring::getInstance()->debug(sprintf("Loading composer lock file '%s'.", $composerLockFile));
+        $composerLockFile = new File(realpath($composerLockFile));
+        $decodedComposerLockFile = json_decode($composerLockFile->getContent(), true);
+        $packages = $decodedComposerLockFile['packages'];
         foreach ($packages as $package) {
             $extras = $package[SphringComposerEnum::EXTRA_COMPOSER_KEY];
             if (empty($extras)) {
@@ -78,14 +77,18 @@ class ComposerManager
      * Return the composer.json by finding it in the project
      * @return null|string
      */
-    public function getComposerFile()
+    public function getComposerLockFile()
     {
-        $composerFile = basename(Factory::getComposerFile());
+        if (!empty($this->composerLockFile)) {
+            $composerFile = $this->composerLockFile;
+        } else {
+            $composerFile = SphringComposerEnum::COMPOSER_LOCK_FILE;
+        }
         if (is_file($this->getRootProject() . DIRECTORY_SEPARATOR . $composerFile)) {
             return $this->getRootProject() . DIRECTORY_SEPARATOR . $composerFile;
         }
-        if (is_file(Factory::getComposerFile())) {
-            return Factory::getComposerFile();
+        if (is_file($composerFile)) {
+            return $composerFile;
         }
 
         if (is_file($_SERVER['CONTEXT_DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $composerFile)) {
@@ -166,12 +169,12 @@ class ComposerManager
     }
 
     /**
-     * Get composer object
-     * @return Composer
+     * @param string $composerLockFile
      */
-    public function getComposer()
+    public function setComposerLockFile($composerLockFile)
     {
-        return $this->composer;
+        $this->composerLockFile = $composerLockFile;
     }
+
 
 }

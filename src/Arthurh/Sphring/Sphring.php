@@ -386,5 +386,9 @@ class Sphring
         $this->context = $context;
     }
 
-
+    public function setComposerLockFile($composerLockFile)
+    {
+        $composerManager = $this->sphringEventDispatcher->getSphringBoot()->getComposerManager();
+        $composerManager->setComposerLockFile($composerLockFile);
+    }
 }

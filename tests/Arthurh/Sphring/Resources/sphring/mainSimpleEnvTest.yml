@@ -10,3 +10,7 @@ usebean:
       ref: foobean
     juju:
       value: testValue
+    envTest:
+      value: %this_is_a_test%
+    envValue:
+      value: %this_is_a_test_value%

@@ -10,3 +10,10 @@ usebean:
       ref: foobean
     juju:
       value: testValue
+    envTest:
+      value: %this.is.a.test%
+    envValue:
+      value: %my.a.test%
+sph-properties-file:
+  - 'propertiesfile/prop.ini'
+  - 'propertiesfile/prop.yml'

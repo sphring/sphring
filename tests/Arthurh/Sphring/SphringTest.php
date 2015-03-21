@@ -23,6 +23,8 @@ use Arthurh\Sphring\Model\Bean\ProxyBean;
 class SphringTest extends AbstractTestSphring
 {
     const SIMPLE_TEST_FILE = 'mainSimpleTest.yml';
+    const SIMPLE_TEST_ENV = 'mainSimpleEnvTest.yml';
+    const SIMPLE_TEST_PROPERTIES_FILE = 'mainPropertiesFileTest.yml';
     const SIMPLE_TEST_CONSTRUCTOR_FILE = 'mainSimpleConstructorTest.yml';
     const METHOD_INIT_TEST_FILE = 'mainMethodInitTest.yml';
     const ASSOCREF_TEST_FILE = 'mainAssocRefTest.yml';
@@ -45,6 +47,37 @@ class SphringTest extends AbstractTestSphring
         $this->assertTrue($useBean->__getBean()->getObject() instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
         $this->assertEquals(realpath(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE), $sphring->getFilename());
+
+    }
+
+    public function testEnvSimple()
+    {
+        $_ENV["THIS_IS_A_TEST"] = 'test';
+        $_ENV["THIS_IS_A_TEST_VALUE"] = 'foo';
+
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_ENV);
+        $sphring->setLogger(LoggerSphring::getInstance()->getLogger());
+        $sphring->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
+        $sphring->setExtender($sphring->getExtender());
+        $sphring->loadContext();
+        $useBean = $sphring->getBean('usebean');
+        $this->assertEquals('foo', $useBean->getEnvValue());
+        $this->assertEquals('test', $useBean->getEnvTest());
+
+    }
+
+    public function testPropertiesFileSimple()
+    {
+
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_PROPERTIES_FILE);
+        $sphring->setLogger(LoggerSphring::getInstance()->getLogger());
+        $sphring->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
+        $sphring->setExtender($sphring->getExtender());
+        $sphring->loadContext();
+        $useBean = $sphring->getBean('usebean');
+        $this->assertEquals('foo', $useBean->getEnvValue());
+        $this->assertEquals('value', $useBean->getEnvTest());
+
     }
 
     public function testSimpleConstructor()

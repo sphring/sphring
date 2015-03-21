@@ -22,5 +22,6 @@ class SphringYamlarhConstantEnum extends Enum
     const SERVER = 'SERVER';
     const POST = 'POST';
     const GET = 'GET';
+    const PROPERTY_FILE_NODE = 'properties-file';
     const PARAMETERNAME = 'sph';
 }

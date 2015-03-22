@@ -59,7 +59,7 @@ class RootProjectAnnotation extends AbstractAnnotation
     private function getRootProject($rootProject)
     {
         $dirnameReflector = dirname($this->reflector->getFileName());
-        if ($dirnameReflector . DIRECTORY_SEPARATOR . $rootProject) {
+        if (is_dir($dirnameReflector . DIRECTORY_SEPARATOR . $rootProject)) {
             return $dirnameReflector . DIRECTORY_SEPARATOR . $rootProject;
         }
         if (is_dir($rootProject)) {

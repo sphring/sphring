@@ -41,7 +41,7 @@ class Node
      * @param string $className
      * @param null $priority
      */
-    function __construct($eventName, $className, $priority = null)
+    public function __construct($eventName, $className, $priority = null)
     {
         if (empty($priority)) {
             $this->priority = 0;

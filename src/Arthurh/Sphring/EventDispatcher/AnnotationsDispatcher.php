@@ -147,33 +147,6 @@ class AnnotationsDispatcher
         }
     }
 
-    public function dispatchAnnotationClassInstantiate()
-    {
-        $classReflector = new \ReflectionClass($this->class);
-        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS_CALL_INSTANTIATE);
-    }
-
-    public function dispatchAnnotationMethodCall($methodName, $eventName)
-    {
-        $classReflector = new \ReflectionClass($this->class);
-
-        $this->dispatchEventForAnnotation($classReflector->getMethod($methodName), $eventName);
-        if ($this->toReturn !== null) {
-            return $this->toReturn;
-        }
-        return null;
-    }
-
-    public function dispatchAnnotationMethodCallAfter($methodName)
-    {
-        return $this->dispatchAnnotationMethodCall($methodName, SphringEventEnum::ANNOTATION_METHOD_CALL_AFTER);
-    }
-
-    public function dispatchAnnotationMethodCallBefore($methodName)
-    {
-        return $this->dispatchAnnotationMethodCall($methodName, SphringEventEnum::ANNOTATION_METHOD_CALL_BEFORE);
-    }
-
     /**
      * Dispatch events
      * @param \Reflector $reflector
@@ -209,6 +182,33 @@ class AnnotationsDispatcher
         }
         $this->toReturn = $toReturn;
 
+    }
+
+    public function dispatchAnnotationClassInstantiate()
+    {
+        $classReflector = new \ReflectionClass($this->class);
+        $this->dispatchEventForAnnotation($classReflector, SphringEventEnum::ANNOTATION_CLASS_CALL_INSTANTIATE);
+    }
+
+    public function dispatchAnnotationMethodCallAfter($methodName)
+    {
+        return $this->dispatchAnnotationMethodCall($methodName, SphringEventEnum::ANNOTATION_METHOD_CALL_AFTER);
+    }
+
+    public function dispatchAnnotationMethodCall($methodName, $eventName)
+    {
+        $classReflector = new \ReflectionClass($this->class);
+
+        $this->dispatchEventForAnnotation($classReflector->getMethod($methodName), $eventName);
+        if ($this->toReturn !== null) {
+            return $this->toReturn;
+        }
+        return null;
+    }
+
+    public function dispatchAnnotationMethodCallBefore($methodName)
+    {
+        return $this->dispatchAnnotationMethodCall($methodName, SphringEventEnum::ANNOTATION_METHOD_CALL_BEFORE);
     }
 
     /**

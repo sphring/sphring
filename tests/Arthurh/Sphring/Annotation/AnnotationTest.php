@@ -48,6 +48,17 @@ class AnnotationTest extends AbstractTestSphring
         $this->assertEquals('juju', $fooTest);
     }
 
+    public function testAfterCallConditionnal()
+    {
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . SphringTest::SIMPLE_TEST_FILE);
+        $sphring->loadContext();
+        $foo = $sphring->getBean('foobean');
+        $fooTest = $foo->testAfterCallConditionnal(1);
+        $this->assertEquals(1, $fooTest);
+        $fooTest = $foo->testAfterCallConditionnal('juju');
+        $this->assertEquals('juju', $fooTest);
+    }
+
     public function testMethodInit()
     {
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . SphringTest::SIMPLE_TEST_FILE);

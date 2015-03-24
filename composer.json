@@ -19,7 +19,8 @@
     "symfony/event-dispatcher": "2.6.*",
     "zeptech/annotations": "1.1.0",
     "arhframe/util": "1.2.*",
-    "romaricdrigon/metayaml": "~1.0"
+    "romaricdrigon/metayaml": "~1.0",
+    "symfony/expression-language": "2.6.*"
   },
   "require-dev": {
     "phpunit/phpunit": "*",

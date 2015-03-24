@@ -14,6 +14,8 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Model\Bean\ProxyBean;
+use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 abstract class CallAnnotation extends AbstractAnnotation
 {
@@ -31,16 +33,32 @@ abstract class CallAnnotation extends AbstractAnnotation
         }
         $beanId = $options['bean'];
         $methodName = $options['method'];
+        $methodArgs = $this->getEvent()->getMethodArgs();
         try {
             $bean = $this->getSphringEventDispatcher()->getSphring()->getBean($beanId);
-            $args = array_merge([$bean], $this->getEvent()->getMethodArgs());
+            if (!empty($options['condition']) && !$this->evaluateExpression($this->getEvent()->getReflector(), $methodArgs, $options['condition'])) {
+                return;
+            }
+            $args = array_merge([$bean], $methodArgs);
             $data = call_user_func_array(array($bean, $methodName), $args);
             if (!empty($options['return'])) {
                 $this->getEvent()->setData($data);
             }
         } catch (\Exception $e) {
-            throw new SphringAnnotationException("Annotation '%s' error:", self::getAnnotationName(), $e);
+            throw new SphringAnnotationException("Annotation '%s' error: %s", $this::getAnnotationName(), $e->getMessage());
         }
+    }
 
+    private function evaluateExpression(\ReflectionMethod $rm, $args, $condition)
+    {
+        $params = $rm->getParameters();
+        $nbArgs = count($args);
+        $sfLanguage = new ExpressionLanguage();
+        $valuesExpr = [];
+        for ($i = 0; $i < $nbArgs; $i++) {
+            echo $params[$i]->getName() . "\n";
+            $valuesExpr[$params[$i]->getName()] = $args[0];
+        }
+        return $sfLanguage->evaluate($condition, $valuesExpr);
     }
 }

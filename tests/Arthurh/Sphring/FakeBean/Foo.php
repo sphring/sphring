@@ -87,6 +87,14 @@ class Foo implements IFoo
 
     }
 
+    /**
+     * @AfterCall(bean=usebean, method=injectValueForTestCall, return=true, condition=name > 3)
+     */
+    public function testAfterCallConditionnal($name)
+    {
+        return $name;
+    }
+
     public function initialization()
     {
         $this->initValue = "initValue";

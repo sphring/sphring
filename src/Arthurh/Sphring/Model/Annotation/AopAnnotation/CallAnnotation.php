@@ -10,33 +10,27 @@
  * Date: 13/03/2015
  */
 
-namespace Arthurh\Sphring\Model\Annotation;
+namespace Arthurh\Sphring\Model\Annotation\AopAnnotation;
 
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Model\Annotation\AbstractAnnotation;
 use Arthurh\Sphring\Model\Bean\ProxyBean;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
-abstract class CallAnnotation extends AbstractAnnotation
+abstract class CallAnnotation extends AbstractAopAnnotation
 {
     public function run()
     {
-        if (!$this->isMethod()) {
-            throw new SphringAnnotationException("Error for bean '%s', you can set %s only on a method.", $this->bean->getId(), self::getAnnotationName());
-        }
+        $this->verify();
         $options = $this->getData();
-        if (empty($options['bean'])) {
-            throw new SphringAnnotationException("Annotation '%s' require to set a bean.", self::getAnnotationName());
-        }
-        if (empty($options['method'])) {
-            throw new SphringAnnotationException("Annotation '%s' require to set a method.", self::getAnnotationName());
-        }
         $beanId = $options['bean'];
         $methodName = $options['method'];
         $methodArgs = $this->getEvent()->getMethodArgs();
         try {
             $bean = $this->getSphringEventDispatcher()->getSphring()->getBean($beanId);
-            if (!empty($options['condition']) && !$this->evaluateExpression($this->getEvent()->getReflector(), $methodArgs, $options['condition'])) {
+            if (!empty($options['condition']) && !$this->evaluateExpressionBoolean($options['condition'])
+            ) {
                 return;
             }
             $args = array_merge([$bean], $methodArgs);
@@ -49,16 +43,17 @@ abstract class CallAnnotation extends AbstractAnnotation
         }
     }
 
-    private function evaluateExpression(\ReflectionMethod $rm, $args, $condition)
+    public function verify()
     {
-        $params = $rm->getParameters();
-        $nbArgs = count($args);
-        $sfLanguage = new ExpressionLanguage();
-        $valuesExpr = [];
-        for ($i = 0; $i < $nbArgs; $i++) {
-            echo $params[$i]->getName() . "\n";
-            $valuesExpr[$params[$i]->getName()] = $args[0];
+        if (!$this->isMethod()) {
+            throw new SphringAnnotationException("Error for bean '%s', you can set %s only on a method.", $this->bean->getId(), $this::getAnnotationName());
         }
-        return $sfLanguage->evaluate($condition, $valuesExpr);
+        $options = $this->getData();
+        if (empty($options['bean'])) {
+            throw new SphringAnnotationException("Annotation '%s' require to set a bean.", $this::getAnnotationName());
+        }
+        if (empty($options['method'])) {
+            throw new SphringAnnotationException("Annotation '%s' require to set a method.", self::getAnnotationName());
+        }
     }
 }

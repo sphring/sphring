@@ -10,16 +10,16 @@
  * Date: 13/03/2015
  */
 
-namespace Arthurh\Sphring\Model\Annotation;
+namespace Arthurh\Sphring\Model\Annotation\AopAnnotation;
 
 
-class BeforeCallAnnotation extends CallAnnotation
+class AfterCallAnnotation extends CallAnnotation
 {
     /**
      * @return string
      */
     public static function getAnnotationName()
     {
-        return "BeforeCall";
+        return "AfterCall";
     }
 }

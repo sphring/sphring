@@ -50,7 +50,7 @@ class Extender
      * Constructor
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
-    function __construct(SphringEventDispatcher $sphringEventDispatcher)
+    public function __construct(SphringEventDispatcher $sphringEventDispatcher)
     {
         $this->sphringEventDispatcher = $sphringEventDispatcher;
 
@@ -108,7 +108,7 @@ class Extender
      * @return AbstractExtendNode
      * @throws \Arthurh\Sphring\Exception\ExtenderException
      */
-    function getExtendNodeFromClassName($className)
+    public function getExtendNodeFromClassName($className)
     {
         if (!empty($this->extendNodes[$className])) {
             return $this->extendNodes[$className];

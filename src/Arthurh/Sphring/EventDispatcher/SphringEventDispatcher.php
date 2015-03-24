@@ -52,7 +52,7 @@ class SphringEventDispatcher extends EventDispatcher
      * Constructor
      * @param Sphring $sphring
      */
-    function __construct(Sphring $sphring)
+    public function __construct(Sphring $sphring)
     {
         $this->sphring = $sphring;
         $this->sphringBoot = new SphringBoot($this);

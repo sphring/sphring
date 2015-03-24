@@ -15,7 +15,6 @@ namespace Arthurh\Sphring\Model\Annotation\AopAnnotation;
 
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
-use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Model\Annotation\AbstractAnnotation;
 use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 

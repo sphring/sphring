@@ -14,9 +14,6 @@ namespace Arthurh\Sphring\Model\Annotation\AopAnnotation;
 
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
-use Arthurh\Sphring\Model\Annotation\AbstractAnnotation;
-use Arthurh\Sphring\Model\Bean\ProxyBean;
-use Symfony\Component\ExpressionLanguage\ExpressionLanguage;
 
 abstract class CallAnnotation extends AbstractAopAnnotation
 {

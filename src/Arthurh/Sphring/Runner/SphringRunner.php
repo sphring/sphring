@@ -75,14 +75,6 @@ abstract class SphringRunner
     }
 
     /**
-     * @param Sphring $sphring
-     */
-    private function setSphring($sphring)
-    {
-        $this->sphring = $sphring;
-    }
-
-    /**
      * @param $beanId
      * @return object
      */

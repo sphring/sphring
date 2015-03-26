@@ -25,7 +25,6 @@ use Arthurh\Sphring\Model\Annotation\AopAnnotation\BeforeCallAnnotation;
 use Arthurh\Sphring\Model\Annotation\AutoWireAnnotation;
 use Arthurh\Sphring\Model\Annotation\BeforeLoadMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\BeforeStartMethodOnSphringEventAnnotation;
-use Arthurh\Sphring\Model\Annotation\ComposerLockFileAnnotation;
 use Arthurh\Sphring\Model\Annotation\LoadContextAnnotation;
 use Arthurh\Sphring\Model\Annotation\MethodInitAnnotation;
 use Arthurh\Sphring\Model\Annotation\RequiredAnnotation;

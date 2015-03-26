@@ -88,7 +88,6 @@ class SphringBootAnnotation
     {
         $this->annotationClassListener->register(LoadContextAnnotation::getAnnotationName(), LoadContextAnnotation::class);
         $this->annotationClassListener->register(RootProjectAnnotation::getAnnotationName(), RootProjectAnnotation::class);
-        $this->annotationClassListener->register(ComposerLockFileAnnotation::getAnnotationName(), ComposerLockFileAnnotation::class);
     }
 
     /**

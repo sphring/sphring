@@ -34,9 +34,10 @@ abstract class SphringRunner
     /**
      *
      */
-    protected function __construct()
+    protected function __construct($composerLockFile = null)
     {
         $this->sphring = new Sphring();
+        $this->sphring->setComposerLockFile($composerLockFile);
         $this->sphring->beforeLoad();
         $this->dispatchAnnotations();
     }
@@ -55,10 +56,10 @@ abstract class SphringRunner
     /**
      * @return self
      */
-    public final static function getInstance()
+    public final static function getInstance($composerLockFile = null)
     {
         if (null === static::$_instance) {
-            static::$_instance = new static();
+            static::$_instance = new static($composerLockFile);
             static::$_instance->getSphring()->loadContext();
         }
 
@@ -71,6 +72,14 @@ abstract class SphringRunner
     public function getSphring()
     {
         return $this->sphring;
+    }
+
+    /**
+     * @param Sphring $sphring
+     */
+    private function setSphring($sphring)
+    {
+        $this->sphring = $sphring;
     }
 
     /**

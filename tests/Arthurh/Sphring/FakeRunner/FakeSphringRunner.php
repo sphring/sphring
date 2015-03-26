@@ -21,7 +21,6 @@ use Arthurh\Sphring\Runner\SphringRunner;
  *
  * @LoadContext(tests/Arthurh/Sphring/Resources/sphring/mainSimpleTest.yml)
  * @RootProject(../../../../)
- * @ComposerLockFile(tests/Arthurh/Sphring/Resources/composer/composer.lock)
  */
 class FakeSphringRunner extends SphringRunner
 {

@@ -111,20 +111,20 @@ class Sphring
     public function loadContext()
     {
         $this->beforeLoad();
-        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_BEFORE_LOAD, new EventSphring($this));
         $this->getLogger()->info("Starting loading context...");
         $this->loadYamlarh($this->filename);
+        $this->filename = realpath($this->yamlarh->getFilename());
+        $this->contextRoot = dirname(realpath($this->yamlarh->getFilename()));
+        $this->extender->addExtendFromFile($this->contextRoot . '/' . $this->extender->getDefaultFilename());
+        $this->extender->extend();
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_BEFORE_LOAD, new EventSphring($this));
         if (empty($this->yamlarh->getFilename())) {
             throw new SphringException("Cannot load context, file '%s' doesn't exist in root project '%s'", $this->filename, $this->getRootProject());
         }
-        $this->filename = realpath($this->yamlarh->getFilename());
-        $this->contextRoot = dirname(realpath($this->yamlarh->getFilename()));
         $this->yamlarh->addAccessibleVariable(SphringYamlarhConstantEnum::CONTEXTROOT, $this->contextRoot);
         $this->getLogger()->info(sprintf("Loading context '%s' ...", realpath($this->yamlarh->getFilename())));
         $this->parseYaml();
-        $this->extender->addExtendFromFile($this->contextRoot . '/' . $this->extender->getDefaultFilename());
 
-        $this->extender->extend();
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD, new EventSphring($this));
         $this->loadBeans();
         $this->sphringEventDispatcher->dispatchQueue();

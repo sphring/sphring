@@ -20,7 +20,8 @@
     "zeptech/annotations": "1.1.0",
     "arhframe/util": "1.2.*",
     "romaricdrigon/metayaml": "~1.0",
-    "symfony/expression-language": "2.6.*"
+    "symfony/expression-language": "2.6.*",
+    "ocramius/proxy-manager": "~1.0"
   },
   "require-dev": {
     "phpunit/phpunit": "*",

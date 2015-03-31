@@ -24,6 +24,7 @@ class Foo implements IFoo
     private $initValue;
     private $initValueAnnotation;
 
+    private $testingValue;
     public function __construct($kiki = null)
     {
         $this->kiki = $kiki;
@@ -73,7 +74,7 @@ class Foo implements IFoo
      * @BeforeCall(bean=usebean, method=injectValueForTestCall, return=true)
      * @TestCallBefore(bean=usebean, method=injectValueForTestCall, return=true)
      */
-    public function testBeforeCall()
+    public function testBeforeCall($value)
     {
 
     }
@@ -82,7 +83,7 @@ class Foo implements IFoo
      * @AfterCall(bean=usebean, method=injectValueForTestCall, return=true)
      * @TestCallAfter(bean=usebean, method=injectValueForTestCall, return=true)
      */
-    public function testAfterCall()
+    public function testAfterCall($value)
     {
 
     }
@@ -114,6 +115,22 @@ class Foo implements IFoo
     public function getInitValueAnnotation()
     {
         return $this->initValueAnnotation;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTestingValue()
+    {
+        return $this->testingValue;
+    }
+
+    /**
+     * @param mixed $testingValue
+     */
+    public function setTestingValue($testingValue)
+    {
+        $this->testingValue = $testingValue;
     }
 
 

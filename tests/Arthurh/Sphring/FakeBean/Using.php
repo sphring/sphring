@@ -20,6 +20,7 @@ class Using implements IUsing
     private $foo;
     private $envValue;
     private $envTest;
+    private $testingValue;
 
     public function __construct()
     {
@@ -107,6 +108,22 @@ class Using implements IUsing
     public function setEnvTest($envTest)
     {
         $this->envTest = $envTest;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getTestingValue()
+    {
+        return $this->testingValue;
+    }
+
+    /**
+     * @param mixed $testingValue
+     */
+    public function setTestingValue($testingValue)
+    {
+        $this->testingValue = $testingValue;
     }
 
 

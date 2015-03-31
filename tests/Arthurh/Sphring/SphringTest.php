@@ -44,7 +44,7 @@ class SphringTest extends AbstractTestSphring
         $sphring->setExtender($sphring->getExtender());
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->assertTrue($useBean->__getBean()->getObject() instanceof IUsing);
+        $this->assertTrue($useBean instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
         $this->assertEquals(realpath(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE), $sphring->getFilename());
 
@@ -107,7 +107,6 @@ class SphringTest extends AbstractTestSphring
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::ASSOCREF_TEST_FILE);
         $sphring->loadContext();
         $foo = $sphring->getBean('foobean');
-        var_dump($foo->getKiki());
         $this->assertCount(2, $foo->getKiki());
         $this->assertArrayHasKey('usebean1', $foo->getKiki());
     }
@@ -117,7 +116,6 @@ class SphringTest extends AbstractTestSphring
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::ASSOCREF_TEST_FILE);
         $sphring->loadContext();
         $foo = $sphring->getBean('foobean');
-        var_dump($foo->getKiki());
         $this->assertCount(2, $foo->getCucu());
         $this->assertArrayNotHasKey('usebean1', $foo->getCucu());
     }
@@ -127,7 +125,7 @@ class SphringTest extends AbstractTestSphring
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::ABSTRACT_TEST_FILE);
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->assertTrue($useBean->__getBean()->getObject() instanceof IUsing);
+        $this->assertTrue($useBean instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
     }
 
@@ -136,7 +134,7 @@ class SphringTest extends AbstractTestSphring
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::IMPORT_TEST_FILE);
         $sphring->loadContext();
         $useBean = $sphring->getBean('usebean');
-        $this->assertTrue($useBean->__getBean()->getObject() instanceof IUsing);
+        $this->assertTrue($useBean instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
     }
 
@@ -176,8 +174,8 @@ class SphringTest extends AbstractTestSphring
         $bean = new Bean($beanId);
         $bean->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
         $bean->setClass('Arthurh\\Sphring\\FakeBean\\Foo');
-        $sphring->addBean(new ProxyBean($bean));
-        $this->assertTrue($sphring->getBean($beanId)->__getBean()->getObject() instanceof Foo);
+        $sphring->addBean($bean);
+        $this->assertTrue($sphring->getBean($beanId) instanceof Foo);
 
         $sphring->removeBean(self::TEST_BEAN_ID);
         try {
@@ -188,8 +186,8 @@ class SphringTest extends AbstractTestSphring
         }
 
 
-        $sphring->addBean(new ProxyBean($bean));
-        $this->assertTrue($sphring->getBean($beanId)->__getBean()->getObject() instanceof Foo);
+        $sphring->addBean($bean);
+        $this->assertTrue($sphring->getBean($beanId) instanceof Foo);
         $sphring->removeBean($bean);
         try {
             $sphring->getBean($bean->getId());
@@ -208,7 +206,7 @@ class SphringTest extends AbstractTestSphring
         $bean = new Bean($beanId);
         $bean->setSphringEventDispatcher($sphring->getSphringEventDispatcher());
         $bean->setClass('Arthurh\\Sphring\\FakeBean\\Foo');
-        $sphring->addBean(new ProxyBean($bean));
-        $this->assertTrue($sphring->getBean($beanId)->__getBean()->getObject() instanceof Foo);
+        $sphring->addBean($bean);
+        $this->assertTrue($sphring->getBean($beanId) instanceof Foo);
     }
 } 

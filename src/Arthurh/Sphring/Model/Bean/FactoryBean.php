@@ -159,20 +159,5 @@ class FactoryBean
         unset($this->beansType[$type]);
     }
 
-    /**
-     * @return ProxyGenerator
-     */
-    public function getProxyGenerator()
-    {
-        return $this->proxyGenerator;
-    }
-
-    /**
-     * @param ProxyGenerator $proxyGenerator
-     */
-    public function setProxyGenerator(ProxyGenerator $proxyGenerator)
-    {
-        $this->proxyGenerator = $proxyGenerator;
-    }
 
 }

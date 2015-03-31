@@ -15,7 +15,6 @@ namespace Arthurh\Sphring\Model\Bean;
 
 
 use Arthurh\Sphring\Exception\SphringException;
-use Arthurh\Sphring\ProxyGenerator\ProxyGenerator;
 use Arthurh\Sphring\Sphring;
 use Arthurh\Sphring\Validation\Validator;
 use RomaricDrigon\MetaYaml\Exception\NodeValidatorException;
@@ -159,20 +158,5 @@ class FactoryBean
         unset($this->beansType[$type]);
     }
 
-    /**
-     * @return ProxyGenerator
-     */
-    public function getProxyGenerator()
-    {
-        return $this->proxyGenerator;
-    }
-
-    /**
-     * @param ProxyGenerator $proxyGenerator
-     */
-    public function setProxyGenerator(ProxyGenerator $proxyGenerator)
-    {
-        $this->proxyGenerator = $proxyGenerator;
-    }
 
 }

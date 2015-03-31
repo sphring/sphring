@@ -74,7 +74,6 @@ class ProxyGenerator
      */
     private function getBeforeCallMethod($methods, AbstractBean $bean)
     {
-        $object = $bean->getObject();
         $beforeCall = [];
         foreach ($methods as $method) {
 
@@ -102,7 +101,6 @@ class ProxyGenerator
      */
     private function getAfterCallMethod($methods, AbstractBean $bean)
     {
-        $object = $bean->getObject();
         $afterCall = [];
         foreach ($methods as $method) {
 

@@ -80,7 +80,7 @@ class ProxyGenerator
 
             $methodName = $method->getName();
 
-            $beforeCall[$methodName] = function ($proxy, $instance, $method, $params, & $returnEarly) use ($methodName, $object, $bean) {
+            $beforeCall[$methodName] = function ($proxy, $instance, $method, $params, & $returnEarly) use ($methodName, $bean) {
 
                 $annotationDispatcher = new AnnotationsDispatcher($bean, $bean->getClass(), $bean->getSphringEventDispatcher());
                 $annotationDispatcher->setMethodArgs($params);
@@ -108,7 +108,7 @@ class ProxyGenerator
 
             $methodName = $method->getName();
 
-            $afterCall[$methodName] = function ($proxy, $instance, $method, $params, $returnValue, & $returnEarly) use ($methodName, $object, $bean) {
+            $afterCall[$methodName] = function ($proxy, $instance, $method, $params, $returnValue, & $returnEarly) use ($methodName, $bean) {
 
                 $annotationDispatcher = new AnnotationsDispatcher($bean, $bean->getClass(), $bean->getSphringEventDispatcher());
                 $annotationDispatcher->setMethodArgs($params);

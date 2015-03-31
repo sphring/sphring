@@ -107,7 +107,6 @@ class SphringTest extends AbstractTestSphring
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::ASSOCREF_TEST_FILE);
         $sphring->loadContext();
         $foo = $sphring->getBean('foobean');
-        var_dump($foo->getKiki());
         $this->assertCount(2, $foo->getKiki());
         $this->assertArrayHasKey('usebean1', $foo->getKiki());
     }
@@ -117,7 +116,6 @@ class SphringTest extends AbstractTestSphring
         $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::ASSOCREF_TEST_FILE);
         $sphring->loadContext();
         $foo = $sphring->getBean('foobean');
-        var_dump($foo->getKiki());
         $this->assertCount(2, $foo->getCucu());
         $this->assertArrayNotHasKey('usebean1', $foo->getCucu());
     }

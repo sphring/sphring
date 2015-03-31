@@ -20,6 +20,6 @@ class AnnotationRequiredExtend extends RequiredAnnotation
     public function run()
     {
         parent::run();
-        $this->getBean()->getObject()->testExtend = 'testAnnotationExtend';
+        $this->getBean()->getObject()->setTestingValue('testAnnotationExtend');
     }
 } 

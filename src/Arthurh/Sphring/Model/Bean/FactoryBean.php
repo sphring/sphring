@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\Model\Bean;
 
 
 use Arthurh\Sphring\Exception\SphringException;
+use Arthurh\Sphring\ProxyGenerator\ProxyGenerator;
 use Arthurh\Sphring\Sphring;
 use Arthurh\Sphring\Validation\Validator;
 use RomaricDrigon\MetaYaml\Exception\NodeValidatorException;
@@ -34,6 +35,7 @@ class FactoryBean
      * @var Sphring
      */
     private $sphring;
+
 
     /**
      * @param Sphring $sphring
@@ -76,7 +78,7 @@ class FactoryBean
             $set = 'set' . ucfirst($key);
             $bean->$set($value);
         }
-        return new ProxyBean($bean);
+        return $bean;
     }
 
     /**
@@ -156,4 +158,21 @@ class FactoryBean
         }
         unset($this->beansType[$type]);
     }
+
+    /**
+     * @return ProxyGenerator
+     */
+    public function getProxyGenerator()
+    {
+        return $this->proxyGenerator;
+    }
+
+    /**
+     * @param ProxyGenerator $proxyGenerator
+     */
+    public function setProxyGenerator(ProxyGenerator $proxyGenerator)
+    {
+        $this->proxyGenerator = $proxyGenerator;
+    }
+
 }

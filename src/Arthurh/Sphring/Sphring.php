@@ -28,8 +28,9 @@ use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Extender\Extender;
 use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\Bean\AbstractBean;
+use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Model\Bean\FactoryBean;
-use Arthurh\Sphring\Model\Bean\ProxyBean;
+use Arthurh\Sphring\ProxyGenerator\ProxyGenerator;
 use Psr\Log\LoggerInterface;
 
 /**
@@ -59,9 +60,14 @@ class Sphring
      */
     private $context = array();
     /**
-     * @var ProxyBean[]
+     * @var AbstractBean[]
      */
     private $beans = array();
+
+    /**
+     * @var array
+     */
+    private $proxyBeans = array();
 
     /**
      * @var SphringEventDispatcher
@@ -131,15 +137,6 @@ class Sphring
         $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD, new EventSphring($this));
     }
 
-    private function parseYaml()
-    {
-        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD_CONTEXT, new EventSphring($this));
-        if (empty($this->context)) {
-            $this->context = $this->yamlarh->parse();
-        }
-        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD_CONTEXT, new EventSphring($this));
-    }
-
     /**
      *
      */
@@ -171,7 +168,6 @@ class Sphring
         }
     }
 
-
     /**
      * @return string
      */
@@ -191,6 +187,15 @@ class Sphring
         $this->rootProject = $rootProject;
     }
 
+    private function parseYaml()
+    {
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_START_LOAD_CONTEXT, new EventSphring($this));
+        if (empty($this->context)) {
+            $this->context = $this->yamlarh->parse();
+        }
+        $this->sphringEventDispatcher->dispatch(SphringEventEnum::SPHRING_FINISHED_LOAD_CONTEXT, new EventSphring($this));
+    }
+
     /**
      *
      */
@@ -207,12 +212,13 @@ class Sphring
     }
 
     /**
-     * @param ProxyBean $bean
+     * @param AbstractBean $bean
      */
-    public function addBean(ProxyBean $bean)
+    public function addBean(AbstractBean $bean)
     {
-        $this->beans[$bean->__getBean()->getId()] = $bean;
-        $bean->__getBean()->inject();
+        $this->beans[$bean->getId()] = $bean;
+        $bean->inject();
+        $this->proxyBeans[$bean->getId()] = ProxyGenerator::getInstance()->proxyFromBean($bean);
     }
 
     /**
@@ -232,10 +238,10 @@ class Sphring
      */
     public function getBean($beanId)
     {
-        if (empty($this->beans[$beanId])) {
+        if (empty($this->proxyBeans[$beanId])) {
             throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
         }
-        return $this->beans[$beanId];
+        return $this->proxyBeans[$beanId];
     }
 
     /**
@@ -245,8 +251,8 @@ class Sphring
     {
         if ($bean instanceof AbstractBean) {
             $beanId = $bean->getId();
-        } else if ($bean instanceof ProxyBean) {
-            $beanId = $bean->__getBean()->getId();
+        } else if ($bean instanceof Bean) {
+            $beanId = $bean->getId();
         } else {
             $beanId = $bean;
         }
@@ -254,6 +260,7 @@ class Sphring
             return;
         }
         unset($this->beans[$beanId]);
+        unset($this->proxyBeans[$beanId]);
     }
 
     /**
@@ -328,11 +335,7 @@ class Sphring
      */
     public function getBeansObject()
     {
-        $beans = [];
-        foreach ($this->beans as $bean) {
-            $beans[] = $bean->__getBean();
-        }
-        return $beans;
+        return $this->beans;
     }
 
     /**
@@ -352,14 +355,14 @@ class Sphring
     public function getBeanObject($beanId)
     {
         if (!empty($this->beans[$beanId])) {
-            return $this->beans[$beanId]->__getBean();
+            return $this->beans[$beanId];
         }
         if (empty($this->context[$beanId])) {
             throw new SphringException("Bean '%s' doesn't exist in the context.", $beanId);
         }
         $bean = $this->factoryBean->createBean($beanId, $this->context[$beanId]);
         $this->addBean($bean);
-        return $bean->__getBean();
+        return $bean;
     }
 
     /**

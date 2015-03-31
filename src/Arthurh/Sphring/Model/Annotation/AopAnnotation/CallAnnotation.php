@@ -31,6 +31,7 @@ abstract class CallAnnotation extends AbstractAopAnnotation
                 return;
             }
             $args = array_merge([$bean], $methodArgs);
+
             $data = call_user_func_array(array($bean, $methodName), $args);
             if (!empty($options['return'])) {
                 $this->getEvent()->setData($data);

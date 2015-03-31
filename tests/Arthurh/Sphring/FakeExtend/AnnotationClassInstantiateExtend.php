@@ -24,7 +24,7 @@ class AnnotationClassInstantiateExtend extends AbstractAnnotation
         if (!$this->isClass()) {
             throw new SphringAnnotationException("Error for bean '%s', you can set %s only on a class.", $this->bean->getId(), self::getAnnotationName());
         }
-        $this->getBean()->getObject()->classInstantiate = true;
+        $this->getBean()->getObject()->setTestingValue(true);
     }
 
     /**

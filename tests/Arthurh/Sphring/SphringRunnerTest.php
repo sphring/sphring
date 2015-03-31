@@ -24,7 +24,7 @@ class SphringRunnerTest extends AbstractTestSphring
     {
         $sphringRunner = FakeSphringRunner::getInstance(__DIR__ . '/../Resources/composer/composer.lock');
         $useBean = $sphringRunner->getBean('usebean');
-        $this->assertTrue($useBean->__getBean()->getObject() instanceof IUsing);
+        $this->assertTrue($useBean instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
     }
 

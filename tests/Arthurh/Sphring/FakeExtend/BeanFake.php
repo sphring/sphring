@@ -22,7 +22,7 @@ class BeanFake extends AbstractBean
     public function inject()
     {
         parent::inject();
-        $this->object->testBeanFake = 'testBeanFake';
+        $this->object->setTestingValue('testBeanFake');
     }
 
     function getValidBeanFile()

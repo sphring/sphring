@@ -219,6 +219,7 @@ class Sphring
         $this->beans[$bean->getId()] = $bean;
         $bean->inject();
         $this->proxyBeans[$bean->getId()] = ProxyGenerator::getInstance()->proxyFromBean($bean);
+        $bean->setObject($this->proxyBeans[$bean->getId()]);
     }
 
     /**

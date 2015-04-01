@@ -23,9 +23,9 @@ use Arthurh\Sphring\Sphring;
 abstract class SphringRunner
 {
     /**
-     * @var SphringRunner
+     * @var SphringRunner[]
      */
-    protected static $_instance;
+    protected static $_instances = [];
     /**
      * @var Sphring
      */
@@ -58,12 +58,13 @@ abstract class SphringRunner
      */
     public final static function getInstance($composerLockFile = null)
     {
-        if (null === static::$_instance) {
-            static::$_instance = new static($composerLockFile);
-            static::$_instance->getSphring()->loadContext();
+        $className = static::class;
+        if (static::$_instances[$className] === null) {
+            static::$_instances[$className] = new $className($composerLockFile);
+            static::$_instances[$className]->getSphring()->loadContext();
         }
 
-        return static::$_instance;
+        return static::$_instances[$className];
     }
 
     /**

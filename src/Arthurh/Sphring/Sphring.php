@@ -340,6 +340,15 @@ class Sphring
     }
 
     /**
+     * @param Model\Bean\AbstractBean[] $beans
+     * @return array
+     */
+    public function setBeansObject(array $beans)
+    {
+        return $this->beans = $beans;
+    }
+
+    /**
      * @return FactoryBean
      */
     public function getFactoryBean()
@@ -395,4 +404,21 @@ class Sphring
         $composerManager = $this->sphringEventDispatcher->getSphringBoot()->getComposerManager();
         $composerManager->setComposerLockFile($composerLockFile);
     }
+
+    /**
+     * @return array
+     */
+    public function getProxyBeans()
+    {
+        return $this->proxyBeans;
+    }
+
+    /**
+     * @param array $proxyBeans
+     */
+    public function setProxyBeans($proxyBeans)
+    {
+        $this->proxyBeans = $proxyBeans;
+    }
+
 }

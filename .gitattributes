@@ -7,4 +7,3 @@
 /.travis.yml export-ignore
 /apigen.neon export-ignore
 /phpunit.xml.dist export-ignore
-README.md merge=ours

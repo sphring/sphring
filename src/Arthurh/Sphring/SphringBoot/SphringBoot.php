@@ -73,7 +73,7 @@ class SphringBoot
         $this->sphringBootAnnotation = new SphringBootAnnotation($this->sphringEventDispatcher);
         $this->sphringBootBeanProperty = new SphringBootBeanProperty($this->sphringEventDispatcher);
         $this->sphringBootYamlarhEnv = new SphringBootYamlarhEnv($this->sphringEventDispatcher->getSphring());
-        $this->sphringAnnotationReader = new SphringAnnotationReader($this->sphringEventDispatcher->getSphring());
+        $this->sphringAnnotationReader = new SphringAnnotationReader($this->sphringEventDispatcher->getSphring(), $this->composerManager);
     }
 
     /**
@@ -131,6 +131,7 @@ class SphringBoot
         $this->composerManager->setExtender($this->sphringEventDispatcher->getSphring()->getExtender());
         $this->composerManager->setRootProject($this->sphringEventDispatcher->getSphring()->getRootProject());
         $this->composerManager->loadComposer();
+        $this->sphringAnnotationReader->initReader();
     }
 
     /**

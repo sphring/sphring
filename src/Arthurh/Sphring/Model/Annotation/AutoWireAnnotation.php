@@ -12,6 +12,7 @@
 
 namespace Arthurh\Sphring\Model\Annotation;
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\AutoWire;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 use Arthurh\Sphring\Model\Bean\Bean;
 
@@ -94,6 +95,6 @@ class AutoWireAnnotation extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return "AutoWire";
+        return basename(AutoWire::class);
     }
 }

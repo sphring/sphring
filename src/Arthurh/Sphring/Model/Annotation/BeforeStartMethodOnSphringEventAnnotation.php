@@ -12,6 +12,7 @@
 
 namespace Arthurh\Sphring\Model\Annotation;
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\BeforeStart;
 use Arthurh\Sphring\Enum\SphringEventEnum;
 
 /**
@@ -26,7 +27,7 @@ class BeforeStartMethodOnSphringEventAnnotation extends AbstractMethodOnSphringE
      */
     public static function getAnnotationName()
     {
-        return "BeforeStart";
+        return basename(BeforeStart::class);
     }
 
     /**

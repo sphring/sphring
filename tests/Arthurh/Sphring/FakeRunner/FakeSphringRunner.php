@@ -12,15 +12,20 @@
 
 namespace Arthurh\Sphring\FakeRunner;
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\AfterLoad;
+use Arthurh\Sphring\Annotations\AnnotationsSphring\AutoWire;
+use Arthurh\Sphring\Annotations\AnnotationsSphring\BeforeLoad;
+use Arthurh\Sphring\Annotations\AnnotationsSphring\BeforeStart;
+use Arthurh\Sphring\Annotations\AnnotationsSphring\LoadContext;
+use Arthurh\Sphring\Annotations\AnnotationsSphring\RootProject;
 use Arthurh\Sphring\FakeBean\Foo;
 use Arthurh\Sphring\Runner\SphringRunner;
-
 
 /**
  * Class SphringRunnerTest
  *
- * @LoadContext(tests/Arthurh/Sphring/Resources/sphring/mainSimpleTest.yml)
- * @RootProject(../../../../)
+ * @LoadContext(file="tests/Arthurh/Sphring/Resources/sphring/mainSimpleTest.yml")
+ * @RootProject(file="../../../../")
  */
 class FakeSphringRunner extends SphringRunner
 {

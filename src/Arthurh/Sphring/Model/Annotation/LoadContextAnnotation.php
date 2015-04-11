@@ -12,6 +12,7 @@
 
 namespace Arthurh\Sphring\Model\Annotation;
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\LoadContext;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 use Arthurh\Sphring\Runner\SphringRunner;
 
@@ -27,7 +28,7 @@ class LoadContextAnnotation extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return "LoadContext";
+        return basename(LoadContext::class);
     }
 
     /**
@@ -39,7 +40,12 @@ class LoadContextAnnotation extends AbstractAnnotation
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to be set on '%s' class.",
                 $this->getBean()->getId(), get_class($this), SphringRunner::class);
         }
-        $contextFile = $this->getData();
+        $loadContextAnnot = $this->getData();
+        if (!($loadContextAnnot instanceof LoadContext)) {
+            throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to have a '%s' class.",
+                $this->getBean()->getId(), get_class($this), LoadContext::class);
+        }
+        $contextFile = $loadContextAnnot->file;
         $sphring = $this->getSphringEventDispatcher()->getSphring();
         if (!is_bool($contextFile)) {
             $sphring->setFilename($contextFile);

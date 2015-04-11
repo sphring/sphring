@@ -13,6 +13,8 @@
 namespace Arthurh\Sphring\Model\Annotation\AopAnnotation;
 
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\AfterCall;
+
 class AfterCallAnnotation extends CallAnnotation
 {
     /**
@@ -20,6 +22,6 @@ class AfterCallAnnotation extends CallAnnotation
      */
     public static function getAnnotationName()
     {
-        return "AfterCall";
+        return basename(AfterCall::class);
     }
 }

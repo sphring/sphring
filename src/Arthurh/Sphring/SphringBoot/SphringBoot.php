@@ -12,6 +12,7 @@
 
 namespace Arthurh\Sphring\SphringBoot;
 
+use Arthurh\Sphring\Annotations\SphringAnnotationReader;
 use Arthurh\Sphring\ComposerManager\ComposerManager;
 use Arthurh\Sphring\EventDispatcher\Listener\SphringGlobalListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
@@ -57,6 +58,11 @@ class SphringBoot
     private $sphringBootYamlarhEnv;
 
     /**
+     * @var SphringAnnotationReader
+     */
+    private $sphringAnnotationReader;
+
+    /**
      * @param SphringEventDispatcher $sphringEventDispatcher
      */
     function __construct(SphringEventDispatcher $sphringEventDispatcher)
@@ -67,6 +73,7 @@ class SphringBoot
         $this->sphringBootAnnotation = new SphringBootAnnotation($this->sphringEventDispatcher);
         $this->sphringBootBeanProperty = new SphringBootBeanProperty($this->sphringEventDispatcher);
         $this->sphringBootYamlarhEnv = new SphringBootYamlarhEnv($this->sphringEventDispatcher->getSphring());
+        $this->sphringAnnotationReader = new SphringAnnotationReader($this->sphringEventDispatcher->getSphring());
     }
 
     /**
@@ -205,6 +212,22 @@ class SphringBoot
     public function setSphringBootYamlarhEnv(SphringBootYamlarhEnv $sphringBootYamlarhEnv)
     {
         $this->sphringBootYamlarhEnv = $sphringBootYamlarhEnv;
+    }
+
+    /**
+     * @return SphringAnnotationReader
+     */
+    public function getSphringAnnotationReader()
+    {
+        return $this->sphringAnnotationReader;
+    }
+
+    /**
+     * @param SphringAnnotationReader $sphringAnnotationReader
+     */
+    public function setSphringAnnotationReader(SphringAnnotationReader $sphringAnnotationReader)
+    {
+        $this->sphringAnnotationReader = $sphringAnnotationReader;
     }
 
 

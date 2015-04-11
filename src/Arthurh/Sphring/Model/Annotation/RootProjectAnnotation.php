@@ -12,6 +12,7 @@
 
 namespace Arthurh\Sphring\Model\Annotation;
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\RootProject;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 use Arthurh\Sphring\Runner\SphringRunner;
 
@@ -26,7 +27,7 @@ class RootProjectAnnotation extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return "RootProject";
+        return basename(RootProject::class);
     }
 
     /**
@@ -38,7 +39,12 @@ class RootProjectAnnotation extends AbstractAnnotation
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to be set on '%s' class.",
                 $this->getBean()->getId(), get_class($this), SphringRunner::class);
         }
-        $rootProject = $this->getData();
+        $rootProjectAnnot = $this->getData();
+        if (!($rootProjectAnnot instanceof RootProject)) {
+            throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to have a '%s' class.",
+                $this->getBean()->getId(), get_class($this), LoadContext::class);
+        }
+        $rootProject = $rootProjectAnnot->file;
         $sphring = $this->getSphringEventDispatcher()->getSphring();
         if (!is_string($rootProject)) {
             throw new SphringAnnotationException("Annotation '%s' require to set a filepath.", get_class($this));

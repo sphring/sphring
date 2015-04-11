@@ -13,6 +13,8 @@
 namespace Arthurh\Sphring\Model\Annotation\AopAnnotation;
 
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\BeforeCall;
+
 class BeforeCallAnnotation extends CallAnnotation
 {
     /**
@@ -20,6 +22,6 @@ class BeforeCallAnnotation extends CallAnnotation
      */
     public static function getAnnotationName()
     {
-        return "BeforeCall";
+        return basename(BeforeCall::class);
     }
 }

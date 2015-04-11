@@ -61,6 +61,7 @@ class SphringAnnotationReader implements Reader
         }
         if (!is_file($file)) {
             LoggerSphring::getInstance()->error("Can't found autoloader for annotation");
+            return;
         }
         $loader = require $file;
         AnnotationRegistry::registerLoader(array($loader, 'loadClass'));

@@ -13,6 +13,7 @@
 namespace Arthurh\Sphring\Annotations;
 
 
+use Arthurh\Sphring\ComposerManager\ComposerManager;
 use Arthurh\Sphring\Enum\SphringComposerEnum;
 use Arthurh\Sphring\Exception\SphringException;
 use Arthurh\Sphring\Sphring;
@@ -23,6 +24,10 @@ use Doctrine\Common\Annotations\Reader;
 class SphringAnnotationReader implements Reader
 {
     /**
+     * @var ComposerManager
+     */
+    private $composerManager;
+    /**
      * @var Reader
      */
     private $reader;
@@ -31,11 +36,11 @@ class SphringAnnotationReader implements Reader
      */
     private $sphring;
 
-    public function __construct(Sphring $sphring)
+    public function __construct(Sphring $sphring, ComposerManager $composerManager)
     {
         $this->reader = new AnnotationReader();
         $this->sphring = $sphring;
-        $this->initReader();
+        $this->composerManager = $composerManager;
     }
 
     public function initReader()
@@ -46,6 +51,12 @@ class SphringAnnotationReader implements Reader
         }
         if (!is_file($file)) {
             $file = SphringComposerEnum::AUTLOADER_FILE;
+        }
+        if (!is_file($file)) {
+            $file = $_SERVER['CONTEXT_DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
+        }
+        if (!is_file($file)) {
+            $file = dirname($this->composerManager->getComposerLockFile()) . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
         }
         if (!is_file($file)) {
             throw new SphringException("Can't found autoloader for annotation");
@@ -163,6 +174,22 @@ class SphringAnnotationReader implements Reader
     public function setSphring($sphring)
     {
         $this->sphring = $sphring;
+    }
+
+    /**
+     * @return ComposerManager
+     */
+    public function getComposerManager()
+    {
+        return $this->composerManager;
+    }
+
+    /**
+     * @param ComposerManager $composerManager
+     */
+    public function setComposerManager($composerManager)
+    {
+        $this->composerManager = $composerManager;
     }
 
 }

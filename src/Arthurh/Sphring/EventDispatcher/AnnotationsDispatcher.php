@@ -14,6 +14,7 @@ namespace Arthurh\Sphring\EventDispatcher;
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\Model\Bean\AbstractBean;
+use Arthurh\Sphring\Utils\ClassName;
 
 /**
  * This class dispatch for a bean her annotation to the SphringEventDispatcher
@@ -146,7 +147,7 @@ class AnnotationsDispatcher
         }
         $toReturn = null;
         foreach ($annotationsArray as $annotation) {
-            $eventName = $eventNameBase . strtolower(basename(get_class($annotation)));
+            $eventName = $eventNameBase . strtolower(ClassName::getShortName($annotation));
 
             $event = new EventAnnotation();
             $event->setData($annotation);

@@ -14,6 +14,7 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Annotations\AnnotationsSphring\BeforeLoad;
 use Arthurh\Sphring\Enum\SphringEventEnum;
+use Arthurh\Sphring\Utils\ClassName;
 
 /**
  * Class BeforeLoadMethodOnSphringEventAnnotation
@@ -27,7 +28,7 @@ class BeforeLoadMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEv
      */
     public static function getAnnotationName()
     {
-        return basename(BeforeLoad::class);
+        return ClassName::getShortName(BeforeLoad::class);
     }
 
     /**

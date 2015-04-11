@@ -14,6 +14,7 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Annotations\AnnotationsSphring\AfterLoad;
 use Arthurh\Sphring\Enum\SphringEventEnum;
+use Arthurh\Sphring\Utils\ClassName;
 
 /**
  * Class AfterLoadMethodOnSphringEventAnnotation
@@ -26,7 +27,7 @@ class AfterLoadMethodOnSphringEventAnnotation extends AbstractMethodOnSphringEve
      */
     public static function getAnnotationName()
     {
-        return basename(AfterLoad::class);
+        return ClassName::getShortName(AfterLoad::class);
     }
 
     /**

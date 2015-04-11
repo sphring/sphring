@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\Model\Annotation;
 use Arthurh\Sphring\Annotations\AnnotationsSphring\LoadContext;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 use Arthurh\Sphring\Runner\SphringRunner;
+use Arthurh\Sphring\Utils\ClassName;
 
 /**
  * Class LoadContextAnnotation
@@ -28,7 +29,7 @@ class LoadContextAnnotation extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return basename(LoadContext::class);
+        return ClassName::getShortName(LoadContext::class);
     }
 
     /**

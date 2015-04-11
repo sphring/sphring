@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\Model\Annotation;
 use Arthurh\Sphring\Annotations\AnnotationsSphring\RootProject;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
 use Arthurh\Sphring\Runner\SphringRunner;
+use Arthurh\Sphring\Utils\ClassName;
 
 /**
  * Class RootProjectAnnotation
@@ -27,7 +28,7 @@ class RootProjectAnnotation extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return basename(RootProject::class);
+        return ClassName::getShortName(RootProject::class);
     }
 
     /**

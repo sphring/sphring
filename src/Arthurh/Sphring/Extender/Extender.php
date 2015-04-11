@@ -93,7 +93,6 @@ class Extender
     public function addExtendFromArray($extendNodeName, $extendNodeNameInfo)
     {
         $className = self::DEFAULT_EXTENDNODE_NAME . ucfirst($extendNodeName);
-
         $extendNode = $this->getExtendNodeFromClassName($className);
 
         foreach ($extendNodeNameInfo as $info) {

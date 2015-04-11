@@ -16,6 +16,7 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Annotations\AnnotationsSphring\MethodInit;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Utils\ClassName;
 
 class MethodInitAnnotation extends AbstractAnnotation
 {
@@ -24,7 +25,7 @@ class MethodInitAnnotation extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return basename(MethodInit::class);
+        return ClassName::getShortName(MethodInit::class);
     }
 
     /**

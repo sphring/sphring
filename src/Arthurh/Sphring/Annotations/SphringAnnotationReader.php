@@ -15,7 +15,7 @@ namespace Arthurh\Sphring\Annotations;
 
 use Arthurh\Sphring\ComposerManager\ComposerManager;
 use Arthurh\Sphring\Enum\SphringComposerEnum;
-use Arthurh\Sphring\Exception\SphringException;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Sphring;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
@@ -45,6 +45,7 @@ class SphringAnnotationReader implements Reader
 
     public function initReader()
     {
+        LoggerSphring::getInstance()->info("Initiating registering annotation");
         $file = $this->sphring->getRootProject() . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
         if (!is_file($file)) {
             $file = $this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
@@ -59,7 +60,7 @@ class SphringAnnotationReader implements Reader
             $file = dirname($this->composerManager->getComposerLockFile()) . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
         }
         if (!is_file($file)) {
-            throw new SphringException("Can't found autoloader for annotation");
+            LoggerSphring::getInstance()->error("Can't found autoloader for annotation");
         }
         $loader = require $file;
         AnnotationRegistry::registerLoader(array($loader, 'loadClass'));

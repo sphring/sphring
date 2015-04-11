@@ -42,7 +42,7 @@ class RootProjectAnnotation extends AbstractAnnotation
         $rootProjectAnnot = $this->getData();
         if (!($rootProjectAnnot instanceof RootProject)) {
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to have a '%s' class.",
-                $this->getBean()->getId(), get_class($this), LoadContext::class);
+                $this->getBean()->getId(), get_class($this), RootProject::class);
         }
         $rootProject = $rootProjectAnnot->file;
         $sphring = $this->getSphringEventDispatcher()->getSphring();

@@ -14,7 +14,7 @@ namespace Arthurh\Sphring\EventDispatcher;
 
 use Arthurh\Sphring\Enum\SphringEventEnum;
 use Arthurh\Sphring\Model\Bean\AbstractBean;
-use zpt\anno\Annotations;
+use Arthurh\Sphring\Utils\ClassName;
 
 /**
  * This class dispatch for a bean her annotation to the SphringEventDispatcher
@@ -23,26 +23,7 @@ use zpt\anno\Annotations;
  */
 class AnnotationsDispatcher
 {
-    /**
-     * Filter list of annotation which are read by IDE or php doc
-     * @var array
-     */
-    private $filteredAnnotation = [
-        "package",
-        "var",
-        "return",
-        "param",
-        "throws",
-        "deprecated",
-        "link",
-        "method",
-        "property",
-        "see",
-        "inheritdoc",
-        "global",
-        "internal",
-        "function"
-    ];
+
     /**
      * @var AbstractBean
      *
@@ -154,21 +135,22 @@ class AnnotationsDispatcher
      */
     private function dispatchEventForAnnotation(\Reflector $reflector, $eventNameBase)
     {
-        $annotations = new Annotations($reflector);
-        $annotationsArray = $annotations->asArray();
+        $annotationReader = $this->getSphringEventDispatcher()->getSphringBoot()->getSphringAnnotationReader();
+        if ($reflector instanceof \ReflectionClass) {
+            $annotationsArray = $annotationReader->getClassAnnotations($reflector);
+        } else {
+            $annotationsArray = $annotationReader->getMethodAnnotations($reflector);
+        }
 
         if (empty($annotationsArray)) {
             return;
         }
         $toReturn = null;
-        foreach ($annotationsArray as $annotationName => $annotationValue) {
-            if (in_array($annotationName, $this->filteredAnnotation)) {
-                continue;
-            }
-            $eventName = $eventNameBase . $annotationName;
+        foreach ($annotationsArray as $annotation) {
+            $eventName = $eventNameBase . strtolower(ClassName::getShortName($annotation));
 
             $event = new EventAnnotation();
-            $event->setData($annotationValue);
+            $event->setData($annotation);
             $event->setBean($this->bean);
             $event->setReflector($reflector);
             $event->setMethodArgs($this->methodArgs);
@@ -176,7 +158,7 @@ class AnnotationsDispatcher
             $this->sphringEventDispatcher->dispatch($eventName, $event);
             $this->methodArgs = $event->getMethodArgs();
 
-            if ($annotationValue != $event->getData()) {
+            if ($annotation != $event->getData()) {
                 $toReturn = $event->getData();
             }
         }
@@ -211,14 +193,6 @@ class AnnotationsDispatcher
         return $this->dispatchAnnotationMethodCall($methodName, SphringEventEnum::ANNOTATION_METHOD_CALL_BEFORE);
     }
 
-    /**
-     * Return the filtering list
-     * @return array
-     */
-    public function getFileteredAnnotation()
-    {
-        return $this->filteredAnnotation;
-    }
 
     /**
      * @return mixed

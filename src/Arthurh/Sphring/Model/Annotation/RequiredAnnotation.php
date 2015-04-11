@@ -12,7 +12,9 @@
 
 namespace Arthurh\Sphring\Model\Annotation;
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\Required;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Utils\ClassName;
 
 /**
  * Class RequiredAnnotation
@@ -26,7 +28,7 @@ class RequiredAnnotation extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return "Required";
+        return ClassName::getShortName(Required::class);
     }
 
     /**

@@ -12,6 +12,7 @@
 
 namespace Arthurh\Sphring\FakeBean;
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\Required;
 
 class Using implements IUsing
 {

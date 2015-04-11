@@ -12,6 +12,13 @@
 
 namespace Arthurh\Sphring\FakeBean;
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\AfterCall;
+use Arthurh\Sphring\Annotations\AnnotationsSphring\BeforeCall;
+use Arthurh\Sphring\Annotations\AnnotationsSphring\MethodInit;
+use Arthurh\Sphring\FakeExtend\Annotation\TestCallAfter;
+use Arthurh\Sphring\FakeExtend\Annotation\TestCallBefore;
+use Arthurh\Sphring\FakeExtend\Annotation\TestClassInstantiate;
+
 /**
  * Class Foo
  * @package Arthurh\Sphring\FakeBean
@@ -25,6 +32,7 @@ class Foo implements IFoo
     private $initValueAnnotation;
 
     private $testingValue;
+
     public function __construct($kiki = null)
     {
         $this->kiki = $kiki;
@@ -71,8 +79,8 @@ class Foo implements IFoo
     }
 
     /**
-     * @BeforeCall(bean=usebean, method=injectValueForTestCall, return=true)
-     * @TestCallBefore(bean=usebean, method=injectValueForTestCall, return=true)
+     * @BeforeCall(bean="usebean", method="injectValueForTestCall", return=true)
+     * @TestCallBefore(bean="usebean", method="injectValueForTestCall", return=true)
      */
     public function testBeforeCall($value)
     {
@@ -80,8 +88,9 @@ class Foo implements IFoo
     }
 
     /**
-     * @AfterCall(bean=usebean, method=injectValueForTestCall, return=true)
-     * @TestCallAfter(bean=usebean, method=injectValueForTestCall, return=true)
+     *
+     * @AfterCall(bean="usebean", method="injectValueForTestCall", return=true)
+     * @TestCallAfter(bean="usebean", method="injectValueForTestCall", return=true)
      */
     public function testAfterCall($value)
     {
@@ -89,7 +98,7 @@ class Foo implements IFoo
     }
 
     /**
-     * @AfterCall(bean=usebean, method=injectValueForTestCall, return=true, condition=name > 3)
+     * @AfterCall(bean="usebean", method="injectValueForTestCall", return=true, condition="name > 3")
      */
     public function testAfterCallConditionnal($name)
     {

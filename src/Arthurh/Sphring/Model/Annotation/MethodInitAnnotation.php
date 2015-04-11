@@ -14,7 +14,9 @@
 namespace Arthurh\Sphring\Model\Annotation;
 
 
+use Arthurh\Sphring\Annotations\AnnotationsSphring\MethodInit;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Utils\ClassName;
 
 class MethodInitAnnotation extends AbstractAnnotation
 {
@@ -23,7 +25,7 @@ class MethodInitAnnotation extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return "MethodInit";
+        return ClassName::getShortName(MethodInit::class);
     }
 
     /**
@@ -32,9 +34,6 @@ class MethodInitAnnotation extends AbstractAnnotation
      */
     public function run()
     {
-        if (!$this->isMethod()) {
-            throw new SphringAnnotationException("Error for bean '%s', you can set MthodInit only on a method.", $this->bean->getId());
-        }
         $methodName = $this->reflector->getName();
         $this->getBean()->getObject()->$methodName();
     }

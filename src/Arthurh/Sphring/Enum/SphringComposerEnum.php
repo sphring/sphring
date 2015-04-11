@@ -27,4 +27,5 @@ class SphringComposerEnum extends Enum
     const EXTRA_SPHRING_COMPOSER_KEY = "sphring";
     const EXTRA_SPHRING_EXTEND_COMPOSER_KEY = "extend";
     const COMPOSER_LOCK_FILE = "composer.lock";
+    const AUTLOADER_FILE = "vendor/autoload.php";
 }

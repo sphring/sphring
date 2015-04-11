@@ -36,9 +36,6 @@ abstract class AbstractMethodOnSphringEventAnnotation extends AbstractAnnotation
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to be set on '%s' class.",
                 $this->getBean()->getId(), get_class($this), SphringRunner::class);
         }
-        if (!$this->isMethod()) {
-            throw new SphringAnnotationException("This annotation can only be run on method");
-        }
         $this->methodName = $this->reflector->name;
         if (!$this->reflector->isPublic()) {
             throw new SphringAnnotationException("Annotation '%s': method '%s' must be public in class '%s' .",

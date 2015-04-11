@@ -14,7 +14,9 @@ namespace Arthurh\Sphring\FakeExtend;
 
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\FakeExtend\Annotation\TestClassInstantiate;
 use Arthurh\Sphring\Model\Annotation\AbstractAnnotation;
+use Arthurh\Sphring\Utils\ClassName;
 
 class AnnotationClassInstantiateExtend extends AbstractAnnotation
 {
@@ -32,6 +34,6 @@ class AnnotationClassInstantiateExtend extends AbstractAnnotation
      */
     public static function getAnnotationName()
     {
-        return "TestClassInstantiate";
+        return ClassName::getShortName(TestClassInstantiate::class);
     }
 }

@@ -34,12 +34,16 @@ abstract class AbstractAopAnnotation extends AbstractAnnotation
         $rm = $this->getEvent()->getReflector();
         $args = $this->getEvent()->getMethodArgs();
         $params = $rm->getParameters();
-        $nbArgs = count($args);
+        $nbArgs = count($params);
         $sfLanguage = new ExpressionLanguage();
         $valuesExpr = [];
+        if (isset($args['#result'])) {
+            $valuesExpr['#result'] = $args['#result'];
+            unset($args['#result']);
+        }
         for ($i = 0; $i < $nbArgs; $i++) {
             echo $params[$i]->getName() . "\n";
-            $valuesExpr[$params[$i]->getName()] = $args[0];
+            $valuesExpr[$params[$i]->getName()] = $args[$i];
         }
         return $sfLanguage->evaluate($condition, $valuesExpr);
     }

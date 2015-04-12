@@ -109,6 +109,7 @@ class ProxyGenerator
             $afterCall[$methodName] = function ($proxy, $instance, $method, $params, $returnValue, & $returnEarly) use ($methodName, $bean) {
 
                 $annotationDispatcher = new AnnotationsDispatcher($bean, $bean->getClass(), $bean->getSphringEventDispatcher());
+                $params['#result'] = $returnValue;
                 $annotationDispatcher->setMethodArgs($params);
                 if ($returnValue !== null) {
                     $returnEarly = true;

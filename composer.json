@@ -16,7 +16,7 @@
     "myclabs/php-enum": "1.3.*",
     "zf1/zend-config": "~1.12",
     "psr/log": "1.0.0",
-    "symfony/event-dispatcher": "2.6.*"
+    "symfony/event-dispatcher": "2.6.*",
     "arhframe/util": "1.2.*",
     "romaricdrigon/metayaml": "~1.0",
     "symfony/expression-language": "2.6.*",

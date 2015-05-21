@@ -1,0 +1,8 @@
+fooFactory:
+  class: Arthurh\Sphring\FakeBean\FooFactory
+foobean:
+  type: factory
+  beanId: fooFactory
+  beanMethod: createFoo
+  constructor:
+    - value: testkiki

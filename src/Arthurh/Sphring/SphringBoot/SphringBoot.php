@@ -18,6 +18,7 @@ use Arthurh\Sphring\EventDispatcher\Listener\SphringGlobalListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
 use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Model\Bean\BeanAbstract;
+use Arthurh\Sphring\Model\Bean\BeanFactory;
 
 /**
  *
@@ -105,6 +106,7 @@ class SphringBoot
         $factoryBean = $this->getSphringEventDispatcher()->getSphring()->getFactoryBean();
         $factoryBean->addBeanType('abstract', BeanAbstract::class);
         $factoryBean->addBeanType('normal', Bean::class);
+        $factoryBean->addBeanType('factory', BeanFactory::class);
     }
 
     /**

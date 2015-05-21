@@ -1,0 +1,19 @@
+root:
+  _type: array
+  _children:
+    type:
+      _type: enum
+      _values:
+        - factory
+    beanId:
+      _type: text
+      _not_empty: true
+    beanMethod:
+      _type: text
+      _not_empty: true
+    constructor:
+      _type: prototype
+      _prototype:
+        _type: array
+        _ignore_extra_keys: true
+        _children: %beanproperties%

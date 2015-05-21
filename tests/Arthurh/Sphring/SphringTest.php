@@ -29,6 +29,7 @@ class SphringTest extends AbstractTestSphring
     const METHOD_INIT_TEST_FILE = 'mainMethodInitTest.yml';
     const ASSOCREF_TEST_FILE = 'mainAssocRefTest.yml';
     const ABSTRACT_TEST_FILE = 'mainTestAbstractBean.yml';
+    const FACTORY_TEST_FILE = 'mainTestFactoryBean.yml';
     const IMPORT_TEST_FILE = 'testimport/main.yml';
 
     const YML_TEST_FILE = 'mainTestYml.yml';
@@ -127,6 +128,14 @@ class SphringTest extends AbstractTestSphring
         $useBean = $sphring->getBean('usebean');
         $this->assertTrue($useBean instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
+    }
+
+    public function testFactory()
+    {
+        $sphring = new Sphring(self::$CONTEXT_FOLDER . '/' . self::FACTORY_TEST_FILE);
+        $sphring->loadContext();
+        $fooBean = $sphring->getBean('foobean');
+        $this->assertTrue($fooBean instanceof Foo);
     }
 
     public function testImport()

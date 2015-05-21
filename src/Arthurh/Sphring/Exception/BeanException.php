@@ -12,6 +12,7 @@
 
 namespace Arthurh\Sphring\Exception;
 
+use Arthurh\Sphring\Model\Bean\AbstractBean;
 use Arthurh\Sphring\Model\Bean\Bean;
 
 /**
@@ -22,10 +23,10 @@ use Arthurh\Sphring\Model\Bean\Bean;
 class BeanException extends SphringException
 {
     /**
-     * @param Bean $bean
+     * @param AbstractBean $bean
      * @param string $message
      */
-    public function  __construct(Bean $bean, $message = "")
+    public function  __construct(AbstractBean $bean, $message = "")
     {
         $args = func_get_args();
         $args = array_splice($args, 1);

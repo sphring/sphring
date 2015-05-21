@@ -47,7 +47,7 @@ class FactoryBean
     /**
      * @param $beanId
      * @param $info
-     * @return ProxyBean
+     * @return AbstractBean
      * @throws \Arthurh\Sphring\Exception\SphringException
      */
     public function createBean($beanId, $info)

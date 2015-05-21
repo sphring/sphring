@@ -13,7 +13,6 @@
 namespace Arthurh\Sphring\Exception;
 
 use Arthurh\Sphring\Model\Bean\AbstractBean;
-use Arthurh\Sphring\Model\Bean\Bean;
 
 /**
  * @see Arthurh\Sphring\Exception\SphringException

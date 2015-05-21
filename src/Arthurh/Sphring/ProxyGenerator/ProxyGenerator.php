@@ -55,7 +55,6 @@ class ProxyGenerator
             return null;
         }
         $rc = new \ReflectionClass($object);
-
         $methods = $rc->getMethods();
         $beforeCall = $this->getBeforeCallMethod($methods, $bean);
         $afterCall = $this->getAfterCallMethod($methods, $bean);

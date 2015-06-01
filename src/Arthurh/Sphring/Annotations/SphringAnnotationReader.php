@@ -51,7 +51,7 @@ class SphringAnnotationReader implements Reader
             $file = $this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
         }
         if (!is_file($file)) {
-            $file = SphringComposerEnum::AUTLOADER_FILE;
+            $file = $this->getAutoloaderFromLibrary();
         }
         if (!is_file($file)) {
             $file = $_SERVER['CONTEXT_DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
@@ -60,13 +60,32 @@ class SphringAnnotationReader implements Reader
             $file = dirname($this->composerManager->getComposerLockFile()) . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
         }
         if (!is_file($file)) {
-            LoggerSphring::getInstance()->error("Can't found autoloader for annotation");
-            return;
+            throw new SphringAnnotationException("Can't found autoloader for annotation reading.");
         }
         $loader = require $file;
         AnnotationRegistry::registerLoader(array($loader, 'loadClass'));
     }
-
+    /**
+     * @return string
+     */
+    private function getAutoloaderFromLibrary()
+    {
+        $file = SphringComposerEnum::AUTLOADER_FILE;
+        if (empty(ini_get('include_path'))) {
+            return $file;
+        }
+        if (DIRECTORY_SEPARATOR == '/') {
+            $ps = explode(":", ini_get('include_path'));
+        } else {
+            $ps = explode(";", ini_get('include_path'));
+        }
+        foreach ($ps as $path) {
+            if (file_exists($path . DIRECTORY_SEPARATOR . $file)) {
+                return $path . DIRECTORY_SEPARATOR . $file;
+            }
+        }
+        return $file;
+    }
     /**
      * Gets the annotations applied to a class.
      *

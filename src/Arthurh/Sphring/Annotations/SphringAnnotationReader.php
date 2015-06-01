@@ -20,6 +20,7 @@ use Arthurh\Sphring\Sphring;
 use Doctrine\Common\Annotations\AnnotationReader;
 use Doctrine\Common\Annotations\AnnotationRegistry;
 use Doctrine\Common\Annotations\Reader;
+use Arthurh\Sphring\Exception\SphringAnnotationException;
 
 class SphringAnnotationReader implements Reader
 {

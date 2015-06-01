@@ -51,7 +51,7 @@ class SphringAnnotationReader implements Reader
             $file = $this->sphring->getContextRoot() . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;
         }
         if (!is_file($file)) {
-            $file = this->getAutoloaderFromLibrary();
+            $file = $this->getAutoloaderFromLibrary();
         }
         if (!is_file($file)) {
             $file = $_SERVER['CONTEXT_DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . SphringComposerEnum::AUTLOADER_FILE;

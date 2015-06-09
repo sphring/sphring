@@ -65,8 +65,8 @@ class FactoryBean
         try {
             $validator->validate($bean->getValidBeanFile(), $info);
         } catch (NodeValidatorException $e) {
-            echo $bean->getValidBeanFile();
-            throw new SphringException("'%s' is not a valid bean: %s", $beanId, $e->getMessage(), $e);
+            $messageValidator = str_replace("root", $beanId, $e->getMessage());
+            throw new SphringException("'%s' is not a valid bean cause of misconfigured context: %s", $beanId, $messageValidator, $e);
         } catch (SphringException $e) {
             throw new SphringException("'%s' can't be validated: %s", $beanId, $e->getMessage(), $e);
         }

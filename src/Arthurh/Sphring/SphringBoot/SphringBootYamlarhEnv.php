@@ -15,7 +15,7 @@ namespace Arthurh\Sphring\SphringBoot;
 
 use Arthurh\Sphring\Enum\SphringYamlarhConstantEnum;
 use Arthurh\Sphring\Sphring;
-use Arthurh\Sphring\YamlarhNode\PopertyFileYamlarhNode;
+use Arthurh\Sphring\YamlarhNode\PropertyFileYamlarhNode;
 
 class SphringBootYamlarhEnv
 {
@@ -35,11 +35,6 @@ class SphringBootYamlarhEnv
         $this->injectConstantInYamlarh();
         $this->injectPropertiesEnv();
         $this->bootYamlarhNode();
-    }
-
-    private function bootYamlarhNode()
-    {
-        $this->sphring->getYamlarh()->addNode(SphringYamlarhConstantEnum::PROPERTY_FILE_NODE, new PopertyFileYamlarhNode());
     }
 
     private function injectConstantInYamlarh()
@@ -72,6 +67,11 @@ class SphringBootYamlarhEnv
             $yamlarh->addAccessibleVariable(strtolower($propertiesEnvKey), $propertiesEnvValue);
         }
 
+    }
+
+    private function bootYamlarhNode()
+    {
+        $this->sphring->getYamlarh()->addNode(SphringYamlarhConstantEnum::PROPERTY_FILE_NODE, new PropertyFileYamlarhNode());
     }
 
     /**

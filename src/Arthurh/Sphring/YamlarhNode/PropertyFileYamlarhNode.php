@@ -18,7 +18,7 @@ use Arhframe\Yamlarh\FileLoader;
 use Arhframe\Yamlarh\YamlarhNode\AbstractYamlarhNode;
 use Arthurh\Sphring\Exception\SphringException;
 
-class PopertyFileYamlarhNode extends AbstractYamlarhNode
+class PropertyFileYamlarhNode extends AbstractYamlarhNode
 {
     private static $extIni = ["properties", "ini"];
 

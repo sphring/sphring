@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\SphringBoot;
 
 use Arthurh\Sphring\EventDispatcher\Listener\BeanPropertyListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyFile;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyFolder;
 use Arthurh\Sphring\Model\BeanProperty\BeanPropertyIniFile;
@@ -47,6 +48,7 @@ class SphringBootBeanProperty
      */
     public function bootBeanProperty()
     {
+        LoggerSphring::getInstance()->info('Initialize bean properties for injection.');
         $beanProperty = $this->beanPropertyListener;
         $beanProperty->register('iniFile', BeanPropertyIniFile::class);
         $beanProperty->register('file', BeanPropertyFile::class);

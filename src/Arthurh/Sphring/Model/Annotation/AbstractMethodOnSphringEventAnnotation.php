@@ -13,6 +13,7 @@
 namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Runner\SphringRunner;
 use Symfony\Component\EventDispatcher\Event;
 
@@ -34,15 +35,22 @@ abstract class AbstractMethodOnSphringEventAnnotation extends AbstractAnnotation
     {
         if (!$this->isInSphringRunner()) {
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to be set on '%s' class.",
-                $this->getBean()->getId(), get_class($this), SphringRunner::class);
+                $this->getBean()->getId(), $this::getAnnotationName(), SphringRunner::class);
         }
         $this->methodName = $this->reflector->name;
         if (!$this->reflector->isPublic()) {
             throw new SphringAnnotationException("Annotation '%s': method '%s' must be public in class '%s' .",
-                get_class($this), $this->methodName, $this->reflector->class);
+                $this::getAnnotationName(), $this->methodName, $this->reflector->class);
         }
         $this->getSphringEventDispatcher()->addListener($this->getEventSphring(), array($this, 'onEvent'));
+        LoggerSphring::getInstance()->debug(sprintf("Bean '%s' with method '%s' will be start on '%s'.",
+            $this->getBean()->getId(), $this->methodName, $this->getEventSphring()));
     }
+
+    /**
+     * @return string
+     */
+    abstract function getEventSphring();
 
     /**
      * @param Event $event
@@ -52,9 +60,4 @@ abstract class AbstractMethodOnSphringEventAnnotation extends AbstractAnnotation
         $methodName = $this->methodName;
         $this->getBean()->getObject()->$methodName($event);
     }
-
-    /**
-     * @return string
-     */
-    abstract function getEventSphring();
 }

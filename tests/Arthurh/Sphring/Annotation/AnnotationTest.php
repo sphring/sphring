@@ -57,6 +57,8 @@ class AnnotationTest extends AbstractTestSphring
         $this->assertEquals(1, $fooTest);
         $fooTest = $foo->testAfterCallConditionnal('juju');
         $this->assertEquals('juju', $fooTest);
+        $fooTest = $foo->testAfterCallConditionnal(4);
+        $this->assertEquals('callConditionnal', $fooTest);
     }
 
     public function testMethodInit()

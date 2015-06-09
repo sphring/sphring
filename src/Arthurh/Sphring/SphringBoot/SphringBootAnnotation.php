@@ -19,6 +19,7 @@ use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodCallAfterListener;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodCallBeforeListener;
 use Arthurh\Sphring\EventDispatcher\Listener\AnnotationMethodListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\Annotation\AfterLoadMethodOnSphringEventAnnotation;
 use Arthurh\Sphring\Model\Annotation\AopAnnotation\AfterCallAnnotation;
 use Arthurh\Sphring\Model\Annotation\AopAnnotation\BeforeCallAnnotation;
@@ -74,6 +75,7 @@ class SphringBootAnnotation
      */
     public function bootAnnotations()
     {
+        LoggerSphring::getInstance()->info('Initialize annotation player.');
         $this->bootAnnotationClass();
         $this->bootAnnotationMethod();
         $this->bootAnnotationMethodCallAfter();

@@ -15,6 +15,7 @@ namespace Arthurh\Sphring\Model\Bean;
 
 
 use Arthurh\Sphring\Exception\SphringException;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Sphring;
 use Arthurh\Sphring\Validation\Validator;
 use RomaricDrigon\MetaYaml\Exception\NodeValidatorException;
@@ -53,6 +54,7 @@ class FactoryBean
     public function createBean($beanId, $info)
     {
         $beanClass = $this->getType($info['type']);
+        LoggerSphring::getInstance()->info(sprintf("Creating bean '%s' of type '%s'", $beanId, $info['type']));
         $bean = new $beanClass($beanId);
         unset($info['type']);
         if (!($bean instanceof AbstractBean)) {

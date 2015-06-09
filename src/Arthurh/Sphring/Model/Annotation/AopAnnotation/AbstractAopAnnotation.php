@@ -31,19 +31,8 @@ abstract class AbstractAopAnnotation extends AbstractAnnotation
 
     protected function evaluateExpression($condition)
     {
-        $rm = $this->getEvent()->getReflector();
-        $args = $this->getEvent()->getMethodArgs();
-        $params = $rm->getParameters();
-        $nbArgs = count($params);
         $sfLanguage = new ExpressionLanguage();
-        $valuesExpr = [];
-        if (isset($args['#result'])) {
-            $valuesExpr['#result'] = $args['#result'];
-        }
-        for ($i = 0; $i < $nbArgs; $i++) {
-            echo $params[$i]->getName() . "\n";
-            $valuesExpr[$params[$i]->getName()] = $args[$i];
-        }
-        return $sfLanguage->evaluate($condition, $valuesExpr);
+        $args = $this->getEvent()->getMethodArgs();
+        return $sfLanguage->evaluate($condition, $args);
     }
 }

@@ -14,6 +14,7 @@ namespace Arthurh\Sphring\Model\Annotation\AopAnnotation;
 
 
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Logger\LoggerSphring;
 
 abstract class CallAnnotation extends AbstractAopAnnotation
 {
@@ -28,6 +29,9 @@ abstract class CallAnnotation extends AbstractAopAnnotation
             $bean = $this->getSphringEventDispatcher()->getSphring()->getBean($beanId);
             if (!empty($options->condition) && !$this->evaluateExpressionBoolean($options->condition)
             ) {
+                LoggerSphring::getInstance()->debug(
+                    sprintf("Aop call '%s' on bean '%s' on method '%s' could not be triggered, condition '%s' was not satisfied.",
+                        $this::getAnnotationName(), $this->getBean()->getId(), $methodName, $options->condition));
                 return;
             }
             $args = array_merge([$bean], $methodArgs);
@@ -36,8 +40,10 @@ abstract class CallAnnotation extends AbstractAopAnnotation
             if (!empty($options->return)) {
                 $this->getEvent()->setData($data);
             }
+            LoggerSphring::getInstance()->debug(sprintf("Aop call '%s' on bean '%s' on method '%s' triggered.",
+                $this::getAnnotationName(), $this->getBean()->getId(), $methodName));
         } catch (\Exception $e) {
-            throw new SphringAnnotationException("Annotation '%s' error: %s", $this::getAnnotationName(), $e->getMessage());
+            throw new SphringAnnotationException("Annotation '%s' error: %s", $this::getAnnotationName(), $e->getMessage(), $e);
         }
     }
 

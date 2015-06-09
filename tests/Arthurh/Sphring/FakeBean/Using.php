@@ -79,6 +79,11 @@ class Using implements IUsing
         return $value;
     }
 
+    public function injectValueForTestCallConditionnal()
+    {
+        return 'callConditionnal';
+    }
+
     /**
      * @return mixed
      */

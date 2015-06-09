@@ -25,31 +25,31 @@ class LoadContextAnnotation extends AbstractAnnotation
 {
 
     /**
-     * @return string
-     */
-    public static function getAnnotationName()
-    {
-        return ClassName::getShortName(LoadContext::class);
-    }
-
-    /**
      * @throws \Arthurh\Sphring\Exception\SphringAnnotationException
      */
     public function run()
     {
         if (!$this->isInSphringRunner()) {
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to be set on '%s' class.",
-                $this->getBean()->getId(), get_class($this), SphringRunner::class);
+                $this->getBean()->getId(), $this::getAnnotationName(), SphringRunner::class);
         }
         $loadContextAnnot = $this->getData();
         if (!($loadContextAnnot instanceof LoadContext)) {
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to have a '%s' class.",
-                $this->getBean()->getId(), get_class($this), LoadContext::class);
+                $this->getBean()->getId(), $this::getAnnotationName(), LoadContext::class);
         }
         $contextFile = $loadContextAnnot->file;
         $sphring = $this->getSphringEventDispatcher()->getSphring();
         if (!is_bool($contextFile)) {
             $sphring->setFilename($contextFile);
         }
+    }
+
+    /**
+     * @return string
+     */
+    public static function getAnnotationName()
+    {
+        return ClassName::getShortName(LoadContext::class);
     }
 }

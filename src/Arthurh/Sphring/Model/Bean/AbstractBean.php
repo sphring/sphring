@@ -92,22 +92,6 @@ abstract class AbstractBean
     }
 
     /**
-     * @return string
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
-
-    /**
-     * @param string $id
-     */
-    public function setId($id)
-    {
-        $this->id = $id;
-    }
-
-    /**
      * @param string $key
      * @return null|AbstractBeanProperty
      */
@@ -185,6 +169,7 @@ abstract class AbstractBean
      */
     protected function instanciate()
     {
+        $this->getLogger()->info(sprintf("Instanciating bean '%s'", $this->getId()));
         $annotationDispatcher = new AnnotationsDispatcher($this, $this->getClass(), $this->getSphringEventDispatcher());
         $classReflector = new \ReflectionClass($this->class);
         if (empty($this->constructor)) {
@@ -199,6 +184,22 @@ abstract class AbstractBean
         $this->object = $classReflector->newInstanceArgs($constructor);
         $annotationDispatcher->setMethodArgs($constructor);
         $annotationDispatcher->dispatchAnnotationClassInstantiate();
+    }
+
+    /**
+     * @return string
+     */
+    public function getId()
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param string $id
+     */
+    public function setId($id)
+    {
+        $this->id = $id;
     }
 
     /**

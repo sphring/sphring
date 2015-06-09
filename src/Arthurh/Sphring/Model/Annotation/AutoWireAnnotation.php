@@ -14,6 +14,7 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Annotations\AnnotationsSphring\AutoWire;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Utils\ClassName;
 
@@ -23,6 +24,14 @@ use Arthurh\Sphring\Utils\ClassName;
  */
 class AutoWireAnnotation extends AbstractAnnotation
 {
+
+    /**
+     * @return string
+     */
+    public static function getAnnotationName()
+    {
+        return ClassName::getShortName(AutoWire::class);
+    }
 
     /**
      * @throws \Arthurh\Sphring\Exception\SphringAnnotationException
@@ -48,24 +57,9 @@ class AutoWireAnnotation extends AbstractAnnotation
         }
         $validBean = $validBeans[0];
         $methodName = $reflector->name;
+        LoggerSphring::getInstance()->debug(sprintf("Autowire: '%s' on '%s', bean '%s' found for autowiring.",
+            $this->getBean()->getId(), $methodName, $validBean->getId()));
         $this->bean->getObject()->$methodName($validBean->getObject());
-    }
-
-    /**
-     * @param null|\ReflectionClass $parameterClass
-     * @return Bean[]
-     */
-    public function getValidBeans($parameterClass)
-    {
-        $validBeans = [];
-
-        $beans = $this->getSphringEventDispatcher()->getSphring()->getBeansObject();
-        foreach ($beans as $bean) {
-            if ($bean->containClassName($parameterClass)) {
-                $validBeans[] = $bean;
-            }
-        }
-        return $validBeans;
     }
 
     /**
@@ -85,17 +79,26 @@ class AutoWireAnnotation extends AbstractAnnotation
         }
         $parameterClass = $reflector->getParameters()[0]->getClass();
         if (empty($parameterClass)) {
-            throw new SphringAnnotationException("Error for bean '%s', you must force type for autowire method '%s'. Example: '%s'(Object \$object)",
-                $this->bean->getId(), $reflector->name);
+            throw new SphringAnnotationException("Error for bean '%s', you must force type for autowire method '%s'. Example: %s(Object \$object)",
+                $this->bean->getId(), $reflector->name, $reflector->name);
         }
         return $parameterClass->name;
     }
 
     /**
-     * @return string
+     * @param null|\ReflectionClass $parameterClass
+     * @return Bean[]
      */
-    public static function getAnnotationName()
+    public function getValidBeans($parameterClass)
     {
-        return ClassName::getShortName(AutoWire::class);
+        $validBeans = [];
+
+        $beans = $this->getSphringEventDispatcher()->getSphring()->getBeansObject();
+        foreach ($beans as $bean) {
+            if ($bean->containClassName($parameterClass)) {
+                $validBeans[] = $bean;
+            }
+        }
+        return $validBeans;
     }
 }

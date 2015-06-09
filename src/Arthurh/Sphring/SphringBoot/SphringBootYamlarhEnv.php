@@ -14,6 +14,7 @@ namespace Arthurh\Sphring\SphringBoot;
 
 
 use Arthurh\Sphring\Enum\SphringYamlarhConstantEnum;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Sphring;
 use Arthurh\Sphring\YamlarhNode\PropertyFileYamlarhNode;
 
@@ -32,6 +33,7 @@ class SphringBootYamlarhEnv
 
     public function boot()
     {
+        LoggerSphring::getInstance()->info('Initialize yamlarh configuration.');
         $this->injectConstantInYamlarh();
         $this->injectPropertiesEnv();
         $this->bootYamlarhNode();

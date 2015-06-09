@@ -16,6 +16,7 @@ namespace Arthurh\Sphring\Model\Annotation;
 
 use Arthurh\Sphring\Annotations\AnnotationsSphring\MethodInit;
 use Arthurh\Sphring\Exception\SphringAnnotationException;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Utils\ClassName;
 
 class MethodInitAnnotation extends AbstractAnnotation
@@ -34,7 +35,9 @@ class MethodInitAnnotation extends AbstractAnnotation
      */
     public function run()
     {
+
         $methodName = $this->reflector->getName();
+        LoggerSphring::getInstance()->debug(sprintf("Run init method '%s' in bean '%s'.", $methodName, $this->getBean()->getId()));
         $this->getBean()->getObject()->$methodName();
     }
 }

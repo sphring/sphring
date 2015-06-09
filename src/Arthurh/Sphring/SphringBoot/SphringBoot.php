@@ -16,6 +16,7 @@ use Arthurh\Sphring\Annotations\SphringAnnotationReader;
 use Arthurh\Sphring\ComposerManager\ComposerManager;
 use Arthurh\Sphring\EventDispatcher\Listener\SphringGlobalListener;
 use Arthurh\Sphring\EventDispatcher\SphringEventDispatcher;
+use Arthurh\Sphring\Logger\LoggerSphring;
 use Arthurh\Sphring\Model\Bean\Bean;
 use Arthurh\Sphring\Model\Bean\BeanAbstract;
 use Arthurh\Sphring\Model\Bean\BeanFactory;
@@ -95,6 +96,7 @@ class SphringBoot
      */
     public function bootPhpConfig()
     {
+        LoggerSphring::getInstance()->info('Initialize php configuration.');
         error_reporting(ini_get("error_reporting") & ~E_NOTICE);
     }
 
@@ -103,6 +105,7 @@ class SphringBoot
      */
     public function bootBeanTypeForFactory()
     {
+        LoggerSphring::getInstance()->info('Initialize bean types.');
         $factoryBean = $this->getSphringEventDispatcher()->getSphring()->getFactoryBean();
         $factoryBean->addBeanType('abstract', BeanAbstract::class);
         $factoryBean->addBeanType('normal', Bean::class);
@@ -130,6 +133,7 @@ class SphringBoot
      */
     public function bootFromComposer()
     {
+        LoggerSphring::getInstance()->info('Initialize extensions from composer.');
         $this->composerManager->setExtender($this->sphringEventDispatcher->getSphring()->getExtender());
         $this->composerManager->setRootProject($this->sphringEventDispatcher->getSphring()->getRootProject());
         $this->composerManager->loadComposer();

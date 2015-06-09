@@ -24,38 +24,38 @@ use Arthurh\Sphring\Utils\ClassName;
 class RootProjectAnnotation extends AbstractAnnotation
 {
     /**
-     * @return string
-     */
-    public static function getAnnotationName()
-    {
-        return ClassName::getShortName(RootProject::class);
-    }
-
-    /**
      * @throws \Arthurh\Sphring\Exception\SphringAnnotationException
      */
     public function run()
     {
         if (!$this->isInSphringRunner()) {
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to be set on '%s' class.",
-                $this->getBean()->getId(), get_class($this), SphringRunner::class);
+                $this->getBean()->getId(), $this::getAnnotationName(), SphringRunner::class);
         }
         $rootProjectAnnot = $this->getData();
         if (!($rootProjectAnnot instanceof RootProject)) {
             throw new SphringAnnotationException("Error in bean '%s' in class annotation: Annotation '%s' required to have a '%s' class.",
-                $this->getBean()->getId(), get_class($this), RootProject::class);
+                $this->getBean()->getId(), $this::getAnnotationName(), RootProject::class);
         }
         $rootProject = $rootProjectAnnot->file;
         $sphring = $this->getSphringEventDispatcher()->getSphring();
         if (!is_string($rootProject)) {
-            throw new SphringAnnotationException("Annotation '%s' require to set a filepath.", get_class($this));
+            throw new SphringAnnotationException("Annotation '%s' require to set a filepath.", $this::getAnnotationName());
         }
         $finalRootProject = $this->getRootProject($rootProject);
         if (empty($finalRootProject)) {
             throw new SphringAnnotationException("Annotation '%s': '%s' is not a correct folder.",
-                get_class($this), $rootProject);
+                $this::getAnnotationName(), $rootProject);
         }
         $sphring->setRootProject($finalRootProject);
+    }
+
+    /**
+     * @return string
+     */
+    public static function getAnnotationName()
+    {
+        return ClassName::getShortName(RootProject::class);
     }
 
     /**

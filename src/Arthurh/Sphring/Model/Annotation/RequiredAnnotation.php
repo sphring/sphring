@@ -37,7 +37,7 @@ class RequiredAnnotation extends AbstractAnnotation
     public function run()
     {
         if (!$this->isSetter()) {
-            throw new SphringAnnotationException("Error for bean '%s', you can set required only on a setter.", $this->bean->getId());
+            throw new SphringAnnotationException("Error for bean '%s', you can set required annotation only on a setter.", $this->bean->getId());
         }
         $name = $this->reflector->getName();
         $fieldName = substr($name, 3, strlen($name) - 3);

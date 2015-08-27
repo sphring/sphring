@@ -59,7 +59,9 @@ abstract class SphringRunner
     public final static function getInstance($composerLockFile = null)
     {
         $className = static::class;
-        if (static::$_instances[$className] === null) {
+        if (!isset(static::$_instances[$className]) ||
+            static::$_instances[$className] === null
+        ) {
             static::$_instances[$className] = new $className($composerLockFile);
             static::$_instances[$className]->getSphring()->loadContext();
         }

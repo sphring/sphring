@@ -28,7 +28,10 @@ class BeanPropertyStream extends AbstractBeanProperty
     {
         $datas = $this->getData();
         $resource = $datas['resource'];
-        $context = Proxy::createStreamContext($datas['context']);
+
+        //fix reference array and create_stream_context for php70
+        $context = unserialize(serialize($datas['context']));
+        $context = Proxy::createStreamContext($context);
         if (empty($context)) {
             return file_get_contents($resource);
         }

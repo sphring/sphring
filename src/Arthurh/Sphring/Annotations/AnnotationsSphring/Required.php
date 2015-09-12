@@ -16,7 +16,6 @@ namespace Arthurh\Sphring\Annotations\AnnotationsSphring;
 /**
  * @Annotation
  * @Target({"METHOD"})
- * Required annotation from sphring
  */
 class Required
 {

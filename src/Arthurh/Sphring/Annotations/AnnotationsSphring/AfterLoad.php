@@ -15,8 +15,6 @@ namespace Arthurh\Sphring\Annotations\AnnotationsSphring;
 /**
  * @Annotation
  * @Target({"METHOD"})
- * Class AfterLoad
- * @package Arthurh\Sphring\Annotations\AnnotationsSphring
  */
 class AfterLoad
 {

@@ -15,8 +15,6 @@ namespace Arthurh\Sphring\Annotations\AnnotationsSphring;
 /**
  * @Annotation
  * @Target({"CLASS"})
- * Class LoadContext
- * @package Arthurh\Sphring\Annotations\AnnotationsSphring
  */
 class LoadContext
 {

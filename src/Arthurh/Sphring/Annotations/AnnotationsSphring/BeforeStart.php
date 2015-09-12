@@ -15,8 +15,6 @@ namespace Arthurh\Sphring\Annotations\AnnotationsSphring;
 /**
  * @Annotation
  * @Target({"METHOD"})
- * Class BeforeStart
- * @package Arthurh\Sphring\Annotations\AnnotationsSphring
  */
 class BeforeStart
 {

@@ -15,9 +15,6 @@ namespace Arthurh\Sphring\Annotations\AnnotationsSphring;
 /**
  * @Annotation
  * @Target({"METHOD"})
- * Class AutoWire
- *
- * @package Arthurh\Sphring\Annotations\AnnotationsSphring
  */
 class AutoWire
 {

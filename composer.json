@@ -30,7 +30,8 @@
   "require-dev": {
     "phpunit/phpunit": "*",
     "filp/whoops": "*",
-    "monolog/monolog": "*"
+    "monolog/monolog": "*",
+    "psy/psysh": "*"
   },
   "autoload": {
     "psr-4": {

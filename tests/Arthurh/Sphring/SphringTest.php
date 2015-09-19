@@ -48,7 +48,6 @@ class SphringTest extends AbstractTestSphring
         $this->assertTrue($useBean instanceof IUsing);
         $this->assertTrue($useBean->getFoo() instanceof IFoo);
         $this->assertEquals(realpath(self::$CONTEXT_FOLDER . '/' . self::SIMPLE_TEST_FILE), $sphring->getFilename());
-
     }
 
     public function testEnvSimple()

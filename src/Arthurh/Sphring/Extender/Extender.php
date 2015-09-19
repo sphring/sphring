@@ -138,6 +138,9 @@ class Extender
         if (empty($info['eventName']) || empty($info['class'])) {
             throw new ExtenderException("Can't extend, malformed node.");
         }
+        if (!isset($info['priority'])) {
+            $info['priority'] = null;
+        }
         return new Node($info['eventName'], $info['class'], $info['priority']);
     }
 

@@ -22,23 +22,6 @@ class BeanPropertyStream extends AbstractBeanProperty
 {
 
     /**
-     * @return string
-     */
-    public function inject()
-    {
-        $datas = $this->getData();
-        $resource = $datas['resource'];
-
-        //fix reference array and create_stream_context for php70
-        $context = unserialize(serialize($datas['context']));
-        $context = Proxy::createStreamContext($context);
-        if (empty($context)) {
-            return file_get_contents($resource);
-        }
-        return file_get_contents($resource, false, $context);
-    }
-
-    /**
      * @return array
      */
     public static function getValidation()
@@ -53,5 +36,27 @@ class BeanPropertyStream extends AbstractBeanProperty
                 ]
             ]
         ];
+    }
+
+    /**
+     * @return string
+     */
+    public function inject()
+    {
+        $datas = $this->getData();
+        $resource = $datas['resource'];
+
+
+        if (isset($datas['context'])) {
+            //fix reference array and create_stream_context for php70
+            $context = unserialize(serialize($datas['context']));
+        } else {
+            $context = null;
+        }
+        $context = Proxy::createStreamContext($context);
+        if (empty($context)) {
+            return file_get_contents($resource);
+        }
+        return file_get_contents($resource, false, $context);
     }
 }

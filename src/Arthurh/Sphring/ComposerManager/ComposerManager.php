@@ -59,8 +59,14 @@ class ComposerManager
         $decodedComposerLockFile = json_decode($composerLockFile->getContent(), true);
         $packages = $decodedComposerLockFile['packages'];
         foreach ($packages as $package) {
+            if (!isset($package[SphringComposerEnum::EXTRA_COMPOSER_KEY])) {
+                continue;
+            }
             $extras = $package[SphringComposerEnum::EXTRA_COMPOSER_KEY];
             if (empty($extras)) {
+                continue;
+            }
+            if (!isset($extras[SphringComposerEnum::EXTRA_SPHRING_COMPOSER_KEY])) {
                 continue;
             }
             $sphringExtra = $extras[SphringComposerEnum::EXTRA_SPHRING_COMPOSER_KEY];
@@ -91,10 +97,20 @@ class ComposerManager
             return $composerFile;
         }
 
-        if (is_file($_SERVER['CONTEXT_DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $composerFile)) {
+        if (isset($_SERVER['CONTEXT_DOCUMENT_ROOT'])
+            && is_file($_SERVER['CONTEXT_DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $composerFile)
+        ) {
             return $_SERVER['CONTEXT_DOCUMENT_ROOT'] . DIRECTORY_SEPARATOR . $composerFile;
         }
         return null;
+    }
+
+    /**
+     * @param string $composerLockFile
+     */
+    public function setComposerLockFile($composerLockFile)
+    {
+        $this->composerLockFile = $composerLockFile;
     }
 
     /**
@@ -166,14 +182,6 @@ class ComposerManager
     public function setExtender(Extender $extender)
     {
         $this->extender = $extender;
-    }
-
-    /**
-     * @param string $composerLockFile
-     */
-    public function setComposerLockFile($composerLockFile)
-    {
-        $this->composerLockFile = $composerLockFile;
     }
 
 

@@ -53,6 +53,9 @@ class FactoryBean
      */
     public function createBean($beanId, $info)
     {
+        if (!isset($info['type'])) {
+            $info['type'] = null;
+        }
         $beanClass = $this->getType($info['type']);
         LoggerSphring::getInstance()->info(sprintf("Creating bean '%s' of type '%s'", $beanId, $info['type']));
         $bean = new $beanClass($beanId);

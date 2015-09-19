@@ -97,7 +97,6 @@ class SphringBoot
     public function bootPhpConfig()
     {
         LoggerSphring::getInstance()->info('Initialize php configuration.');
-        error_reporting(ini_get("error_reporting") & ~E_NOTICE);
     }
 
     /**

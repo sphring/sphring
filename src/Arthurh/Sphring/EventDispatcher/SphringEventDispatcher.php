@@ -70,6 +70,9 @@ class SphringEventDispatcher extends EventDispatcher
             $this->queue[$eventName][] = $event;
             return null;
         }
+        if (($event instanceof AbstractSphringEvent) && empty($event->getName())) {
+            $event->setName($eventName);
+        }
         LoggerSphring::getInstance()->debug(sprintf("Trigger event '%s'", $eventName));
         return parent::dispatch($eventName, $event);
     }

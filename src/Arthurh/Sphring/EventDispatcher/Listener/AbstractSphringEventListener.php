@@ -90,13 +90,12 @@ abstract class AbstractSphringEventListener
      * @param $event
      * @throws \Arthurh\Sphring\Exception\SphringEventListenerException
      */
-    public function  onEvent($event)
+    public function onEvent($event)
     {
         if (!($event instanceof AbstractSphringEvent)) {
             throw new SphringEventListenerException("Error when trigger event '%s', event must extends '%s'", $event->getName(), 'AbstractSphringEvent');
         }
         $className = $this->registers[$event->getName()];
-
         try {
             $class = new \ReflectionClass($className);
             $this->object = $class->newInstance();
